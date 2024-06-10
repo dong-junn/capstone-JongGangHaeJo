@@ -1,4 +1,4 @@
-package com.coco.board;
+package com.jeiu.capstone;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

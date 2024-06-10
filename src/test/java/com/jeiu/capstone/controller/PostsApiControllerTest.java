@@ -1,4 +1,4 @@
-package com.coco.board.controller;
+package com.jeiu.capstone.controller;
 
 import com.jeiu.capstone.domain.Posts;
 import com.jeiu.capstone.infrastructure.persistence.PostsRepository;

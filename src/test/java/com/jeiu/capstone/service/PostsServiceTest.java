@@ -1,4 +1,4 @@
-package com.coco.board.service;
+package com.jeiu.capstone.service;
 
 import com.jeiu.capstone.application.PostsService;
 import com.jeiu.capstone.infrastructure.persistence.PostsRepository;

@@ -1,4 +1,4 @@
-package com.coco.board.domain;
+package com.jeiu.capstone.domain;
 
 import com.jeiu.capstone.domain.Comment;
 import com.jeiu.capstone.domain.Posts;
