@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/default">
+
+    <div layout:fragment="content" id="login">
+        <div class="wrap">
+            <div class="visual">
+                <h1><img src="" alt="게시판로고"></h1>
+            </div>
+            <div class="login">
+                <div class="loginwrap">
+                    <h2><img src="" alt="로그인"></h2>
+                    <form action="/auth/join" id="LoginForm" name="LoginForm" method="post" style="display:inline">
+                        <input type="hidden" name="langKnd" id="langKnd" value="ko">
+                        <input type="hidden" name="loginMode" id="loginMode" value="id">
+                        <input type="hidden" name="dn" id="dn" value="">
+                        <input type="hidden" name="commSessionKEY" id="commSessionKEY" value="qPGPsDTJXMHIu9V4">
+                        <div class="loginArea">
+                           <from> <!-- fielldset에서 from으로 변경-->
+                                <label for="id">아이디</label>
+                                <input type="text" id="id" name="userId">
+                                <label for="pw">비밀번호</label>
+                                <input type="password" id="pw" name="password">
+                            </from>
+                            <button type="submit">로그인</button>
+                        </div>
+                        <div style="display:none;">
+                            <input title="saveLoginID" id="saveLoginID" type="checkbox" class="saveLoginID" name="saveLoginID" checked="" value="checkbox" tabindex="3">
+                        </div>
+                    </form>
+                    <div class="findArea">
+                        <div class="idsearch">
+                            <h5>아이디를 잊으셨나요?</h5>
+                            <p>회원님의 개인정보로 아이디를 찾을 수 있습니다.</p>
+                            <a href="findId.html"><span>아이디 찾기</span></a>
+                        </div>
+                        <div class="pwsearch">
+                            <h5>비밀번호를 잊으셨나요?</h5>
+                            <p>회원님의 개인정보로 비밀번호를 찾을 수 있습니다.</p>
+                            <a href="findpw.html"><span>비밀번호 찾기</span></a>
+                        </div>
+                    </div>
+                    <div class="registerArea">
+                        <h5>아직 회원이 아니신가요?</h5>
+                        <p>회원가입을 통해 더 많은 서비스를 이용해보세요.</p>
+                        <a href="/auth/join"><span>회원가입</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div include-html="../footer.html"></div>
+
+    <script>
+        includeHTML();
+    </script>
+</body>
+</html>

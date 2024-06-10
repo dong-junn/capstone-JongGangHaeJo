@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="utf-8">
+  <title>JEIU 캡스톤 프로젝트</title>
+  <link rel="stylesheet" href="/css/index.css">
+  <link rel="stylesheet" href="/css/topbot.css">
+  <script src="https://kit.fontawesome.com/fff8ef1317.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="header_warp">
+  <a href="/" class="main_logo">JEIU CAPSTONE</a>
+</div>
+<div class="nav_warp">
+  <ul class="nav">
+    <li><a href="/">HOME</a></li>
+    <li><a href="/WEB-INF/register/registerProject.html">작품등록</a></li>
+    <li><a href="capstone1.html">작품보기</a></li>
+    <li><a href="gaygayya.html">공지사항</a></li>
+    <li><a href="/auth/login">LOGIN</a></li>
+  </ul>
+  <a href="#" id="search_icon"><i class="fa-solid fa-magnifying-glass"></i></a>
+</div>
+
+<th:block layout:fragment="content"></th:block>
+<footer>
+  <div class="footer_warp">
+    <div class="fir">
+      <ul>
+        <li><a href="#">이용 약관</a></li>
+        <li><a href="#">개인정보보호정책</a></li>
+      </ul>
+      <a href="#" class="top_btn">TOP</a>
+    </div>
+    <div class="sec">
+      <a href="#"><img src="media/main_logo.svg"></a>
+      <ul>
+        <li>
+          <p>송림캠퍼스</p>
+        </li>
+        <li>22573 인천광역시 동구 재능로 178</li>
+      </ul>
+      <ul>
+        <li>
+          <p>송도캠퍼스</p>
+        </li>
+        <li>21987 인천광역시 연수구 송도교육로 111번길 15</li>
+      </ul>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

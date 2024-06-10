@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/default">
+
+<div layout:fragment="content" id="register">
+    <link rel="stylesheet" href="/css/user-login.css">
+    <div class="wrap">
+        <h1>회원가입</h1>
+        <form action="/auth/joinProc" id="RegisterForm" name="RegisterForm" method="post">
+            <label for="reg_id">아이디</label>
+            <input type="text" id="reg_id" name="username" placeholder="아이디를 입력해주세요"/><!-- th:value="${userDto.username}"-->
+
+            <label for="reg_pw">비밀번호</label>
+            <input type="password" id="reg_pw" name="password" required placeholder="비밀번호를 입력해주세요" />
+
+            <label for="reg_pw_confirm">비밀번호 확인</label>
+            <input type="password" id="reg_pw_confirm" name="password_confirm" required />
+
+            <label for="email">이메일</label>
+            <input type="email" id="email" name="email" placeholder="이메일을 입력해주세요" required />
+
+            <button type="submit">회원가입</button>
+        </form>
+    </div>
+</div>
+</html>
