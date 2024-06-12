@@ -43,9 +43,9 @@ public class UserController {
         binder.addValidators(UsernameValidator);
     }
 
-    @GetMapping("/auth/join")
+    @GetMapping("/auth/join") //localhost:8080/auth/join
     public String join() {
-        return "/user/user-join";
+        return "user/user-join";
     }
 
     /* 회원가입 */
