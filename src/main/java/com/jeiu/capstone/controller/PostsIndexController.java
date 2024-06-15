@@ -1,4 +1,4 @@
-package com.jeiu.capstone.presentation;
+package com.jeiu.capstone.controller;
 
 import com.jeiu.capstone.application.security.auth.LoginUser;
 import com.jeiu.capstone.application.dto.CommentDto;
@@ -14,8 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 

@@ -1,8 +1,6 @@
 package com.jeiu.capstone.domain;
 
-import com.jeiu.capstone.domain.Role;
-import com.jeiu.capstone.domain.User;
-import com.jeiu.capstone.infrastructure.persistence.UserRepository;
+import com.jeiu.capstone.configANDjpa.jpa.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

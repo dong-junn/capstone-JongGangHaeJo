@@ -1,7 +1,6 @@
 package com.jeiu.capstone.domain;
 
-import com.jeiu.capstone.domain.Posts;
-import com.jeiu.capstone.infrastructure.persistence.PostsRepository;
+import com.jeiu.capstone.configANDjpa.jpa.PostsRepository;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,4 +1,4 @@
-package com.jeiu.capstone.infrastructure.persistence;
+package com.jeiu.capstone.configANDjpa.jpa;
 
 import com.jeiu.capstone.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;

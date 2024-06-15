@@ -1,7 +1,7 @@
-package com.jeiu.capstone.application.validator;
+package com.jeiu.capstone.application.validate;
 
 import com.jeiu.capstone.application.dto.UserDto;
-import com.jeiu.capstone.infrastructure.persistence.UserRepository;
+import com.jeiu.capstone.configANDjpa.jpa.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

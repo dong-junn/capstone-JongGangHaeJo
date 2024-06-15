@@ -1,4 +1,4 @@
-package com.jeiu.capstone.infrastructure.config;
+package com.jeiu.capstone.configANDjpa.config;
 
 import com.jeiu.capstone.application.security.oauth.CustomOAuth2UserService;
 import com.jeiu.capstone.application.security.auth.CustomUserDetailsService;

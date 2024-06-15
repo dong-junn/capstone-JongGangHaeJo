@@ -2,9 +2,9 @@ package com.jeiu.capstone.application;
 
 import com.jeiu.capstone.application.dto.PostsDto;
 import com.jeiu.capstone.domain.Posts;
-import com.jeiu.capstone.infrastructure.persistence.PostsRepository;
+import com.jeiu.capstone.configANDjpa.jpa.PostsRepository;
 import com.jeiu.capstone.domain.User;
-import com.jeiu.capstone.infrastructure.persistence.UserRepository;
+import com.jeiu.capstone.configANDjpa.jpa.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

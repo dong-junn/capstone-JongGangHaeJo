@@ -1,9 +1,9 @@
-package com.jeiu.capstone.presentation;
+package com.jeiu.capstone.controller;
 
 import com.jeiu.capstone.application.security.auth.LoginUser;
 import com.jeiu.capstone.application.UserService;
 import com.jeiu.capstone.application.dto.UserDto;
-import com.jeiu.capstone.application.validator.CustomValidators;
+import com.jeiu.capstone.application.validate.CustomValidators;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

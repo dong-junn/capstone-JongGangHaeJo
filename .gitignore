@@ -7,7 +7,7 @@ application-oauth.properties
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-application-oauth.properties
+application-secure.properties
 
 ### STS ###
 .apt_generated

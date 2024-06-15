@@ -1,4 +1,4 @@
-package com.jeiu.capstone.infrastructure.persistence;
+package com.jeiu.capstone.configANDjpa.jpa;
 
 import com.jeiu.capstone.domain.Comment;
 import com.jeiu.capstone.domain.Posts;

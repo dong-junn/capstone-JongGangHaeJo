@@ -1,4 +1,4 @@
-package com.jeiu.capstone.presentation;
+package com.jeiu.capstone.controller;
 
 import com.jeiu.capstone.application.UserService;
 import com.jeiu.capstone.application.dto.UserDto;

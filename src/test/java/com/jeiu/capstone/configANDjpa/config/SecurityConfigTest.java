@@ -1,4 +1,4 @@
-package com.jeiu.capstone.infrastructure.config;
+package com.jeiu.capstone.configANDjpa.config;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

@@ -1,7 +1,7 @@
 package com.jeiu.capstone.application;
 
 import com.jeiu.capstone.domain.User;
-import com.jeiu.capstone.infrastructure.persistence.UserRepository;
+import com.jeiu.capstone.configANDjpa.jpa.UserRepository;
 import com.jeiu.capstone.application.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

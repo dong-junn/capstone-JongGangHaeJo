@@ -1,9 +1,6 @@
 package com.jeiu.capstone.domain;
 
-import com.jeiu.capstone.domain.Comment;
-import com.jeiu.capstone.domain.Posts;
-import com.jeiu.capstone.domain.User;
-import com.jeiu.capstone.infrastructure.persistence.CommentRepository;
+import com.jeiu.capstone.configANDjpa.jpa.CommentRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

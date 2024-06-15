@@ -1,7 +1,7 @@
 package com.jeiu.capstone.controller;
 
 import com.jeiu.capstone.domain.Posts;
-import com.jeiu.capstone.infrastructure.persistence.PostsRepository;
+import com.jeiu.capstone.configANDjpa.jpa.PostsRepository;
 import com.jeiu.capstone.application.dto.PostsDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;

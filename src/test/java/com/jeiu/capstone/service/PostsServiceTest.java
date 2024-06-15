@@ -1,10 +1,10 @@
 package com.jeiu.capstone.service;
 
 import com.jeiu.capstone.application.PostsService;
-import com.jeiu.capstone.infrastructure.persistence.PostsRepository;
+import com.jeiu.capstone.configANDjpa.jpa.PostsRepository;
 import com.jeiu.capstone.domain.Role;
 import com.jeiu.capstone.domain.User;
-import com.jeiu.capstone.infrastructure.persistence.UserRepository;
+import com.jeiu.capstone.configANDjpa.jpa.UserRepository;
 import com.jeiu.capstone.application.dto.PostsDto;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;

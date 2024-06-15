@@ -1,4 +1,4 @@
-package com.jeiu.capstone.presentation;
+package com.jeiu.capstone.controller;
 
 import com.jeiu.capstone.application.security.auth.LoginUser;
 import com.jeiu.capstone.application.PostsService;
