@@ -1,0 +1,118 @@
+@charset "UTF-8";
+
+/* Body Styling */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column; /* Flex direction to stack header, content, and footer vertically */
+}
+
+/* User Admin Container */
+#userAdmin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - 80px); /* Adjust height to exclude header and footer */
+}
+
+/* Wrapper */
+.wrap {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%; /* Adjust width as needed */
+    padding: 20px;
+    text-align: center;
+}
+
+/* Header Styling */
+header {
+    background: #ff6347; /* 주황색 */
+    padding: 10px 0;
+    text-align: center;
+}
+
+.header_warp {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.main_logo {
+    color: #fff;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+/* User List Container */
+.user-list-container {
+    overflow-x: auto; /* Horizontal scroll */
+    display: flex;
+    align-items: center;
+}
+
+.user-list {
+    display: flex;
+    width: max-content; /* Ensure the list can expand horizontally */
+    padding: 10px;
+}
+
+.user {
+    background: #f4f4f4;
+    padding: 10px;
+    border-radius: 5px;
+    margin-right: 10px; /* Space between users */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 200px; /* Minimum width for each user block */
+}
+
+.user p {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Button Container */
+.admin-btn {
+    display: inline-block;
+    background: #ff6347; /* 주황색 */
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin: 5px;
+}
+
+.admin-btn:hover {
+    background: #e55330;
+}
+
+.edit-btn {
+    background: #ffb347; /* 밝은 주황색 */
+}
+
+.edit-btn:hover {
+    background: #e59930;
+}
+
+/* Edit Form */
+.edit-form {
+    display: none;
+    margin-top: 10px;
+}
+
+.edit-form label {
+    display: block;
+    font-size: 14px;
+   
+}

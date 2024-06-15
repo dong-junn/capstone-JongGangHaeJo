@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 페이지</title>
+    <link rel="stylesheet" href="topbot.css">
+    <link rel="stylesheet" href="../../../static/css/admin.css">
+    <script src="https://kit.fontawesome.com/fff8ef1317.js" crossorigin="anonymous"></script>
+    <script src="../js/includeHTML.js"></script>
+</head>
+<body>
+    <div include-html="../header.html"></div>
+
+    <div id="admin">
+        <div class="wrap">
+            <h1>관리자 페이지</h1>
+            <p>이 페이지는 관리자만 접근할 수 있습니다.</p>
+            <div class="button-container">
+                <a href="userAdmin.html" class="admin-btn">사용자 관리자 페이지</a>
+                <a href="editBoard.html" class="admin-btn">게시판 수정 페이지</a>
+            </div>
+        </div>
+    </div>
+    
+    <div include-html="../../../resources/templates/module/footer.html"></div>
+
+    <script>
+        includeHTML();
+    </script>
+</body>
+</html>

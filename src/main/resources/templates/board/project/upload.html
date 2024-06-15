@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JEIU 캡스톤 프로젝트 - 작품 등록</title>
+    <link rel="stylesheet" href="../../../static/css/uploadPro.css" th:href="@{/css/uploadpro.css}">
+    <link rel="stylesheet" href="../../../static/css/topbot.css" th:href="@{/css/topbot.css}">
+    <script src="https://kit.fontawesome.com/fff8ef1317.js" crossorigin="anonymous"></script>
+    <script src="../../../resources/static/js/includeHTML.js"></script>
+</head>
+
+<body>
+    <div include-html="../../../resources/templates/module/header.html"></div>
+
+    <main style="margin-top: 2%;">
+        <section class="register-section">
+            <h1>캡스톤 프로젝트</h1>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="projectName">작품 이름</label>
+                    <input type="text" id="projectName" name="projectName" required>
+                </div>
+                <div class="form-group">
+                    <label for="authorName">등록자 이름</label>
+                    <input type="text" id="authorName" name="authorName" required readonly>
+                </div>
+                <div class="form-group">
+                    <label for="projectDescription">작품 개요</label>
+                    <textarea id="projectDescription" name="projectDescription" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="projectTechnologies">사용된 기술</label>
+                    <textarea id="projectTechnologies" name="projectTechnologies" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="poster">발표 자료 (포스터)</label>
+                    <input type="file" id="poster" name="poster" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label for="video">발표 자료 (영상 파일)</label>
+                    <input type="file" id="video" name="video" accept="video/*" required>
+                </div>
+                <button type="submit" class="submit-button">등록하기</button>
+            </form>
+        </section>
+    </main>
+
+    <div include-html="../../../resources/templates/module/footer.html"></div>
+
+    <script>
+        // 서버에서 전달받은 로그인된 사용자 이름 
+        const loggedInUserName = "사용자 이름"; // 서버에서 동적으로 할당
+        
+        // 등록자 이름 필드에 로그인된 사용자 이름을 자동으로 채우기
+        document.getElementById('authorName').value = loggedInUserName;
+        
+        includeHTML();
+    </script>
+</body>
+
+</html>

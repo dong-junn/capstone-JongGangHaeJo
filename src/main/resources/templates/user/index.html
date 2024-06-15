@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <div th:if="${user != null}">
+        <span class="mx-3" th:text="${user.nickname} + '님 안녕하세요!'"></span>
+        <a href="/logout" class="btn btn-outline-dark">로그아웃</a>
+        <a href="/modify" class="btn btn-outline-dark bi bi-gear">modify</a>
+    </div>
+
+    <div th:if="${user == null}">
+        <a href="/oauth2/authorization/naver" role="button" class="btn btn-outline-success">네이버 로그인</a>
+        <a href="/oauth2/authorization/google" role="button" class="btn btn-outline-danger bi bi-google">구글 로그인</a>
+        <a href="/auth/login" role="button" class="btn btn-outline-dark bi bi-lock-fill"> 로그인</a>
+        <a href="/auth/join" role="button" class="btn btn-outline-dark bi bi-person-circle"> 회원가입</a>
+    </div>
+
+
+    <section class="main-image">
+        <img src="https://jeiu.ac.kr/img/main/main_slide_02.png" alt="메인 이미지">
+    </section>
+    <section class="project-thumbnails">
+        <p id="capTitle">캡스톤 프로젝트</p>
+        <div class="thumbnails-container">
+<!--            <div class="thumbnail">-->
+<!--                <img src="../images/123.png" alt="썸네일 1">-->
+<!--            </div>-->
+<!--            <div class="thumbnail">-->
+<!--                <img src="../images/123.png" alt="썸네일 2">-->
+<!--            </div>-->
+<!--            <div class="thumbnail">-->
+<!--                <img src="../images/123.png" alt="썸네일 3">-->
+<!--            </div>-->
+<!--            <button class="more-button">더보기</button>-->
+
+
+            <table id="table" class="table table-horizontal">
+                <thead id="thead">
+                <tr>
+                    <th>번호</th>
+                    <th class="col-md-6 text-center">제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                <tr th:each="post : ${posts}">
+                    <td th:text="${post.id}">번호</td>
+                    <td><a th:href="@{/posts/read/{id}(id=${post.id})}" th:text="${post.title}">제목</a></td>
+                    <td th:text="${post.writer}">작성자</td>
+                    <td th:text="${post.createdDate}">작성일</td>
+                    <td th:text="${post.view}">조회수</td>
+                </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+
+    </section>
+</main>
+</html>

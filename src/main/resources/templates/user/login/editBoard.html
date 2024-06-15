@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판 수정 페이지</title>
+    <link rel="stylesheet" href="../../../static/css/editB.css">
+    <link rel="stylesheet" href="topbot.css">
+    <script defer src="../../../static/js/editB.js"></script>
+    <script src="https://kit.fontawesome.com/fff8ef1317.js" crossorigin="anonymous"></script>
+    <script src="../js/includeHTML.js"></script>
+</head>
+<body>
+    <div include-html="../header.html"></div>
+    
+    <main>
+        <section class="project-detail">
+            <h1>캡스톤 프로젝트 상세</h1>
+            <div class="project-info">
+                <img src="143315.png" alt="프로젝트 이미지">
+                <div class="project-details">
+                    <h2>프로젝트 제목</h2>
+                    <p>프로젝트 설명: 이 섹션에는 프로젝트에 대한 자세한 설명이 포함됩니다.</p>
+                    <p>팀 구성원: 팀원1, 팀원2, 팀원3</p>
+                    <p>완성 날짜: 2023-05-28</p>
+                    <p>사용 기술: HTML, CSS, JavaScript</p>
+                    <div class="admin-buttons">
+                        <button class="admin-btn" onclick="editProject()">수정</button>
+                        <button class="admin-btn delete-btn" onclick="deleteProject()">삭제</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div include-html="../footer.html"></div>
+
+    <script>
+        includeHTML();
+
+        function editProject() {
+            alert('프로젝트 수정 기능을 여기에 구현해야됨.');
+            // 수정 로직 추가 js에서 구현해도됨
+        }
+
+        function deleteProject() {
+            if (confirm('이 프로젝트를 삭제하시겠습니까?')) {
+                alert('프로젝트가 삭제되었습니다.');
+                //  삭제 로직을 추가
+            }
+        }
+    </script>
+</body>
+</html>

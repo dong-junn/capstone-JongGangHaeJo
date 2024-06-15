@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>아이디 찾기</title>
+    <link rel="stylesheet" href="../../../static/css/findid.css">
+    <link rel="stylesheet" href="topbot.css">
+    <script src="https://kit.fontawesome.com/fff8ef1317.js" crossorigin="anonymous"></script>
+    <script src="../js/includeHTML.js"></script>
+</head>
+<body>
+    <div include-html="../header.html"></div>
+
+    <div id="findid">
+        <div class="wrap">
+            <div class="visual">
+                <h1><img src="" alt="게시판로고"></h1>
+            </div>
+            <div class="findid">
+                <div class="findidwrap">
+                    <h2><img src="로그인/image/findid.png" alt="아이디 찾기"></h2>
+                    <form id="FindIdForm" name="FindIdForm" method="post" style="display:inline" action="/user/findIdProcess.face" onsubmit="return false">
+                        <input type="hidden" name="langKnd" id="langKnd" value="ko">
+                        <div class="findidArea">
+                            <fieldset>
+                                <label for="name">이름</label>
+                                <input type="text" id="name" name="userName" onkeypress="if(event.keyCode==13) {javascript:document.getElementById('email').focus();return false;}">
+                                <label for="email">이메일</label>
+                                <input type="email" id="email" name="userEmail" onkeypress="if(event.keyCode==13) {javascript:enviewFindId('id');return false;}">
+                                <a href="javascript:void(0);" onclick="enviewFindId('id');" class="findidbtn"><span>아이디 찾기</span></a>
+                            </fieldset>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div include-html="../footer.html"></div>
+
+    <script>
+        includeHTML();
+    </script>
+</body>
+</html>

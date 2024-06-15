@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>캡스톤 작품 보기</title>
+    <link rel="stylesheet" href="../../../static/css/main_board.css" th:href="@{/css/main_board.css}">
+    <link rel="stylesheet" href="../../../static/css/topbot.css" th:href="@{/css/topbot.css}">
+    <script src="https://kit.fontawesome.com/fff8ef1317.js" crossorigin="anonymous"></script>
+    <script src="../../../resources/static/js/includeHTML.js"></script>
+</head>
+<body>
+    <div include-html="../../../resources/templates/module/header.html"></div>
+
+    <main>
+        <section class="project-detail">
+            <h1>캡스톤 프로젝트 상세</h1>
+            <div th:each="board : ${list}" class="project-info">
+                <img src="../../../static/img/143315.png" alt="프로젝트 이미지">
+                <div class="project-details">
+                    <h2><a th:text="${board.title}" th:href="@{/board/notice/view(id=${board.id})}"></a></h2>
+                    <p>프로젝트 설명: <span th:text="${board.content}"></span></p>
+                    <p>팀 구성원: 팀원1, 팀원2, 팀원3</p>
+                    <p>완성 날짜: <span th:text="${board.id}"></span> </p>
+                    <p>사용 기술: HTML, CSS, JavaScript</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div include-html="../../../resources/templates/module/footer.html"></div>
+
+    <script>
+        includeHTML();
+    </script>
+</body>
+</html>

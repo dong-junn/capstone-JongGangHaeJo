@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JEIU 캡스톤 프로젝트 - 프로젝트 보기</title>
+    <link rel="stylesheet" href="../../../resources/static/css/viewProject.css">
+    <link rel="stylesheet" href="../../../static/css/topbot.css">
+    <script
+        src="https://kit.fontawesome.com/fff8ef1317.js" crossorigin="anonymous">
+    </script>
+    <script src="../../../resources/static/js/includeHTML.js"></script>
+</head>
+
+<body>
+    <div include-html="../../../resources/templates/module/header.html"></div>
+
+    <main style="margin-top: 2%;">
+        <section class="view-section">
+            <h1>캡스톤 프로젝트</h1>
+            <div class="project-details">
+                <div class="author-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="authorName">NAME</span>
+                </div>
+                <div class="project-overview">
+                    <h2>작품 개요</h2>
+                    <p id="projectDescription">작품개요작품개요작품개요작품개요작품개요작품개요작품개요작품개요작품개요작품개요</p>
+                </div>
+                <div class="project-poster">
+                    <h2>발표 자료</h2>
+                    <img src="poster-image.jpg" alt="Poster" id="projectPoster">
+                </div>
+                <div class="project-video">
+                    <h2>발표 동영상</h2>
+                    <video controls id="projectVideo">
+                        <source src="video-file.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="project-youtube-video">
+                    <h2>유튜브 동영상</h2>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/YOUR_VIDEO_ID" 
+                            title="YouTube video player" frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen></iframe>
+                </div>
+                <div class="project-actions">
+                    <span><i class="fas fa-heart"></i> 80개</span>
+                    <span><i class="fas fa-comment"></i> 256개</span>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div include-html="../../../resources/templates/module/footer.html"></div>
+
+    <script>
+        includeHTML();
+    </script>
+</body>
+
+</html>
