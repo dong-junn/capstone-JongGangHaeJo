@@ -7,16 +7,16 @@
     <link rel="stylesheet" href="../../../static/css/notice.css" th:href="@{/css/notice.css}">
     <link rel="stylesheet" href="../../../static/css/topbot.css" th:href="@{/css/topbot.css}">
     <script src="https://kit.fontawesome.com/fff8ef1317.js" crossorigin="anonymous"></script>
-    <script src="../../../resources/static/js/includeHTML.js"></script>
+    <script src="../../../static/js/includeHTML.js"></script>
 </head>
 <body>
-    <div include-html="../../../resources/templates/module/header.html"></div>
+    <div include-html="../../module/header.html"></div>
 
     <main>
         <section class="notice-section">
             <h1>공지사항</h1>
             <div class="notice-list">
-                <!-- 공지사항 리스트가 추가해야됨 -->
+                <!-- 공지사항 리스트가 추가되어야 함 -->
             </div>
             <div class="admin-controls">
                 <h2>공지사항 작성</h2>
@@ -33,7 +33,7 @@
         </section>
     </main>
 
-    <div include-html="../../../resources/templates/module/footer.html"></div>
+    <div include-html="../../module/footer.html"></div>
 
     <script>
         includeHTML();
