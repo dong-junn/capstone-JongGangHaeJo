@@ -27,6 +27,10 @@ public class PostsDto {
         private String createdDate, modifiedDate;
         private int view;
         private User user;
+        private String imgUrl;
+        private String pdfUrl;
+        private String videoUrl;
+
 
         /* Dto -> Entity */
         public Posts toEntity() {
@@ -37,6 +41,7 @@ public class PostsDto {
                     .content(content)
                     .view(0)
                     .user(user)
+                    .imageUrl(imgUrl).pdfUrl(pdfUrl).videoUrl(videoUrl) //파일 & 동영상(Youtube)
                     .build();
 
             return posts;
