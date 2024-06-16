@@ -6,11 +6,6 @@ body {
     padding: 0;
     font-family: Arial, sans-serif;
     background: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    flex-direction: column; /* Flex direction to stack header, content, and footer vertically */
 }
 
 /* Find PW Container */
