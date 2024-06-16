@@ -10,16 +10,18 @@ body {
     align-items: center;
     flex-direction: column;
     min-height: 100vh;
+    gap: 20px; /* 추가: header, main, footer 사이의 간격을 확보 */
 }
 
 main {
     width: 100%;
     max-width: 800px;
-    margin: 20px;
+    margin: 20px 0;
     padding: 20px;
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex-grow: 1; /* 추가: main 부분이 가능한 공간을 최대한 차지하도록 */
 }
 
 .notice-section {
