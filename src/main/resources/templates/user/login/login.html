@@ -10,16 +10,21 @@
     <script src="../../../static/js/includeHTML.js"></script>
 </head>
 <body>
-    <div include-html="../../../templates/module/header.html"></div>
+    <div class="header-container" include-html="../../../templates/module/header.html"></div>
 
     <div id="login">
         <div class="wrap">
             <div class="visual">
-                <h1><img src="" alt="게시판로고"></h1>
+                <h1>로그인</h1>
             </div>
             <div class="login">
                 <div class="loginwrap">
-                    <h2><img src="" alt="로그인"></h2>
+                    <!-- 소셜 로그인 버튼 추가 -->
+                    <div class="social-login">
+                        <a href="#" class="social-btn google"><i class="fab fa-google"></i> Google로 로그인</a><br>
+                        <a href="#" class="social-btn naver"><i class="fab fa-naver"></i> Naver로 로그인</a>
+                    </div>
+                    
                     <form id="LoginForm" name="LoginForm" method="post" style="display:inline" action="/user/loginProcess.face" onsubmit="return false">
                         <input type="hidden" name="langKnd" id="langKnd" value="ko">
                         <input type="hidden" name="loginMode" id="loginMode" value="id">
@@ -60,7 +65,7 @@
         </div>
     </div>
 
-    <div include-html="../../../templates/module/footer.html"></div>
+    <div class="header-container" include-html="../../../templates/module/footer.html"></div>
 
     <script>
         includeHTML();
