@@ -98,3 +98,10 @@ body {
 .project-actions i {
     margin-right: 5px;
 }
+
+/* 추가된 스타일링 */
+.header-container,
+.footer-container {
+    display: block;
+    width: 100%;
+}

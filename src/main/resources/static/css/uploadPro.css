@@ -9,14 +9,18 @@ body {
     align-items: center;
 }
 
+.header-container,
+.footer-container {
+    display: block;
+    width: 100%;
+}
+
 /* Form container styling */
 .register-section {
     width: 100%;
-    /* 너비를 넓게 조정 */
     margin: 60px auto;
     text-align: left;
     padding: 40px;
-    /* 패딩을 더 넉넉하게 조정 */
     box-sizing: border-box;
     background-color: #f9f9f9;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);

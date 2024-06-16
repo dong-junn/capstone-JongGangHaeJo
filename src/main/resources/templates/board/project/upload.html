@@ -4,14 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <title>JEIU 캡스톤 프로젝트 - 작품 등록</title>
-    <link rel="stylesheet" href="../../../static/css/uploadPro.css" th:href="@{/css/uploadpro.css}">
     <link rel="stylesheet" href="../../../static/css/topbot.css" th:href="@{/css/topbot.css}">
+    <link rel="stylesheet" href="../../../static/css/uploadPro.css" th:href="@{/css/uploadPro.css}">
+    
     <script src="https://kit.fontawesome.com/fff8ef1317.js" crossorigin="anonymous"></script>
     <script src="../../../static/js/includeHTML.js"></script>
 </head>
 
 <body>
-    <div include-html="../../../templates/module/header.html"></div>
+    <div class="header-container" include-html="../../../templates/module/header.html"></div>
 
     <main style="margin-top: 2%;">
         <section class="register-section">
@@ -46,7 +47,7 @@
         </section>
     </main>
 
-    <div include-html="../../../templates/module/footer.html"></div>
+    <div class="footer-container" include-html="../../../templates/module/footer.html"></div>
 
     <script>
         // 서버에서 전달받은 로그인된 사용자 이름 
