@@ -53,6 +53,7 @@ body{
 }
 
 .more-button {
+    display: inline-block;
     padding: 10px 20px;
     background-color: #333333;
     width: 300px;
@@ -62,4 +63,6 @@ body{
     font-size: 16px;
     cursor: pointer;
     margin: 5%;
+    text-align: center;
+    text-decoration: none;
 }

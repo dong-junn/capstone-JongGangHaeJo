@@ -43,9 +43,16 @@
                             allowfullscreen></iframe>
                 </div>
                 <div class="project-actions">
-                    <span><i class="fas fa-heart"></i> 80개</span>
-                    <span><i class="fas fa-comment"></i> 256개</span>
-
+                    <span id="likeCount"><i id="likeIcon" class="far fa-heart"></i> <span id="likeNum">0</span>개</span>
+                    <span><i class="fas fa-comment"></i> <span id="commentNum">0</span>개</span>
+                </div>
+                <div class="comments-section">
+                    <h2>댓글</h2>
+                    <textarea id="commentInput" placeholder="댓글을 입력하세요"></textarea>
+                    <button id="submitComment">댓글 달기</button>
+                    <div id="commentsList">
+                        <!-- 댓글 리스트가 여기 표시됩니다. -->
+                    </div>
                 </div>
             </div>
         </section>
@@ -53,8 +60,6 @@
 
     <div class="footer-container" include-html="../../../templates/module/footer.html"></div>
 
-    <script>
-        includeHTML();
-    </script>
+    <script src="../../../static/js/detail.js"></script>
 </body>
 </html>
