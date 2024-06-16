@@ -10,11 +10,11 @@ body {
 
 /* User Admin Container */
 #userAdmin {
-      display: flex;
+    display: flex;
     justify-content: center;
-    
+    align-items: center; /* 추가: 수직 중앙 정렬 */
     width: 100%;
-    height: calc(100vh - 80px); /* Adjust height to exclude header and footer */
+    height: calc(80vh - 80px); /* Adjust height to exclude header and footer */
     margin-top: 80px; /* Center the container vertically */
 }
 
@@ -28,11 +28,11 @@ body {
     text-align: center;
 }
 
-
 /* User List Container */
 .user-list-container {
-    overflow-x: auto; /* Horizontal scroll */
     display: flex;
+    justify-content: center; /* 추가: 수평 중앙 정렬 */
+    overflow-x: auto; /* Horizontal scroll */
     align-items: center;
 }
 
@@ -93,5 +93,4 @@ body {
 .edit-form label {
     display: block;
     font-size: 14px;
-   
 }
