@@ -12,7 +12,7 @@
     <script src="../../../static/js/includeHTML.js"></script>
 </head>
 <body>
-    <div include-html="../../../templates/module/header.html"></div>
+    <div class="header-container include-html="../../../templates/module/header.html"></div>
     
     <main>
         <section class="project-detail">
@@ -34,22 +34,8 @@
         </section>
     </main>
 
-    <div include-html="../../../templates/module/footer.html"></div>
+    <div class="header-container include-html="../../../templates/module/footer.html"></div>
 
-    <script>
-        includeHTML();
 
-        function editProject() {
-            alert('프로젝트 수정 기능을 여기에 구현해야됨.');
-            // 수정 로직 추가 js에서 구현해도됨
-        }
-
-        function deleteProject() {
-            if (confirm('이 프로젝트를 삭제하시겠습니까?')) {
-                alert('프로젝트가 삭제되었습니다.');
-                //  삭제 로직을 추가
-            }
-        }
-    </script>
 </body>
 </html>

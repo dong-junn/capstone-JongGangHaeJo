@@ -6,69 +6,24 @@ body {
     padding: 0;
     font-family: Arial, sans-serif;
     background: #f4f4f4;
-}
-
-/* Header Styling */
-header {
-    background: #ff6347; /* 주황색 */
-    padding: 10px 0;
-    text-align: center;
-}
-
-.header_warp {
-    width: 90%;
-    margin: 0 auto;
-}
-
-.main_logo {
-    color: #fff;
-    font-size: 24px;
-    text-decoration: none;
-}
-
-.nav_warp {
-    width: 90%;
-    margin: 10px auto 0;
-}
-
-.nav {
-    list-style: none;
-    padding: 0;
-    margin: 0;
     display: flex;
-    justify-content: center;
-}
-
-.nav li {
-    margin: 0 15px;
-}
-
-.nav a {
-    text-decoration: none;
-    color: #fff;
-    font-size: 16px;
-}
-
-#search_icon {
-    position: absolute;
-    right: 10%;
-    top: 15px;
-    color: #fff;
-    font-size: 18px;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 /* Main Section */
 main {
-    padding: 20px;
+    padding: 40px; /* Padding을 늘려서 더 넓은 간격 확보 */
+    flex: 1; /* Main 섹션이 남은 공간을 채우도록 설정 */
 }
 
 .project-detail {
     background: #fff;
-    padding: 20px;
+    padding: 40px; /* Padding을 늘려서 더 넓은 간격 확보 */
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 80%;
-    margin: 20px auto;
+    margin: 40px auto; /* Margin을 늘려서 더 넓은 간격 확보 */
     text-align: center;
 }
 
@@ -84,84 +39,32 @@ main {
     height: auto;
     border-radius: 10px;
     margin-right: 20px;
+    margin-bottom: 20px; /* 아래쪽 간격 추가 */
 }
 
 .project-details {
     text-align: left;
     max-width: 500px;
+    margin-bottom: 20px; /* 아래쪽 간격 추가 */
 }
 
 .project-details h2 {
     font-size: 24px;
-    margin: 10px 0;
+    margin: 20px 0; /* Margin을 늘려서 더 넓은 간격 확보 */
 }
 
 .project-details p {
-    margin: 5px 0;
+    margin: 10px 0; /* Margin을 늘려서 더 넓은 간격 확보 */
     font-size: 16px;
 }
 
 /* Admin Buttons */
 .admin-buttons {
-    margin-top: 20px;
+    margin-top: 40px; /* Margin을 늘려서 더 넓은 간격 확보 */
 }
 
 .admin-btn {
     display: inline-block;
     background: #ff6347; /* 주황색 */
     color: #fff;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background 0.3s;
-    margin: 5px;
-}
-
-.admin-btn:hover {
-    background: #e55330;
-}
-
-.delete-btn {
-    background: #ff0000; /* 빨간색 */
-}
-
-.delete-btn:hover {
-    background: #cc0000;
-}
-
-/* Footer Styling */
-footer {
-    background: #333;
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
-}
-
-.footer_warp {
-    width: 90%;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-}
-
-.sec {
-    flex: 1;
-}
-
-.sec img {
-    max-width: 150px;
-}
-
-.sec ul {
-    list-style: none;
-    padding: 0;
-}
-
-.sec ul li {
-    margin: 5px 0;
-}
-
-.sec p {
-    font-weight: bold;
 }

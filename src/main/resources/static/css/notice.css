@@ -6,20 +6,33 @@ body {
     font-family: Arial, sans-serif;
     background: #f4f4f4;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
     min-height: 100vh;
+}
+
+header, footer {
+    background: #fff;
+    padding: 10px 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+header {
+    margin-bottom: 20px;
+}
+
+footer {
+    margin-top: auto; /* 푸터를 페이지 하단으로 밀어냄 */
 }
 
 main {
     width: 100%;
     max-width: 800px;
-    margin: 20px;
+    margin: 20px auto;
     padding: 20px;
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex-grow: 1; /* 추가: main 부분이 가능한 공간을 최대한 차지하도록 */
 }
 
 .notice-section {

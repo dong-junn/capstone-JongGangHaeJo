@@ -57,6 +57,49 @@ body {
     margin-bottom: 20px;
 }
 
+/* Social Login Buttons */
+.social-login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.social-btn i {
+    margin-right: 10px;
+}
+
+.social-btn.google {
+    background: #db4437;
+}
+
+.social-btn.google:hover {
+    background: #c33d2e;
+}
+
+.social-btn.naver {
+    background: #1ec800;
+}
+
+.social-btn.naver:hover {
+    background: #17a900;
+}
+
 /* Login Area */
 .loginArea {
     margin-bottom: 20px;
@@ -67,6 +110,13 @@ body {
     border: none;
     padding: 0;
     width: 100%;
+}
+
+.loginArea label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #333;
 }
 
 .loginArea input[type="text"],
@@ -137,4 +187,3 @@ a {
 ul {
     list-style: none;
 }
-

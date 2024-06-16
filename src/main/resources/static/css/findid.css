@@ -4,15 +4,10 @@ body {
     padding: 0;
     font-family: Arial, sans-serif;
     background: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    flex-direction: column; /* Flex direction to stack header, content, and footer vertically */
 }
 
-/* Register Container */
-#register {
+/* Find ID Container */
+#findid {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,6 +21,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 400px;
+    padding: 20px;
     overflow: hidden;
 }
 
@@ -36,49 +32,57 @@ body {
     padding: 20px;
 }
 
-.visual h1 img {
-    width: 100px;
+.visual h1 {
+    color: #fff;
 }
 
-/* Register Section */
-.register {
+/* Find ID Section */
+.findid {
     padding: 20px;
     width: 100%;
 }
 
-.registerwrap {
+.findidwrap {
     text-align: center;
 }
 
-.registerwrap h2 img {
+.findidwrap h2 img {
     width: 150px;
     margin-bottom: 20px;
 }
 
-/* Register Area */
-.registerArea {
+/* Find ID Area */
+.findidArea {
     margin-bottom: 20px;
     width: 100%;
 }
 
-.registerArea fieldset {
+.findidArea fieldset {
     border: none;
     padding: 0;
     width: 100%;
 }
 
-.registerArea input[type="text"],
-.registerArea input[type="password"],
-.registerArea input[type="email"] {
+.findidArea label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #333;
+    text-align: left;
+}
+
+.findidArea input[type="text"],
+.findidArea input[type="email"] {
     width: 100%;
     padding: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
     box-sizing: border-box;
 }
 
-.registerbtn {
+/* Find ID Button */
+.findidbtn {
     display: inline-block;
     background: #ff6347; /* 주황색 */
     color: #fff;
@@ -87,9 +91,10 @@ body {
     text-decoration: none;
     cursor: pointer;
     transition: background 0.3s;
+    margin-top: 10px;
 }
 
-.registerbtn:hover {
+.findidbtn:hover {
     background: #e55330;
 }
 

@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 /* Body Styling */
 body {
     margin: 0;
@@ -6,99 +8,68 @@ body {
     background: #f4f4f4;
 }
 
-/* Header Styling */
-header {
-    background: #ff6347; /* 주황색 */
-    padding: 10px 0;
-    text-align: center;
-}
-
-.header_warp {
-    width: 100%;
-    margin: 0 auto;
-}
-
-.main_logo {
-    color: #fff;
-    font-size: 24px;
-    text-decoration: none;
-}
-
 /* Register Container */
 #register {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    padding: 20px 0; /* Add padding to separate header */
+    height: calc(100vh - 80px); /* Adjust height to exclude header and footer */
 }
 
-/* Register Wrapper */
-.register-wrap {
+/* Wrapper */
+.wrap {
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 400px;
+    padding: 20px;
+    box-sizing: border-box;
     overflow: hidden;
-}
-
-/* Visual Section */
-.visual {
     text-align: center;
-    background: #ff6347; /* 주황색 */
-    padding: 20px;
 }
 
-.visual h1 img {
-    width: 100px;
+/* Form Styling */
+form {
+    width: 100%;
 }
 
-/* Register Section */
-.register {
-    padding: 20px;
-}
-
-.register-wrap h1 {
-    color: #fff;
-}
-
-/* Register Form */
-.register-form {
-    padding: 20px;
-}
-
-.register-form label {
+label {
     display: block;
     margin-bottom: 5px;
-    color: #333; /* 검은색 */
+    font-size: 16px;
+    color: #333;
+    text-align: left;
 }
 
-.register-form input[type="text"],
-.register-form input[type="password"],
-.register-form input[type="email"] {
-    width: calc(100% - 20px);
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: 100%;
     padding: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
     box-sizing: border-box;
 }
 
-.register-form button[type="submit"] {
-    background: #ff6347; /* 주황색 */
+button {
+    width: 100%;
+    padding: 10px;
+    background: #ff6347; /* Orange color */
     color: #fff;
-    padding: 10px 20px;
-    border-radius: 5px;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
     transition: background 0.3s;
 }
 
-.register-form button[type="submit"]:hover {
-    background: #e55330; /* 주황색 */
+button:hover {
+    background: #e55330;
 }
 
-/* General Styling */
+/* General Styles */
 * {
     margin: 0;
     padding: 0;
