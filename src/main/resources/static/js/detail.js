@@ -6,7 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const likeNum = document.getElementById('likeNum');
     let liked = false;
     let likes = parseInt(likeNum.innerText);
-    const isMember = true;  // 회원 여부를 확인하는 로직으로 교체
+    const isMember = true;  // 회원 여부를 확인하는 로직으로 교체해야 합니다.
+    const memberId = 'user123';  // 사용자 ID, 실제 애플리케이션에서는 서버에서 받아와야 합니다.
 
     likeIcon.addEventListener('click', function() {
         if (!isMember) {
@@ -43,7 +44,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (commentText.trim() !== '') {
             const newComment = document.createElement('div');
             newComment.classList.add('comment');
-            newComment.innerText = commentText;
+
+            const commentDate = new Date().toLocaleString();
+            newComment.innerHTML = `<strong>${memberId}</strong> (${commentDate}): ${commentText}`;
+
             commentsList.appendChild(newComment);
             commentInput.value = '';
             comments++;
