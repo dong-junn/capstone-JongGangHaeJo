@@ -6,20 +6,16 @@ body {
     padding: 0;
     font-family: Arial, sans-serif;
     background: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    flex-direction: column; /* Flex direction to stack header, content, and footer vertically */
 }
 
 /* User Admin Container */
 #userAdmin {
-    display: flex;
+      display: flex;
     justify-content: center;
-    align-items: center;
+    
     width: 100%;
     height: calc(100vh - 80px); /* Adjust height to exclude header and footer */
+    margin-top: 80px; /* Center the container vertically */
 }
 
 /* Wrapper */
@@ -32,23 +28,6 @@ body {
     text-align: center;
 }
 
-/* Header Styling */
-header {
-    background: #ff6347; /* 주황색 */
-    padding: 10px 0;
-    text-align: center;
-}
-
-.header_warp {
-    width: 100%;
-    margin: 0 auto;
-}
-
-.main_logo {
-    color: #fff;
-    font-size: 24px;
-    text-decoration: none;
-}
 
 /* User List Container */
 .user-list-container {
