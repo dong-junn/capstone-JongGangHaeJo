@@ -42,7 +42,7 @@ class PostControllerTest {
                 )
                 .andExpect(status().isOk()) //HTTP 상태코드가 200이여야 하며
                 .andExpect(content().string("Hello World")) //Hello World로 내려지는 것을 기대한다
-                .andDo(print()); //HTTP요청 정보를 출력되게 함
+                .andDo(print()); //mockMVC를 통해 요청한 HTTP요청 정보를 출력되게 함
         //status, content, print등 static import진행 - MockMvcResultMatchers의 메서드들이다.
     }
 

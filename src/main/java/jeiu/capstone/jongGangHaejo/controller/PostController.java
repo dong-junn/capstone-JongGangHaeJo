@@ -1,11 +1,9 @@
 package jeiu.capstone.jongGangHaejo.controller;
 
-import jeiu.capstone.jongGangHaejo.dto.request.PostCreate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
+import jeiu.capstone.jongGangHaejo.dto.request.PostCreateDto;
 
 @RequiredArgsConstructor //생성자 lombok
 @Slf4j //logging을 위한 lombok
@@ -37,7 +35,7 @@ public class PostController {
  */
 
     @PostMapping("/test")
-    public String post(@RequestBody PostCreate params) {
+    public String post(@RequestBody PostCreateDto params) { //DTO를 통해 값을 가져온다
         log.info("params={}", params.toString());
         return "Hello World";
     }
