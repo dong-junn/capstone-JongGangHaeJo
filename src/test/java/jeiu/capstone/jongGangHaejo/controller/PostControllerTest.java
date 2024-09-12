@@ -32,13 +32,24 @@ class PostControllerTest {
     @Test
     @DisplayName("POST /test - Hello World")
     void Post_HelloWorld_테스트() throws Exception {
-        //글 제목
-        //글 내용
-
         // expected
         mockMvc.perform(MockMvcRequestBuilders.post("/test")
                         .contentType(MediaType.APPLICATION_JSON) //application/json 타입으로
-                        .content("{\"title\":  \"제목\", \"content\":  \"내용\"}") //해당 JSON형식으로 요청
+                        .content("{\"title\": \"제목\", \"content\": \"내용\"}") //해당 JSON형식으로 요청
+                )
+                .andExpect(status().isOk()) //HTTP 상태코드가 200이여야 하며
+                .andExpect(content().string("Hello World")) //Hello World로 내려지는 것을 기대한다
+                .andDo(print()); //mockMVC를 통해 요청한 HTTP요청 정보를 출력되게 함
+        //status, content, print등 static import진행 - MockMvcResultMatchers의 메서드들이다.
+    }
+
+    @Test
+    @DisplayName("요청 받아온 값 검증")
+    void 요청받은_값_검증() throws Exception {
+        // expected
+        mockMvc.perform(MockMvcRequestBuilders.post("/test")
+                        .contentType(MediaType.APPLICATION_JSON) //application/json 타입으로
+                        .content("{\"title\": \"\", \"content\": \"내용\"}") //해당 JSON형식으로 요청
                 )
                 .andExpect(status().isOk()) //HTTP 상태코드가 200이여야 하며
                 .andExpect(content().string("Hello World")) //Hello World로 내려지는 것을 기대한다
