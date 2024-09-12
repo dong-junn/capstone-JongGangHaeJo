@@ -37,10 +37,9 @@ class PostControllerTest {
 
         // expected
         mockMvc.perform(MockMvcRequestBuilders.post("/test")
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE) // ContentType을 "application/x-www-form-urlencoded"로
-                        .param("title", "제목 테스트")
-                        .param("content", "내용 테스트"))
-
+                        .contentType(MediaType.APPLICATION_JSON) //application/json 타입으로
+                        .content("{\"title\":  \"제목\", \"content\":  \"내용\"}") //해당 JSON형식으로 요청
+                )
                 .andExpect(status().isOk()) //HTTP 상태코드가 200이여야 하며
                 .andExpect(content().string("Hello World")) //Hello World로 내려지는 것을 기대한다
                 .andDo(print()); //HTTP요청 정보를 출력되게 함

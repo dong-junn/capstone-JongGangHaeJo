@@ -37,7 +37,7 @@ public class PostController {
  */
 
     @PostMapping("/test")
-    public String post(@ModelAttribute PostCreate params) {
+    public String post(@RequestBody PostCreate params) {
         log.info("params={}", params.toString());
         return "Hello World";
     }
