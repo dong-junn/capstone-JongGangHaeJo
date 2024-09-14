@@ -10,9 +10,9 @@ import lombok.ToString;
 public class PostCreateDto { //PostController에 params를 넘기기 위한 DTO
 
     //public으로 노출 할 이유가 없으므로 private
-    @NotBlank // null, "", " "를 허용하지 않는다
+    @NotBlank(message = "제목이 비었습니다. 게시글 제목은 필수로 입력해야 합니다") // null, "", " "를 허용하지 않는다
     private String title;
 
-    @NotBlank
+    @NotBlank(message = "내용이 비었습니다. 게시글 내용은 필수로 입력해야 합니다")
     private String content;
 }
