@@ -40,7 +40,7 @@ class PostControllerTest {
     }
 
     @Test
-    @DisplayName("제목 검증")
+    @DisplayName("게시글_요청_JSON_제목 검증")
     void 게시물_제목_검증() throws Exception {
         // expected
         mockMvc.perform(post("/posts")
@@ -52,12 +52,12 @@ class PostControllerTest {
 
         //ExceptionHanlingController에서 handling 잘 되는지 확인
         .andExpect(jsonPath("$.code").value("400"))
-        .andExpect(jsonPath("$.message").value("잘못된 요청 입니다"))
+        .andExpect(jsonPath("$.message").value("잘못된 요청 입니다 validation을 참고해주세요"))
         .andDo(print()); //mockMVC를 통해 요청한 HTTP요청 정보를 출력되게 함
     }
 
     @Test
-    @DisplayName("내용 검증")
+    @DisplayName("게시글_요청_JSON_내용 검증")
     void 게시물_내용_검증() throws Exception {
         mockMvc.perform(post("/posts")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -66,7 +66,7 @@ class PostControllerTest {
 
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.code").value("400"))
-        .andExpect(jsonPath("$.message").value("잘못된 요청 입니다"))
+        .andExpect(jsonPath("$.message").value("잘못된 요청 입니다 validation을 참고해주세요"))
         .andDo(print());
     }
 
