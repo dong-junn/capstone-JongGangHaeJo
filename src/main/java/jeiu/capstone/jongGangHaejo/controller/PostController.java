@@ -20,12 +20,12 @@ public class PostController {
     //Hello World가 브라우저에 출력된다(text/plain형식)
     @GetMapping("/test")
     public String getTest() {
-        return "Hello World";
+        return "안녕하세요 종강해조 프로젝트입니다";
     }
 
     @PostMapping("/test")
     public String postTest() {
-        return "Hello World";
+        return "안녕하세요 종강해조 프로젝트입니다";
     }
 
 /*
