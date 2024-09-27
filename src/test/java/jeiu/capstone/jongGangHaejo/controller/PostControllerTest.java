@@ -24,7 +24,7 @@ class PostControllerTest {
         // expected
         mockMvc.perform(MockMvcRequestBuilders.get("/test")) // /test로 요청시
                 .andExpect(status().isOk()) //HTTP 상태코드가 200이여야 하며
-                .andExpect(content().string("Hello World")) //Hello World로 내려지는 것을 기대한다
+                .andExpect(content().string("안녕하세요 종강해조 프로젝트입니다")) //Hello World로 내려지는 것을 기대한다
                 .andDo(print()); //HTTP요청 정보를 출력되게 함
         //status, content, print등 static import진행 - MockMvcResultMatchers의 메서드들이다.
     }
@@ -35,7 +35,7 @@ class PostControllerTest {
         // expected
         mockMvc.perform(post("/test"))
                 .andExpect(status().isOk()) //HTTP 상태코드가 200이여야 하며
-                .andExpect(content().string("Hello World")) //Hello World로 내려지는 것을 기대한다
+                .andExpect(content().string("안녕하세요 종강해조 프로젝트입니다")) //Hello World로 내려지는 것을 기대한다
                 .andDo(print()); //mockMVC를 통해 요청한 HTTP요청 정보를 출력되게 함
     }
 
@@ -43,7 +43,7 @@ class PostControllerTest {
     @DisplayName("게시글_요청_JSON_제목 검증")
     void 게시물_제목_검증() throws Exception {
         // expected
-        mockMvc.perform(post("/posts")
+        mockMvc.perform(post("/post")
             .contentType(MediaType.APPLICATION_JSON) //application/json 타입으로
             .content("{\"title\": \"\", \"content\": \"내용\"}") //해당 JSON형식으로 요청
         )
@@ -59,7 +59,7 @@ class PostControllerTest {
     @Test
     @DisplayName("게시글_요청_JSON_내용 검증")
     void 게시물_내용_검증() throws Exception {
-        mockMvc.perform(post("/posts")
+        mockMvc.perform(post("/post")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"title\": \"제목\", \"content\": \"\"}")
         )

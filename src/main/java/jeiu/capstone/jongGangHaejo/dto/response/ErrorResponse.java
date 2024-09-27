@@ -7,9 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 예시 JSON
  * {
- *     "code": "400, 404 (HTTP 에러 코드),
- *     "message": "Client 에러,
+ *     "code": "400",
+ *     "message": "Client 에러",
  *     "validation" {
  *         "title": "값이 비었습니다 값은 필수 값 입니다"
  *     }

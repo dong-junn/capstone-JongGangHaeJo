@@ -47,7 +47,7 @@ public class PostController {
  */
 
     //DTO를 통해 값을 가져오는 방식
-    @PostMapping("/posts") //if문을 통해 예외를 던지는 방식대신 Dto에 @NotBlank를 걸고 @Valid를 통해 검증하는 방식 채택
+    @PostMapping("/post") //if문을 통해 예외를 던지는 방식대신 Dto에 @NotBlank를 걸고 @Valid를 통해 검증하는 방식 채택
     public Map<String, String> post(@RequestBody @Valid PostCreateDto params) {
         return Map.of();
     }
