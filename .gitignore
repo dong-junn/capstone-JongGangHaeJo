@@ -17,9 +17,6 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
-### application-aws.yml ###
-/src/main/resources/application-aws.yml
-
 ### IntelliJ IDEA ###
 .idea
 *.iws
