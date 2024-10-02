@@ -35,6 +35,18 @@ main {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    margin-bottom: 40px; /* Increased space between project divs */
+    background: #f9f9f9; /* Background color to distinguish each project */
+    border: 1px solid #ddd; /* Border to distinguish each project */
+    border-radius: 10px; /* Rounds the corners */
+    padding: 20px; /* Padding inside each project div */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: transform 0.3s, box-shadow 0.3s; /* Add transition for hover effect */
+}
+
+.project-info:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Increased shadow on hover */
 }
 
 .project-info img {

@@ -15,13 +15,23 @@
     <main>
         <section class="project-detail">
             <h1>캡스톤 프로젝트 리스트</h1>
-            <div th:each="board : ${list}" class="project-info">
-                <img src="../../../static/img/143315.png" alt="프로젝트 이미지">
+            <div th:each="post : ${list}" class="project-info">
+                <img th:src="${post.title}" alt="프로젝트 이미지" class="image">
                 <div class="project-details">
-                    <h2><a th:text="${board.title}" th:href="@{/board/notice/view(id=${board.id})}"></a></h2>
-                    <p>프로젝트 설명: <span th:text="${board.content}"></span></p>
+                    <h2><a th:text="${board.title}" th:href="@{/posts/read/{id}(id=${post.id})}"></a></h2>
+                    <p>프로젝트 설명: <span th:text="${post.content}"></span></p>
                     <p>팀 구성원: 팀원1, 팀원2, 팀원3</p>
-                    <p>완성 날짜: <span th:text="${board.id}"></span> </p>
+                    <p>완성 날짜: <span th:text="${post.id}"></span> </p>
+                    <p>사용 기술: HTML, CSS, JavaScript</p>
+                </div>
+            </div>
+            <div th:each="post : ${list}" class="project-info">
+                <img th:src="${post.title}" alt="프로젝트 이미지" class="image">
+                <div class="project-details">
+                    <h2><a th:text="${board.title}" th:href="@{/posts/read/{id}(id=${post.id})}"></a></h2>
+                    <p>프로젝트 설명: <span th:text="${post.content}"></span></p>
+                    <p>팀 구성원: 팀원1, 팀원2, 팀원3</p>
+                    <p>완성 날짜: <span th:text="${post.id}"></span> </p>
                     <p>사용 기술: HTML, CSS, JavaScript</p>
                 </div>
             </div>

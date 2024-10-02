@@ -27,23 +27,7 @@ body {
     padding: 20px;
 }
 
-/* Header Styling */
-header {
-    background: #ff6347; /* 주황색 */
-    padding: 10px 0;
-    text-align: center;
-}
 
-.header_warp {
-    width: 100%;
-    margin: 0 auto;
-}
-
-.main_logo {
-    color: #fff;
-    font-size: 24px;
-    text-decoration: none;
-}
 
 /* Button Container */
 .button-container {
