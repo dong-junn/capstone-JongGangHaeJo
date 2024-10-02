@@ -14,3 +14,16 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create
+
+cloud:
+  aws:
+    s3:
+      bucket: jeiucap-bucket
+    credentials:
+      access-key: ${access}
+      secret-key: ${secret}
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
