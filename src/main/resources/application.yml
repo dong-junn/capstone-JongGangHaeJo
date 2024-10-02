@@ -6,9 +6,10 @@ spring:
 
 # AWS RDS로 추후 세팅해야 함
   datasource:
-    url: jdbc:h2:tcp://localhost/~/test
-    username: sa
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     defer-datasource-initialization: true
