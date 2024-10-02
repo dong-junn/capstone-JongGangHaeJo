@@ -9,6 +9,7 @@ spring:
     url: jdbc:h2:tcp://localhost/~/test
     username: sa
     driver-class-name: org.h2.Driver
+
   jpa:
     defer-datasource-initialization: true
     show-sql: true
