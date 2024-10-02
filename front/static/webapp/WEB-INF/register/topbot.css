@@ -1,0 +1,136 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+.header_warp,
+.nav_warp,
+.footer_warp,
+header,
+footer {
+    width: 100%;
+}
+
+/* 상단 부분 */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    /* 다른 콘텐츠보다 위에 오도록 설정 */
+    background-color: white;
+    /* 배경색 추가 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* 그림자 추가 */
+}
+
+.header_warp {
+    text-align: center;
+    padding: 10px 0;
+    /* 패딩 추가 */
+}
+
+.header_warp a {
+    font-size: 40px;
+    font-weight: 900;
+}
+
+.nav_warp {
+    position: relative;
+    text-align: center;
+    padding: 10px 0;
+    /* 패딩 추가 */
+}
+
+.nav_warp a {
+    font-size: 20px;
+    display: block;
+    font-weight: 700;
+}
+
+.nav_warp #search_icon {
+    padding: 0 20px;
+    height: 30px;
+    position: absolute;
+    right: 250px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.nav {
+    display: inline-block;
+}
+
+.nav li {
+    float: left;
+    line-height: 80px;
+    padding: 0 30px;
+}
+
+/* 상단 마침 */
+
+
+
+
+/* 하단 부분 */
+
+.footer_warp {
+    margin: 100px 0;
+}
+
+.fir,
+.sec {
+    width: 1000px;
+    overflow: auto;
+    margin: 0 auto;
+}
+
+.fir {
+    background-color: #333333;
+}
+
+.fir ul {
+    float: left;
+}
+
+.fir ul li {
+    float: left;
+    padding: 0 15px;
+    font-size: 30px;
+    font-weight: 900;
+}
+
+.fir a {
+    color: #e0e0e0;
+    float: right;
+    line-height: 70px;
+}
+
+.top_btn {
+    padding: 0 20px;
+}
+
+.sec {
+    display: flex;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.sec ul {
+    margin-left: 30px;
+}
+
+.sec ul li p {
+    font-size: 20px;
+    font-weight: 900;
+}

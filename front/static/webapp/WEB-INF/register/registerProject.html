@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>JEIU 캡스톤 프로젝트 - 작품 등록</title>
+    <link rel="stylesheet" href="topbot.css">
+    <link rel="stylesheet" href="registerPro.css">
+    <script src="https://kit.fontawesome.com/fff8ef1317.js" crossorigin="anonymous"></script>
+</head>
+<header>
+    <div class="header_warp">
+        <a href="#" class="main_logo">JEIU CAPSTONE</a>
+    </div>
+    <div class="nav_warp">
+        <ul class="nav">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="registerProject.html">작품등록</a></li>
+            <li><a href="capstone1.html">작품보기</a></li>
+            <li><a href="gaygayya.html">공지사항</a></li>
+            <li><a href="login.html">LOGIN</a></li>
+        </ul>
+        <a href="#" id="search_icon"><i class="fa-solid fa-magnifying-glass"></i></a>
+    </div>
+</header>
+
+<body>
+    <main style="margin-top: 150px;">
+        <section class="register-section">
+            <h1>캡스톤 프로젝트</h1>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="projectName">작품 이름</label>
+                    <input type="text" id="projectName" name="projectName" required>
+                </div>
+                <div class="form-group">
+                    <label for="authorName">등록자 이름</label>
+                    <input type="text" id="authorName" name="authorName" required readonly>
+                </div>
+                <div class="form-group">
+                    <label for="projectDescription">작품 개요</label>
+                    <textarea id="projectDescription" name="projectDescription" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="poster">발표 자료 (포스터)</label>
+                    <input type="file" id="poster" name="poster" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label for="video">발표 자료 (영상 파일)</label>
+                    <input type="file" id="video" name="video" accept="video/*" required>
+                </div>
+                <button type="submit" class="submit-button">등록하기</button>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        // 서버에서 전달받은 로그인된 사용자 이름 
+        const loggedInUserName = "사용자 이름"; // 버에서 동적으로 할당
+        
+        // 등록자 이름 필드에 로그인된 사용자 이름을 자동으로 채우기
+        document.getElementById('authorName').value = loggedInUserName;
+    </script>
+</body>
+
+<footer>
+    <div class="footer_warp">
+        <div class="fir">
+            <ul>
+                <li><a href="#">이용 약관</a></li>
+                <li><a href="#">개인정보보호정책</a></li>
+            </ul>
+            <a href="#" class="top_btn">TOP</a>
+        </div>
+        <div class="sec">
+            <a href="#"><img src="media/main_logo.svg"></a>
+            <ul>
+                <li>
+                    <p>송림캠퍼스</p>
+                </li>
+                <li>22573 인천광역시 동구 재능로 178</li>
+            </ul>
+            <ul>
+                <li>
+                    <p>송도캠퍼스</p>
+                </li>
+                <li>21987 인천광역시 연수구 송도교육로 111번길 15</li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+</html>
