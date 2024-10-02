@@ -1,0 +1,129 @@
+@charset "UTF-8";
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.notice-section {
+    width: 100%;
+    text-align: center;
+}
+
+.notice-section h1 {
+    color: #ff6347; /* 주황색 */
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+.notice-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.notice-item {
+    width: 100%;
+    background: #fff5f5; /* 약한 빨간색 배경 */
+    border: 1px solid #ff6347; /* 주황색 테두리 */
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 10px;
+    transition: background 0.3s, transform 0.3s;
+    text-align: left;
+}
+
+.notice-item:hover {
+    background: #ffe6e6; /* 좀 더 진한 빨간색 배경 */
+    transform: translateY(-5px);
+}
+
+.notice-item h2 {
+    color: #e55330; /* 빨간색 */
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.notice-item p {
+    margin: 5px 0;
+    line-height: 1.6;
+    font-size: 16px;
+    color: #333;
+}
+
+.notice-item .date {
+    font-size: 14px;
+    color: #999;
+    text-align: right;
+    display: block;
+    margin-top: 10px;
+}
+
+.admin-controls {
+    margin-top: 40px;
+    display: none; /* 기본적으로 숨김 */
+    text-align: left;
+}
+
+.admin-controls h2 {
+    color: #ff6347; /* 주황색 */
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+.admin-controls form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.admin-controls label {
+    margin-bottom: 5px;
+    font-size: 16px;
+    width: 100%;
+    max-width: 600px;
+    text-align: left;
+}
+
+.admin-controls input,
+.admin-controls textarea {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.admin-controls button {
+    padding: 10px;
+    background-color: #ff6347; /* 주황색 */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.admin-controls button:hover {
+    background-color: #e55330; /* 빨간색 */
+}

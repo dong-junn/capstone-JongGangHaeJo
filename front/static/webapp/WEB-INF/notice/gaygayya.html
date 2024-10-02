@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공지사항</title>
+    <link rel="stylesheet" href="2.css">
+    <link rel="stylesheet" href="topbot.css">
+    <script defer src="2.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header_warp">
+            <a href="#" class="main_logo">JEIU CAPSTONE</a>
+        </div>
+        <div class="nav_warp">
+            <ul class="nav">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="registerProject.html">작품등록</a></li>
+                <li><a href="capstone1.htnl">작품보기</a></li>
+                <li><a href="gaygayya.html">공지사항</a></li>
+                <li><a href="login.html">LOGIN</a></li>
+            </ul>
+            <a href="#" id="search_icon"><i class="fa-solid fa-magnifying-glass"></i></a>
+        </div>
+    </header>
+
+    <main>
+        <section class="notice-section">
+            <h1>공지사항</h1>
+            <div class="notice-list">
+                <!-- 공지사항 리스트가 추가해야됨 -->
+            </div>
+            <div class="admin-controls">
+                <h2>공지사항 작성</h2>
+                <form id="noticeForm">
+                    <label for="title">제목</label>
+                    <input type="text" id="title" name="title" required>
+                    
+                    <label for="content">내용</label>
+                    <textarea id="content" name="content" required></textarea>
+                    
+                    <button type="submit">공지사항 등록</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer_warp">
+            <div class="fir">
+                <ul>
+                    <li><a href="#">이용 약관</a></li>
+                    <li><a href="#">개인정보보호정책</a></li>
+                </ul>
+                <a href="#" class="top_btn">TOP</a>
+            </div>
+            <div class="sec">
+                <a href="#"><img src="media/main_logo.svg"></a>
+                <ul>
+                    <li>
+                        <p>송림캠퍼스</p>
+                    </li>
+                    <li>22573 인천광역시 동구 재능로 178</li>
+                </ul>
+                <ul>
+                    <li>
+                        <p>송도캠퍼스</p>
+                    </li>
+                    <li>21987 인천광역시 연수구 송도교육로 111번길 15</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
