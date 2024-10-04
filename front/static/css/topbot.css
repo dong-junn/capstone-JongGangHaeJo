@@ -1,0 +1,142 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+.header_warp,
+.nav_warp,
+.footer_warp,
+header,
+footer {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+header, footer {
+    position: relative;
+    left: 0;
+    right: 0;
+}
+
+/* 상단 부분 */
+.header_warp {
+    text-align: center;
+    padding: 10px 0;
+}
+
+.header_warp a {
+    font-size: 40px;
+    font-weight: 900;
+}
+
+.nav_warp {
+    position: relative;
+    text-align: center;
+    width: 100%;
+    box-shadow: inset 0 -1px 0 0 gray;
+}
+
+.nav_warp a {
+    font-size: 20px;
+    display: block;
+    font-weight: 700;
+}
+
+.nav_warp #search_icon {
+    padding: 0 20px;
+    height: 30px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.nav {
+    display: inline-block;
+}
+
+.nav li {
+    float: left;
+    line-height: 80px;
+    padding: 0 30px;
+}
+
+/* 상단 마침 */
+
+/* 하단 부분 */
+footer {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.footer_warp {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.fir {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    background-color: #333333; /* 배경색 설정 */
+    color: #e0e0e0; /* 텍스트 색상 설정 */
+}
+
+.fir ul {
+    display: flex;
+    list-style: none;
+}
+
+.fir ul li {
+    margin-right: 20px;
+    font-size: 16px;
+}
+
+.fir ul li a {
+    color: #e0e0e0;
+    text-decoration: none;
+}
+
+.fir .top_btn {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.sec {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.sec ul {
+    margin-left: 30px;
+    list-style: none;
+}
+
+.sec ul li {
+    font-size: 14px;
+    color: #333333;
+}
+
+.sec ul li p {
+    font-size: 16px;
+    font-weight: 900;
+    color: #333333;
+}

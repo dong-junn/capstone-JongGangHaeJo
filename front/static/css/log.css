@@ -1,0 +1,140 @@
+@charset "UTF-8";
+
+/* Body Styling */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column; /* Flex direction to stack header, content, and footer vertically */
+}
+
+/* Login Container */
+#login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - 80px); /* Adjust height to exclude header and footer */
+}
+
+/* Wrapper */
+.wrap {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    overflow: hidden;
+}
+
+/* Visual Section */
+.visual {
+    text-align: center;
+    background: #ff6347; /* Orange color */
+    padding: 20px;
+}
+
+.visual h1 img {
+    width: 100px;
+}
+
+/* Login Section */
+.login {
+    padding: 20px;
+    width: 100%;
+}
+
+.loginwrap {
+    text-align: center;
+}
+
+.loginwrap h2 img {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+/* Login Area */
+.loginArea {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.loginArea fieldset {
+    border: none;
+    padding: 0;
+    width: 100%;
+}
+
+.loginArea input[type="text"],
+.loginArea input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.loginbtn {
+    display: inline-block;
+    background: #ff6347; /* Orange color */
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.loginbtn:hover {
+    background: #e55330;
+}
+
+/* Find Area */
+.findArea,
+.registerArea {
+    text-align: left;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.findArea h5,
+.registerArea h5 {
+    color: #ff6347; /* Orange color */
+    font-size: 16px;
+}
+
+.findArea p,
+.registerArea p {
+    margin: 5px 0 10px;
+    font-size: 14px;
+    color: #777;
+}
+
+.findArea span,
+.registerArea span {
+    color: #e55330; /* Red color */
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+

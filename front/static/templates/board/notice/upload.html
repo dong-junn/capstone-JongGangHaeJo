@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:tf="http://www.thymeleft.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JEIU 캡스톤 프로젝트 - 작품 등록</title>
+    <link rel="stylesheet" href="../../../static/css/topbot.css" th:href="@{/css/topbot.css}">
+    <link rel="stylesheet" href="../../../static/css/uploadPro.css" th:href="@{/css/uploadPro.css}">
+    
+    <script src="https://kit.fontawesome.com/fff8ef1317.js" crossorigin="anonymous"></script>
+    <script src="../../../static/js/includeHTML.js"></script>
+</head>
+
+<body>
+    <div class="header-container" include-html="../../../templates/module/header.html"></div>
+
+    <main style="margin-top: 2%;">
+        <section class="register-section">
+            <h1>공지사항 등록</h1>
+            <form id="register-form" tf:action="/notice/notice/writepro" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="title">제목</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="content">내용</label>
+                    <textarea id="content" name="content" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="noti_image">이미지 업로드</label>
+                    <input type="file" id="noti_image" name="noti_image" accept="image/*" >
+                </div>
+                <div class="form-group">
+                    <label for="noti_file">파일 업로드</label>
+                    <input type="file" id="noti_file" name="noti_file" >
+                </div>
+                <button type="submit" class="submit-button">등록하기</button>
+            </form>
+        </section>
+    </main>
+
+    <div class="footer-container" include-html="../../../templates/module/footer.html"></div>
+
+    <script>
+        // 서버에서 전달받은 로그인된 사용자 이름 
+        const loggedInUserName = "사용자 이름"; // 서버에서 동적으로 할당
+        
+        // 등록자 이름 필드에 로그인된 사용자 이름을 자동으로 채우기
+        document.getElementById('authorName').value = loggedInUserName;
+        
+        includeHTML();
+    </script>
+</body>
+
+</html>

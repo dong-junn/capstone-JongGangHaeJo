@@ -1,0 +1,82 @@
+/* Body Styling */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+}
+
+/* Admin Container */
+#admin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - 80px); /* Adjust height to exclude header and footer */
+}
+
+/* Wrapper */
+.wrap {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    overflow: hidden;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Header Styling */
+header {
+    background: #ff6347; /* 주황색 */
+    padding: 10px 0;
+    text-align: center;
+}
+
+.header_warp {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.main_logo {
+    color: #fff;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+/* Button Container */
+.button-container {
+    margin-top: 20px;
+}
+
+.admin-btn {
+    display: inline-block;
+    background: #ff6347; /* 주황색 */
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin: 5px;
+}
+
+.admin-btn:hover {
+    background: #e55330;
+}
+
+/* General Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}

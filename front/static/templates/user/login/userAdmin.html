@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>사용자 관리 페이지</title>
+    <link rel="stylesheet" href="../../../static/css/topbot.css">
+    <link rel="stylesheet" href="../../../static/css/userAdmin.css">
+    <script src="https://kit.fontawesome.com/fff8ef1317.js" crossorigin="anonymous"></script>
+    <script src="../../../static/js/userAdmin.js" defer></script>
+    <script src="../../../static/js/includeHTML.js"></script>
+</head>
+
+<body>
+    <div include-html="../../../templates/module/header.html"></div>
+
+    <div id="userAdmin">
+        <div class="wrap">
+            <h1>사용자 관리 페이지</h1>
+            <div class="user-list-container">
+                <div class="user-list">
+                    <div class="user">
+                        <p>사용자 ID: user1</p>
+                        <button class="admin-btn edit-btn" onclick="editUser('user1')">사용자 편집</button>
+                        <button class="admin-btn delete-btn" onclick="deleteUser('user1')">사용자 삭제</button>
+                        <div class="edit-form" id="edit-form-user1">
+                            <label for="email-user1">이메일</label>
+                            <input type="email" id="email-user1">
+                            <label for="phone-user1">전화번호</label>
+                            <input type="text" id="phone-user1">
+                            <button class="admin-btn save-btn" onclick="saveChanges('user1')">저장</button>
+                        </div>
+                    </div>
+                    <div class="user">
+                        <p>사용자 ID: user2</p>
+                        <button class="admin-btn edit-btn" onclick="editUser('user2')">사용자 편집</button>
+                        <button class="admin-btn delete-btn" onclick="deleteUser('user2')">사용자 삭제</button>
+                        <div class="edit-form" id="edit-form-user2">
+                            <label for="email-user2">이메일</label>
+                            <input type="email" id="email-user2">
+                            <label for="phone-user2">전화번호</label>
+                            <input type="text" id="phone-user2">
+                            <button class="admin-btn save-btn" onclick="saveChanges('user2')">저장</button>
+                        </div>
+                    </div>
+                    <div class="user">
+                        <p>사용자 ID: user3</p>
+                        <button class="admin-btn edit-btn" onclick="editUser('user3')">사용자 편집</button>
+                        <button class="admin-btn delete-btn" onclick="deleteUser('user3')">사용자 삭제</button>
+                        <div class="edit-form" id="edit-form-user3">
+                            <label for="email-user3">이메일</label>
+                            <input type="email" id="email-user3">
+                            <label for="phone-user3">전화번호</label>
+                            <input type="text" id="phone-user3">
+                            <button class="admin-btn save-btn" onclick="saveChanges('user3')">저장</button>
+                        </div>
+                    </div>
+                    <div class="user">
+                        <p>사용자 ID: user4</p>
+                        <button class="admin-btn edit-btn" onclick="editUser('user4')">사용자 편집</button>
+                        <button class="admin-btn delete-btn" onclick="deleteUser('user4')">사용자 삭제</button>
+                        <div class="edit-form" id="edit-form-user4">
+                            <label for="email-user4">이메일</label>
+                            <input type="email" id="email-user4">
+                            <label for="phone-user4">전화번호</label>
+                            <input type="text" id="phone-user4">
+                            <button class="admin-btn save-btn" onclick="saveChanges('user4')">저장</button>
+                        </div>
+                    </div>
+                    <div class="user">
+                        <p>사용자 ID: user5</p>
+                        <button class="admin-btn edit-btn" onclick="editUser('user5')">사용자 편집</button>
+                        <button class="admin-btn delete-btn" onclick="deleteUser('user5')">사용자 삭제</button>
+                        <div class="edit-form" id="edit-form-user5">
+                            <label for="email-user5">이메일</label>
+                            <input type="email" id="email-user5">
+                            <label for="phone-user5">전화번호</label>
+                            <input type="text" id="phone-user5">
+                            <button class="admin-btn save-btn" onclick="saveChanges('user5')">저장</button>
+                        </div>
+                    </div>
+                    <!-- 더 많은 사용자를 추가 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div include-html="../../../templates/module/footer.html"></div>
+
+    <script>
+        includeHTML();
+    </script>
+</body>
+
+</html>
