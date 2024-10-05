@@ -16,7 +16,7 @@ java {
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
-		//test
+
 	}
 }
 
