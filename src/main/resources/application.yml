@@ -5,16 +5,17 @@ spring:
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-  servlet:
-    multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
-
   jpa:
     defer-datasource-initialization: true
     show-sql: true
     hibernate:
       ddl-auto: create
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB  # 업로드할 수 있는 파일의 최대 크기 설정
+      max-request-size: 10MB
 
   cloud:
     aws:
