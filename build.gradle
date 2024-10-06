@@ -25,16 +25,16 @@ repositories {
 
 dependencies {
 
-    //AWS-SDK
-    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+    //Spring Cloud - AWS SDK
+    //implementation 'io.awspring.cloud:spring-cloud-aws-starter-s3:3.2.0'
 
-    //Spring-web
+    //Spring WEB
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    //Spring-Validation
+    //Spring Validation
     implementation 'org.springframework.boot:spring-boot-starter-validation' //null, 빈값 검증을 위해 필요
 
-    //Spring-Security
+    //Spring Security
     //implementation 'org.springframework.boot:spring-boot-starter-security' //API기능을 우선 개발하기 위해 Security는 임시적으로 비활성화
     //testImplementation 'org.springframework.security:spring-security-test' //API기능을 우선 개발하기 위해 Security는 임시적으로 비활성화
 
