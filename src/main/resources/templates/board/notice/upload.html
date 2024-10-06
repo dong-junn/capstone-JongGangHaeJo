@@ -1,23 +1,21 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:tf="http://www.thymeleft.org">
-
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JEIU 캡스톤 프로젝트 - 작품 등록</title>
-    <link rel="stylesheet" href="../../../static/css/topbot.css" th:href="@{/css/topbot.css}">
-    <link rel="stylesheet" href="../../../static/css/uploadPro.css" th:href="@{/css/uploadPro.css}">
-    
+    <link rel="stylesheet" href="../../../static/css/topbot.css">
+    <link rel="stylesheet" href="../../../static/css/uploadPro.css">
     <script src="https://kit.fontawesome.com/fff8ef1317.js" crossorigin="anonymous"></script>
     <script src="../../../static/js/includeHTML.js"></script>
 </head>
-
 <body>
-    <div class="header-container" include-html="../../../templates/module/header.html"></div>
+    <div class="header-container" id="header"></div>
 
     <main style="margin-top: 2%;">
         <section class="register-section">
-            <h1>공지사항 등록</h1>
-            <form id="register-form" tf:action="/notice/notice/writepro" method="post" enctype="multipart/form-data">
+            <h1>캡스톤 프로젝트 등록</h1>
+            <form id="register-form">
                 <div class="form-group">
                     <label for="title">제목</label>
                     <input type="text" id="title" name="title" required>
@@ -27,29 +25,59 @@
                     <textarea id="content" name="content" rows="4" required></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="noti_image">이미지 업로드</label>
-                    <input type="file" id="noti_image" name="noti_image" accept="image/*" >
+                    <label for="poster_image">이미지 업로드</label>
+                    <input type="file" id="poster_image" name="poster_image" accept="image/*">
                 </div>
                 <div class="form-group">
-                    <label for="noti_file">파일 업로드</label>
-                    <input type="file" id="noti_file" name="noti_file" >
+                    <label for="capstone_file">파일 업로드</label>
+                    <input type="file" id="capstone_file" name="capstone_file">
                 </div>
-                <button type="submit" class="submit-button">등록하기</button>
+                <button type="button" class="submit-button" onclick="submitProject()">등록하기</button>
             </form>
         </section>
     </main>
 
-    <div class="footer-container" include-html="../../../templates/module/footer.html"></div>
+    <div class="footer-container" id="footer"></div>
 
     <script>
-        // 서버에서 전달받은 로그인된 사용자 이름 
-        const loggedInUserName = "사용자 이름"; // 서버에서 동적으로 할당
-        
-        // 등록자 이름 필드에 로그인된 사용자 이름을 자동으로 채우기
-        document.getElementById('authorName').value = loggedInUserName;
-        
+        // REST API를 이용해 프로젝트를 등록하는 함수
+        async function submitProject() {
+            const formData = new FormData(document.getElementById('register-form'));
+            try {
+                const response = await fetch('https://your-api-endpoint.com/projects', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    alert('프로젝트가 성공적으로 등록되었습니다.');
+                    document.getElementById('register-form').reset();
+                } else {
+                    alert('프로젝트 등록에 실패했습니다. 다시 시도해주세요.');
+                }
+            } catch (error) {
+                console.error('Error submitting project:', error);
+                alert('오류가 발생했습니다. 나중에 다시 시도해주세요.');
+            }
+        }
+
+        // 모듈을 포함시키는 함수 (header와 footer 포함)
+        async function includeHTML() {
+            try {
+                const headerResponse = await fetch('module/header.html');
+                const headerHtml = await headerResponse.text();
+                document.getElementById('header').innerHTML = headerHtml;
+
+                const footerResponse = await fetch('module/footer.html');
+                const footerHtml = await footerResponse.text();
+                document.getElementById('footer').innerHTML = footerHtml;
+            } catch (error) {
+                console.error('Error loading modules:', error);
+            }
+        }
+
+        // 페이지 로드 시 header와 footer를 포함시킴
         includeHTML();
     </script>
 </body>
-
 </html>
