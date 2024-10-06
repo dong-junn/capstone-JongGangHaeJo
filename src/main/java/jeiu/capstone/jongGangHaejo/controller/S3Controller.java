@@ -17,7 +17,7 @@ import java.io.InputStream;
 import java.util.UUID;
 
     @RestController
-    @RequestMapping("/api/s3")
+    @RequestMapping("/file")
     public class S3Controller {
 
         @Autowired
@@ -26,7 +26,7 @@ import java.util.UUID;
         @Value("${spring.cloud.aws.s3.bucket}")
         private String bucketName;
 
-        @PostMapping("/upload")
+        @PostMapping("/s3")
         public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
             String fileName = generateFileName(file.getOriginalFilename());
             try {
@@ -44,7 +44,7 @@ import java.util.UUID;
             return UUID.randomUUID().toString() + "_" + originalFileName;
         }
 
-        @GetMapping("/download/{fileName}")
+        @GetMapping("/s3/{fileName}")
         public ResponseEntity<InputStreamResource> downloadFile(@PathVariable String fileName) {
             try {
                 // S3에서 파일 다운로드
@@ -67,7 +67,7 @@ import java.util.UUID;
             return UUID.randomUUID().toString() + "_" + originalFileName;
         }
 
-        @PutMapping("/upload/{fileName}")
+        @PutMapping("/s3/{fileName}")
         public ResponseEntity<String> replaceFile(
                 @PathVariable String fileName,
                 @RequestParam("file") MultipartFile newFile) {
@@ -91,7 +91,7 @@ import java.util.UUID;
             }
         }
 
-        @DeleteMapping("/delete/{fileName}")
+        @DeleteMapping("/s3/{fileName}")
         public ResponseEntity<String> deleteFile(@PathVariable String fileName) {
             try {
                 // 파일 존재 여부 확인
