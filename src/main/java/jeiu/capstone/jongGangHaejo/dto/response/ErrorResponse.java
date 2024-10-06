@@ -15,7 +15,7 @@ import java.util.Map;
  *         "title": "값이 비었습니다 값은 필수 값 입니다"
  *     }
  * }
- * 와 같은 JSON 응답 값을 만들기 위한 Class이다
+ * 와 같은 JSON 응답 값을 만들기 위한 Class이다. ExceptionHandling Controller에서 사용한다.
  */
 @Getter
 @RequiredArgsConstructor
