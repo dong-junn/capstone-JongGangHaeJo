@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 작성</title>
+</head>
+<body>
+    <div class="layout">
+        <form action="/board/notice/writepro" method="post" enctype="multipart/form-data">
+            <input name="title" type="text">
+            <textarea name="content"></textarea>
+            <input name="file" type="file">
+            <button type="submit">작성하기</button>
+        </form>
+    </div>
+</body>
+</html>
