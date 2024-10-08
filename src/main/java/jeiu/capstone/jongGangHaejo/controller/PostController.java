@@ -1,6 +1,7 @@
 package jeiu.capstone.jongGangHaejo.controller;
 
 import jakarta.validation.Valid;
+import jeiu.capstone.jongGangHaejo.domain.File;
 import jeiu.capstone.jongGangHaejo.domain.Post;
 import jeiu.capstone.jongGangHaejo.service.FileService;
 import jeiu.capstone.jongGangHaejo.service.PostService;
@@ -73,34 +74,32 @@ public class PostController {
             return errors; // 에러 메시지를 반환
         }
 
-        // jeiu.capstone.jongGangHaejo.domain.File 리스트 생성
-        List<jeiu.capstone.jongGangHaejo.domain.File> fileList = new ArrayList<>();
+        Post post = Post.builder()
+                .title(postCreateDto.getTitle())
+                .content(postCreateDto.getContent())
+                .team(postCreateDto.getTeam())
+                .youtubelink(postCreateDto.getYoutubelink())
+                .build();
+
+        // File 리스트 생성
         for (MultipartFile file : files) {
             if (!file.isEmpty()) {
-                // AWS S3에 파일 업로드하고 URL 받기
-                String fileUrl = fileService.uploadFile(file);
+                String fileUrl = fileService.uploadFile(file);  // S3에 파일 업로드하고 URL 받기
 
-                // jeiu.capstone.jongGangHaejo.domain.File 객체 생성
-                jeiu.capstone.jongGangHaejo.domain.File fileEntity = jeiu.capstone.jongGangHaejo.domain.File.builder()
+                // File 엔티티 생성 및 Post와 연관 설정
+                File fileEntity = File.builder()
                         .fileName(file.getOriginalFilename())
                         .s3Path(fileUrl)
                         .fileType(file.getContentType())
                         .fileSize(file.getSize())
                         .build();
 
-                // fileList에 추가
-                fileList.add(fileEntity);
+                post.addFile(fileEntity);
             }
         }
 
         // Post 엔티티 생성 시 파일 리스트도 함께 설정
-        Post post = Post.builder()
-                .title(postCreateDto.getTitle())
-                .content(postCreateDto.getContent())
-                .team(postCreateDto.getTeam())
-                .youtubelink(postCreateDto.getYoutubelink())
-                .files(fileList)  // jeiu.capstone.jongGangHaejo.domain.File 리스트 추가
-                .build();
+
 
         // 4. Post 엔티티 저장 (Post가 저장되면 연관된 File들도 함께 저장됨)
         postService.savePost(post);

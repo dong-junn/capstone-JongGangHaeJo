@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity //JPA가 관리 하는 Entity임을 명시
@@ -18,6 +19,8 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postid; //Primary Key, 게시물 고유 ID
+
+    private String username;
 
     @Column(length = 255)
     private String title; //게시물 제목
@@ -32,7 +35,7 @@ public class Post {
     private String youtubelink; // 유튜브 링크
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<File> files;  // 게시물에 첨부된 파일들
+    private List<File> files = new ArrayList<>();;  // 게시물에 첨부된 파일들
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now(); // 생성일시
@@ -47,11 +50,18 @@ public class Post {
     }
 
     @Builder //Builder패턴 사용
-    public Post(String title, String content, String team, String youtubelink, List<File> files) {
+    public Post(String username, String title, String content, String team, String youtubelink, List<File> files) {
+        this.username = username;
         this.title = title;
         this.content = content;
         this.team = team;
         this.youtubelink = youtubelink;
-        this.files = files;
+        this.files = files != null ? files : new ArrayList<>();
+    }
+
+    // 파일 추가 메서드 (양방향 연관 관계 설정)
+    public void addFile(File file) {
+        files.add(file);
+        file.setPost(this);  // 파일에 게시물(Post) 설정
     }
 }

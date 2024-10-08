@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -16,6 +17,8 @@ public class File {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long fileId;  // Primary Key
 
+    // Post 설정
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)  // Post와 다대일 관계
     @JoinColumn(name = "post_id")
     private Post post;  // 게시물과의 연관관계

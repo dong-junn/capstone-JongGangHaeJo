@@ -27,7 +27,7 @@ public class RepositoryTest {
         Post savedPost = postRepository.save(post); //JPA를 이용해 저장
 
         //then -> 검증한다
-        assertThat(savedPost.getId()).isNotNull(); //Id가 있는지 확인 후
+        assertThat(savedPost.getPostid()).isNotNull(); //Id가 있는지 확인 후
         assertThat(savedPost.getTitle()).isEqualTo("제목"); //title에 제목이 저장됐는지 확인 후
         assertThat(savedPost.getContent()).isEqualTo("내용"); //content에 내용이 저장됐는지 확인한다
     }
