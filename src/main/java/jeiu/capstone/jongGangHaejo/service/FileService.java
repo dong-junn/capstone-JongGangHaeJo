@@ -20,7 +20,7 @@ import java.util.UUID;
 public class FileService {
 
 
-    // 환경 변수에서 값 가져오기
+    // application.yml에서 환경변수로 지정한 값 불러오기
     @Value("${spring.cloud.aws.s3.bucket}")
     private String bucketName;
 
