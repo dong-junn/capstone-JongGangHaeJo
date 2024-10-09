@@ -70,11 +70,11 @@
         // 모듈을 포함시키는 함수 (header와 footer 포함)
         async function includeHTML() {
             try {
-                const headerResponse = await fetch('module/header.html');
+                const headerResponse = await fetch('/layout/fragments/header.html');
                 const headerHtml = await headerResponse.text();
                 document.getElementById('header').innerHTML = headerHtml;
 
-                const footerResponse = await fetch('module/footer.html');
+                const footerResponse = await fetch('/layout/fragments/footer.html');
                 const footerHtml = await footerResponse.text();
                 document.getElementById('footer').innerHTML = footerHtml;
             } catch (error) {
