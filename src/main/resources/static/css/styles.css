@@ -26,24 +26,14 @@ body{
     text-align: center;
 }
 
-.thumbnails-container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-}
-
 .thumbnail {
     width: 30%;
-    height: 10%;
     padding: 10px;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
     flex-direction: column;
-}
-
-.thumbnail img {
-    width: 100%;
+    /* 높이를 유동적으로 변경 */
     height: auto;
 }
 
