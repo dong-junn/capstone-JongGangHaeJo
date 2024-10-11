@@ -2,6 +2,8 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.3.3'
     id 'io.spring.dependency-management' version '1.1.6'
+    id "org.asciidoctor.jvm.convert" version "3.3.2" //REST Docs
+
 }
 
 group = 'jeiu.capstone'
@@ -14,10 +16,37 @@ java {
 }
 
 configurations {
+    asciidoctorExt //REST Docs
+
     compileOnly {
         extendsFrom annotationProcessor
     }
 }
+
+//REST Docs
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+test {
+    outputs.dir snippetsDir
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    configurations 'asciidoctorExt'
+    dependsOn test
+}
+
+bootJar {
+    dependsOn asciidoctor
+
+    copy {
+        from asciidoctor.outputDir
+        into "src/main/resources/static/docs"
+    }
+}
+//REST Docs
 
 repositories {
     mavenCentral()
@@ -44,8 +73,12 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    //DB-Connector
+    //DB Connector
     runtimeOnly 'com.mysql:mysql-connector-j'
+
+    //REST Docs
+    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor:3.0.1'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc:3.0.1'
 
     //Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
