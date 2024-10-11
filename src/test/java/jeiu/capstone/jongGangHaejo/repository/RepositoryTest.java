@@ -17,7 +17,9 @@ public class RepositoryTest {
     @Test
     @DisplayName("게시물 DB에 저장되는지 확인")
     void PostSaveTest() {
-
+        //todo: 테스트코드 수정해줘 우진
+        
+        
         //given -> 이러한 자원이 주어졌을때
         Post post = Post.builder() //Builder 패턴 사용
                 .title("제목")
