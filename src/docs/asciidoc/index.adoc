@@ -1,0 +1,10 @@
+= 종강해조 게시판 API
+:toc:
+
+== 게시물  API
+
+=== 게시물 등록시 요청 API
+include::{snippets}/index/http-request.adoc[]
+
+=== 게시물 등록 후 응답 API
+include::{snippets}/index/http-response.adoc[]
