@@ -71,8 +71,6 @@ header, footer {
     padding: 0 30px;
 }
 
-/* 상단 마침 */
-
 /* 하단 부분 */
 footer {
     width: 100%;
@@ -139,4 +137,90 @@ footer {
     font-size: 16px;
     font-weight: 900;
     color: #333333;
+}
+
+/* 반응형 디자인을 위한 미디어 쿼리 */
+
+/* 태블릿 (768px 이하) */
+@media (max-width: 768px) {
+    .header_warp a {
+        font-size: 30px;
+    }
+
+    .nav_warp a {
+        font-size: 18px;
+    }
+
+    .nav li {
+        padding: 0 20px;
+    }
+
+    .fir {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .fir ul {
+        flex-direction: column;
+        margin-left: 0;
+    }
+
+    .fir ul li {
+        margin-bottom: 10px;
+    }
+
+    .sec {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .sec ul {
+        margin-left: 0;
+    }
+
+    .sec ul li {
+        font-size: 14px;
+    }
+}
+
+/* 모바일 (480px 이하) */
+@media (max-width: 480px) {
+    .header_warp a {
+        font-size: 24px;
+    }
+
+    .nav_warp a {
+        font-size: 16px;
+    }
+
+    .nav li {
+        padding: 0 10px;
+    }
+
+    .fir {
+        padding: 5px 10px;
+    }
+
+    .fir ul {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .sec {
+        padding: 10px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .sec ul {
+        margin-left: 0;
+    }
+
+    .sec ul li {
+        font-size: 12px;
+    }
+
+    .sec ul li p {
+        font-size: 14px;
+    }
 }

@@ -105,7 +105,8 @@ body {
     display: block;
     width: 100%;
 }
-/* 댓글(2차)*/
+
+/* 댓글(2차) */
 .comments-section {
     margin-top: 30px;
 }
@@ -146,4 +147,61 @@ body {
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
+}
+
+/* 반응형 디자인을 위한 미디어 쿼리 */
+
+/* 태블릿 (768px 이하) */
+@media (max-width: 768px) {
+    .view-section {
+        padding: 20px;
+        margin: 30px auto;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    .project-poster img,
+    .project-video video {
+        max-width: 600px;
+    }
+}
+
+/* 모바일 (480px 이하) */
+@media (max-width: 480px) {
+    .view-section {
+        padding: 10px;
+        margin: 20px auto;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    .project-poster img,
+    .project-video video {
+        max-width: 100%;
+    }
+
+    .comments-section textarea {
+        height: 80px;
+    }
+
+    .comments-section button {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .project-actions span {
+        font-size: 16px;
+    }
 }
