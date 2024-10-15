@@ -1,10 +1,19 @@
 = 종강해조 게시판 API
 :toc:
 
-== 게시물  API
+== 게시물 생성 API[multipart]
+=== multipart[key]
+include::{snippets}/post/request-parts.adoc[]
 
-=== 게시물 등록시 요청 API
-include::{snippets}/index/http-request.adoc[]
+=== multipart [value]
+include::{snippets}/post/request-part-post-fields.adoc[]
 
-=== 게시물 등록 후 응답 API
-include::{snippets}/index/http-response.adoc[]
+=== 최종 전송 내용
+include::{snippets}/post/http-request.adoc[]
+
+
+
+
+
+
+

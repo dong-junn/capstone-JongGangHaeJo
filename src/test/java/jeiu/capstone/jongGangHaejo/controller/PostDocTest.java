@@ -9,15 +9,18 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.multipart;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -56,7 +59,23 @@ public class PostDocTest {
                 )
                 .andExpect(jsonPath("$.message").value("게시물이 성공적으로 생성되었습니다."))
                 .andExpect(status().isOk())
-                .andDo(document("index", preprocessRequest(prettyPrint())))
+                .andDo(document(
+                        "post",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestParts(
+                                partWithName("files").description("업로드할 파일"),
+                                partWithName("post").description("전송할 json")
+                        ),
+                        requestPartFields(
+                                "post",
+                                fieldWithPath("title").description("게시글 제목"),
+                                fieldWithPath("content").description("게시글 내용"),
+                                fieldWithPath("team").description("팀 이름"),
+                                fieldWithPath("youtubelink").description("첨부 유튜브 링크")
+
+                        )
+                ))
                 .andDo(print());
 
 

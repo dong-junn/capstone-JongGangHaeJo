@@ -445,10 +445,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_게시물_api">게시물  API</a>
+<li><a href="#_게시물_생성_apimultipart">게시물 생성 API[multipart]</a>
 <ul class="sectlevel2">
-<li><a href="#_게시물_등록시_요청_api">게시물 등록시 요청 API</a></li>
-<li><a href="#_게시물_등록_후_응답_api">게시물 등록 후 응답 API</a></li>
+<li><a href="#_multipartkey">multipart[key]</a></li>
+<li><a href="#_multipart_value">multipart [value]</a></li>
+<li><a href="#_최종_전송_내용">최종 전송 내용</a></li>
 </ul>
 </li>
 </ul>
@@ -456,10 +457,74 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_게시물_api">게시물  API</h2>
+<h2 id="_게시물_생성_apimultipart">게시물 생성 API[multipart]</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_게시물_등록시_요청_api">게시물 등록시 요청 API</h3>
+<h3 id="_multipartkey">multipart[key]</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Part</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>files</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">업로드할 파일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>post</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">전송할 json</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_multipart_value">multipart [value]</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>team</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팀 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>youtubelink</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">첨부 유튜브 링크</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_최종_전송_내용">최종 전송 내용</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /post HTTP/1.1
@@ -485,25 +550,13 @@ test-document
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_게시물_등록_후_응답_api">게시물 등록 후 응답 API</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 65
-
-{"message":"게시물이 성공적으로 생성되었습니다."}</code></pre>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-10-11 21:01:45 +0900
+Last updated 2024-10-15 02:49:20 +0900
 </div>
 </div>
 </body>
