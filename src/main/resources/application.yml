@@ -9,7 +9,7 @@ spring:
     defer-datasource-initialization: true
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
 
   servlet:
     multipart:
@@ -30,3 +30,4 @@ spring:
 logging:
   level:
     org.apache.coyote.http11: trace
+    org.springframework.web.multipart: debug
