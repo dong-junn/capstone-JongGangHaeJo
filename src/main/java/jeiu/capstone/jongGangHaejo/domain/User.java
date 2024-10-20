@@ -14,4 +14,5 @@ public class User {
 
     @Column(name = "users_password")
     private String password; //비밀번호
+
 }
