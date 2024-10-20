@@ -107,7 +107,23 @@ async function deleteComment(commentId) {
         console.error('댓글 삭제 중 오류 발생:', error);
     }
 }
+// HTML 페이지가 로드될 때 프로젝트를 불러옴
+document.addEventListener('DOMContentLoaded', loadProjects);
 
+// 모듈을 포함시키는 함수 (header와 footer 포함)
+async function includeHTML() {
+    try {
+        const headerResponse = await fetch('http://127.0.0.1:5500/src/main/resources/templates/layout/header.html');
+        const headerHtml = await headerResponse.text();
+        document.getElementById('header').innerHTML = headerHtml;
+
+        const footerResponse = await fetch('http://127.0.0.1:5500/src/main/resources/templates/layout/footer.html');
+        const footerHtml = await footerResponse.text();
+        document.getElementById('footer').innerHTML = footerHtml;
+    } catch (error) {
+        console.error('Error loading modules:', error);
+    }
+}
 // HTML 페이지가 로드될 때 프로젝트 세부 정보를 로드
 includeHTML();
 document.addEventListener('DOMContentLoaded', loadProjectDetails);

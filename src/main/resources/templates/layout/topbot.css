@@ -12,6 +12,7 @@ ul {
     list-style: none;
 }
 
+
 .header_warp,
 .nav_warp,
 .footer_warp,
@@ -28,27 +29,57 @@ header, footer {
 }
 
 /* 상단 부분 */
+body {
+    padding-top: 160px; /* 고정된 헤더와 네비게이션이 페이지 내용을 가리지 않도록 위쪽 공간 확보 */
+    margin: 0; /* 브라우저 기본 여백 제거 */
+}
+
 .header_warp {
+    position: fixed; /* 헤더를 화면에 고정 */
+    top: 0; /* 화면의 가장 상단에 위치 */
     text-align: center;
-    padding: 10px 0;
+    width: 100%; /* 화면 전체 너비 */
+    background-color: white; /* 헤더의 배경을 흰색으로 설정 */
+    z-index: 1000; /* 다른 요소 위에 표시되도록 z-index 설정 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 살짝 그림자 효과로 부각 */
+    padding: 10px 0; /* 위아래 여백 추가 */
 }
 
 .header_warp a {
     font-size: 40px;
     font-weight: 900;
+    color: black; /* 로고의 글씨 색상을 검정으로 설정 */
+    text-decoration: none; /* 링크의 기본 밑줄 제거 */
 }
 
 .nav_warp {
-    position: relative;
-    text-align: center;
+    position: fixed; /* 네비게이션도 화면에 고정 */
+    top: 60px; /* 헤더 바로 아래에 위치 (헤더 높이만큼 내려줌) */
+    left: 0;
     width: 100%;
-    box-shadow: inset 0 -1px 0 0 gray;
+    background-color: white; /* 배경색을 헤더와 동일하게 설정 */
+    z-index: 999; /* 헤더보다는 아래에 위치하므로 낮은 z-index */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 네비게이션에도 그림자 효과 추가 */
+}
+
+.nav_warp ul {
+    display: flex;
+    justify-content: center; /* 메뉴 항목을 중앙 정렬 */
+    list-style: none; /* 목록의 기본 스타일 제거 */
+    padding: 0;
+    margin: 0;
+}
+
+.nav_warp li {
+    padding: 0 20px; /* 메뉴 항목 간의 간격 추가 */
 }
 
 .nav_warp a {
-    font-size: 20px;
-    display: block;
+    font-size: 18px;
     font-weight: 700;
+    text-decoration: none; /* 링크의 기본 밑줄 제거 */
+    color: black; /* 링크 색상을 검정으로 설정 */
+    line-height: 60px; /* 메뉴 항목 높이 설정 */
 }
 
 .nav_warp #search_icon {
@@ -61,15 +92,6 @@ header, footer {
     z-index: 10;
 }
 
-.nav {
-    display: inline-block;
-}
-
-.nav li {
-    float: left;
-    line-height: 80px;
-    padding: 0 30px;
-}
 
 /* 하단 부분 */
 footer {
