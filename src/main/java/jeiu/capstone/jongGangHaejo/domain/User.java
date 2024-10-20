@@ -2,9 +2,11 @@ package jeiu.capstone.jongGangHaejo.domain;
 
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Getter;
 
 @Entity
 @Table(name = "users")
+@Getter
 public class User {
 
     @Id
