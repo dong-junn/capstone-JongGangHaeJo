@@ -8,10 +8,17 @@ import lombok.Builder;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "users_id")
-    private Long id; //아이디
+    private String id;
 
     @Column(name = "users_password")
     private String password; //비밀번호
+
+    @Builder
+    public User(String id, String password) {
+        this.id = id;
+        this.password = password;
+    }
+
+    public User() {} //JPA를 사용할 시에 기본생성자는 필수로 두어야한다(내부적으로 사용)
 }
