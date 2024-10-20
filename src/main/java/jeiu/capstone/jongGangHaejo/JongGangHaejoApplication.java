@@ -8,7 +8,6 @@ public class JongGangHaejoApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(JongGangHaejoApplication.class, args);
-
 	}
 
 }
