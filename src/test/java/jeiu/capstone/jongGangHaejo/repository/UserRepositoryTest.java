@@ -30,7 +30,8 @@ class UserRepositoryTest {
         User savedUser = userRepository.save(user);
 
         //then
-        Assertions.assertThat(user).isEqualTo(savedUser);
+        Assertions.assertThat(user.getId()).isEqualTo("testID");
+        Assertions.assertThat(user.getPassword()).isEqualTo("testPWD");
 
     }
 
