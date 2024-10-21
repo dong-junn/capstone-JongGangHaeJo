@@ -18,26 +18,10 @@ async function loadProjects() {
     }
 }
 
-    document.addEventListener("DOMContentLoaded", function() {
-        const imageSlide = document.querySelector('.image-slide');
-        const videoContainer = document.querySelector('.video-container');
-
-        // 이미지가 먼저 나타나고, 1초 후에 영상을 보여줌
-        setTimeout(function() {
-            // 이미지를 숨기고 영상을 표시
-            imageSlide.style.opacity = '0'; // 이미지가 사라지도록
-            setTimeout(function() {
-                videoContainer.style.display = 'block'; // 영상이 나타나도록
-                imageSlide.style.display = 'none'; // 이미지를 완전히 숨김
-            }, 1000); // 이미지 사라진 후 1초 후 영상이 표시되도록
-        }, 1000); // 1초 후 영상이 나타나도록
-    });
-
-
 // 더보기 버튼을 눌렀을 때 추가 프로젝트 로드
 async function loadMoreProjects() {
     try {
-        const response = await fetch('src/main/resources/templates/board/project/detail.html');
+        const response = await fetch('http://18.118.128.174:8080/post?more=true&sortBy=views');
         const moreProjects = await response.json();
 
         const thumbnailsContainer = document.getElementById('thumbnails');
@@ -73,4 +57,3 @@ async function includeHTML() {
 
 // 페이지 로드 시 header와 footer를 포함시킴
 includeHTML();
-
