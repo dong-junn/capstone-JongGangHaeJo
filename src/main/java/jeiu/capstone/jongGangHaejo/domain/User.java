@@ -1,6 +1,7 @@
 package jeiu.capstone.jongGangHaejo.domain;
 
 import jakarta.persistence.*;
+import jeiu.capstone.jongGangHaejo.config.SecurityConfig;
 import lombok.Builder;
 import lombok.Getter;
 
