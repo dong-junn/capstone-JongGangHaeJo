@@ -124,6 +124,9 @@ async function includeHTML() {
         console.error('Error loading modules:', error);
     }
 }
-// HTML 페이지가 로드될 때 프로젝트 세부 정보를 로드
-includeHTML();
-document.addEventListener('DOMContentLoaded', loadProjectDetails);
+
+// HTML 페이지가 로드될 때 프로젝트를 불러옴
+document.addEventListener('DOMContentLoaded', async () => {
+    await includeHTML(); // 헤더와 푸터가 먼저 로드되도록 기다림
+    loadProjectDetails(); // 헤더와 푸터가 로드된 후에 프로젝트 세부 정보를 로드
+});
