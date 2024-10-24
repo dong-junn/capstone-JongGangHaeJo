@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>캡스톤 작품 보기</title>
-    <link rel="stylesheet" href="../../../static/css/main_board.css" th:href="@{/css/main_board.css}">
-    <link rel="stylesheet" href="../../../static/css/topbot.css" th:href="@{/css/topbot.css}">
+
+    <link rel="stylesheet" href="http://127.0.0.1:5500/src/main/resources/templates/layout/topbot.css">
+    <link rel="stylesheet" href="../../../static/css/main_board.css">    
     <script src="https://kit.fontawesome.com/fff8ef1317.js" crossorigin="anonymous"></script>
-    <script src="../../../static/js/includeHTML.js"></script>
 </head>
 <body>
-    <div include-html="../../../templates/module/header.html"></div>
+    <!-- 헤더 포함 -->
+    <div class="header-container" id="header"></div>
 
     <main>
         <section class="project-detail">
@@ -30,17 +31,26 @@
                 <a th:if="${page != nowPage}" th:href="@{/posts/list(page = ${page - 1})}" th:text="${page}"></a>
                 <strong th:if="${page == nowPage}" th:text="${page}" style="color: red"></strong>
             </th:block>
-
         </section>
     </main>
 
-
-
-
-    <div include-html="../../../templates/module/footer.html"></div>
+    <!-- 푸터 포함 -->
+    <div class="footer-container" id="footer"></div>
 
     <script>
-        includeHTML();
+        // 헤더와 푸터를 동적으로 로드
+        async function includeHTML() {
+            const headerResponse = await fetch('http://127.0.0.1:5500/src/main/resources/templates/layout/header.html');
+            const headerHtml = await headerResponse.text();
+            document.getElementById('header').innerHTML = headerHtml;
+
+            const footerResponse = await fetch('http://127.0.0.1:5500/src/main/resources/templates/layout/footer.html');
+            const footerHtml = await footerResponse.text();
+            document.getElementById('footer').innerHTML = footerHtml;
+        }
+
+        // 페이지가 로드될 때 헤더와 푸터 포함
+        document.addEventListener('DOMContentLoaded', includeHTML);
     </script>
 </body>
 </html>

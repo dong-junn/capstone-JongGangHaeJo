@@ -21,7 +21,7 @@ async function loadProjects() {
 // 더보기 버튼을 눌렀을 때 추가 프로젝트 로드
 async function loadMoreProjects() {
     try {
-        const response = await fetch('src/main/resources/templates/board/project/detail.html');
+        const response = await fetch('http://127.0.0.1:5500/src/main/resources/templates/board/project/detail.html');
         const moreProjects = await response.json();
 
         const thumbnailsContainer = document.getElementById('thumbnails');

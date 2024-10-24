@@ -2,7 +2,7 @@
 async function loadProjectDetails() {
     const projectId = "YOUR_PROJECT_ID"; // 프로젝트 ID를 동적으로 설정해야 함
     try {
-        const response = await fetch(`https://your-api-endpoint.com/projects/${projectId}`);
+        const response = await fetch(`http://18.118.128.174:8080/post`);
         const project = await response.json();
 
         // 프로젝트 세부 정보를 DOM에 업데이트
@@ -127,6 +127,6 @@ async function includeHTML() {
 
 // HTML 페이지가 로드될 때 프로젝트를 불러옴
 document.addEventListener('DOMContentLoaded', async () => {
-    await includeHTML(); // 헤더와 푸터가 먼저 로드되도록 기다림
+
     loadProjectDetails(); // 헤더와 푸터가 로드된 후에 프로젝트 세부 정보를 로드
 });
