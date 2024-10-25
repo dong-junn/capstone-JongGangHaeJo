@@ -3,10 +3,18 @@ package jeiu.capstone.jongGangHaejo.controller;
 import jakarta.validation.Valid;
 import jeiu.capstone.jongGangHaejo.domain.File;
 import jeiu.capstone.jongGangHaejo.domain.Post;
+import jeiu.capstone.jongGangHaejo.dto.response.PostDetailResponseDto;
+import jeiu.capstone.jongGangHaejo.dto.response.PostListResponseDto;
 import jeiu.capstone.jongGangHaejo.service.FileService;
 import jeiu.capstone.jongGangHaejo.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -83,5 +91,29 @@ public class PostController {
 
 
         return Map.of("message", "게시물이 성공적으로 생성되었습니다.");
+    }
+
+    // 게시물 목록 조회
+    @GetMapping("/posts")
+    public ResponseEntity<Page<PostListResponseDto>> getAllPosts(
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<PostListResponseDto> posts = postService.getAllPosts(pageable);
+        return ResponseEntity.ok(posts);
+    }
+
+    // 단일 게시물 조회
+    @GetMapping("posts/{id}")
+    public ResponseEntity<PostDetailResponseDto> getPost(@PathVariable("id") Long id) {
+        PostDetailResponseDto post = postService.getPost(id);
+        return ResponseEntity.ok(post);
+    }
+
+    // 게시물 검색
+    @GetMapping("posts/search")
+    public ResponseEntity<Page<PostListResponseDto>> searchPosts(
+            @RequestParam String keyword,
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<PostListResponseDto> posts = postService.searchPostsByTitle(keyword, pageable);
+        return ResponseEntity.ok(posts);
     }
 }
