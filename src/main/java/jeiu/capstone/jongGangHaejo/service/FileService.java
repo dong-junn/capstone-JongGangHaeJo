@@ -1,16 +1,12 @@
 package jeiu.capstone.jongGangHaejo.service;
 
-import io.awspring.cloud.s3.S3Exception;
-import jeiu.capstone.jongGangHaejo.domain.File;
-import jeiu.capstone.jongGangHaejo.repository.FileRepository;
+import jeiu.capstone.jongGangHaejo.exception.*;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
-import software.amazon.awssdk.core.exception.SdkClientException;
-import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
@@ -21,64 +17,62 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FileService {
 
-    private final FileRepository fileRepository;
+    private static final Logger logger = LoggerFactory.getLogger(FileService.class);
 
-    // application.yml에서 환경변수로 지정한 값 불러오기
-    @Value("${spring.cloud.aws.s3.bucket}")
+    @Value("${S3_BUCKET_NAME}") // 환경 변수에서 버킷 이름 가져오기
     private String bucketName;
 
-    @Value("${spring.cloud.aws.credentials.access-key}")
-    private String accessKey;
+    private final S3Client s3Client;
 
-    @Value("${spring.cloud.aws.credentials.secret-key}")
-    private String secretKey;
-
-    @Value("${spring.cloud.aws.region.static}")
-    private String region;
-
-    // S3Client 초기화
-    private S3Client initS3Client() {
-        AwsBasicCredentials awsCreds = AwsBasicCredentials.create(accessKey, secretKey);
-
-        return S3Client.builder()
-                .region(Region.of(region))
-                .credentialsProvider(StaticCredentialsProvider.create(awsCreds))
-                .build();
-    }
-
-
+    /**
+     * 파일을 S3에 업로드하고 파일 URL을 반환합니다.
+     *
+     * @param file 업로드할 파일
+     * @return 업로드된 파일의 S3 URL
+     */
     public String uploadFile(MultipartFile file) {
-        // 파일 이름이 null일 경우 기본 이름 설정
         String originalFilename = file.getOriginalFilename();
         if (originalFilename == null || originalFilename.isBlank()) {
-            throw new RuntimeException("파일 이름이 유효하지 않습니다.");
+            throw new InvalidFileNameException("파일 이름이 유효하지 않습니다.");
         }
-        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();  // 고유 파일명 생성
+
+        String fileName = UUID.randomUUID().toString() + "_" + originalFilename;
 
         try (InputStream inputStream = file.getInputStream()) {
-            // S3에 파일 업로드 (환경 변수를 통해 S3 설정을 가져옴)
-            S3Client s3 = initS3Client();  // S3Client 초기화
-            s3.putObject(PutObjectRequest.builder()
+            // S3에 파일 업로드
+            PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                     .bucket(bucketName)
                     .key(fileName)
-                    .build(),
+                    .contentType(file.getContentType())
+                    .build();
+
+            s3Client.putObject(putObjectRequest,
                     software.amazon.awssdk.core.sync.RequestBody.fromInputStream(inputStream, file.getSize()));
 
-            // 파일이 저장된 S3의 URL을 반환
-            return "https://s3." + region + ".amazonaws.com/" + bucketName + "/" + fileName;
+            // S3 URL 생성
+            String fileUrl = generateFileUrl(fileName);
+            logger.info("파일 업로드 성공: {}", fileUrl);
+            return fileUrl;
 
-        } catch (S3Exception e) {
-            throw new RuntimeException("S3에서 파일 업로드 중 오류가 발생했습니다.", e);
-        } catch (SdkClientException e) {
-            throw new RuntimeException("AWS SDK 오류가 발생했습니다.", e);
+        } catch (software.amazon.awssdk.services.s3.model.S3Exception e) {
+            logger.error("S3에서 파일 업로드 중 오류 발생: {}", e.getMessage(), e);
+            throw new S3UploadException("S3에서 파일 업로드 중 오류가 발생했습니다.", e);
+        } catch (software.amazon.awssdk.core.exception.SdkClientException e) {
+            logger.error("AWS SDK 오류 발생: {}", e.getMessage(), e);
+            throw new AwsSdkException("AWS SDK 오류가 발생했습니다.", e);
         } catch (Exception e) {
-            throw new RuntimeException("파일 업로드 중 알 수 없는 오류가 발생했습니다.", e);
+            logger.error("파일 업로드 중 알 수 없는 오류 발생: {}", e.getMessage(), e);
+            throw new FileUploadException("파일 업로드 중 알 수 없는 오류가 발생했습니다.", e);
         }
     }
 
-    public File getFile(Long id) {
-        File file = fileRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 파일입니다"));
-        return file;
+    /**
+     * 파일의 S3 URL을 생성하는 메서드
+     *
+     * @param fileName 업로드된 파일명
+     * @return 파일의 S3 URL
+     */
+    private String generateFileUrl(String fileName) {
+        return s3Client.utilities().getUrl(builder -> builder.bucket(bucketName).key(fileName)).toExternalForm();
     }
 }
