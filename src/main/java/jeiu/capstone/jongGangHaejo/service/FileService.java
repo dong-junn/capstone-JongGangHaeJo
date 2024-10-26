@@ -1,6 +1,8 @@
 package jeiu.capstone.jongGangHaejo.service;
 
 import io.awspring.cloud.s3.S3Exception;
+import jeiu.capstone.jongGangHaejo.domain.File;
+import jeiu.capstone.jongGangHaejo.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FileService {
 
+    private final FileRepository fileRepository;
 
     // application.yml에서 환경변수로 지정한 값 불러오기
     @Value("${spring.cloud.aws.s3.bucket}")
@@ -71,5 +74,11 @@ public class FileService {
         } catch (Exception e) {
             throw new RuntimeException("파일 업로드 중 알 수 없는 오류가 발생했습니다.", e);
         }
+    }
+
+    public File getFile(Long id) {
+        File file = fileRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 파일입니다"));
+        return file;
     }
 }
