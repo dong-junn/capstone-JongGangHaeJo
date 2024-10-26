@@ -19,20 +19,4 @@ async function submitNotice() {
     }
 }
 
-// 모듈을 포함시키는 함수 (header와 footer 포함)
-async function includeHTML() {
-    try {
-        const headerResponse = await fetch('module/header.html');
-        const headerHtml = await headerResponse.text();
-        document.getElementById('header').innerHTML = headerHtml;
 
-        const footerResponse = await fetch('module/footer.html');
-        const footerHtml = await footerResponse.text();
-        document.getElementById('footer').innerHTML = footerHtml;
-    } catch (error) {
-        console.error('Error loading modules:', error);
-    }
-}
-
-// 페이지 로드 시 header와 footer를 포함시킴
-includeHTML();

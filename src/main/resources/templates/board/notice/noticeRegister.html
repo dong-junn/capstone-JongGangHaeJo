@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JEIU 캡스톤 프로젝트 - 공지사항 등록</title>
-    <link rel="stylesheet" href="../../../static/css/topbot.css">
-    <link rel="stylesheet" href="../../../static/css/uploadPro.css">
-    <script src="https://kit.fontawesome.com/fff8ef1317.js" crossorigin="anonymous"></script>
-    <script src="/js/notice_register.js" defer></script>
+    <link rel="stylesheet" href="http://127.0.0.1:5500/src/main/resources/templates/layout/topbot.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/uploadPro.css">
+
+    <script src="/src/main/resources/static/js/noticeRegister.js" defer></script>
 </head>
 <body>
     <div class="header-container" id="header"></div>
@@ -38,5 +38,27 @@
     </main>
 
     <div class="footer-container" id="footer"></div>
+    <script>
+        // 헤더와 푸터를 동적으로 로드
+        async function includeHTML() {
+            try {
+                const headerResponse = await fetch('/src/main/resources/templates/layout/header.html');
+                const headerHtml = await headerResponse.text();
+                document.getElementById('header').innerHTML = headerHtml;
+
+                const footerResponse = await fetch('/src/main/resources/templates/layout/footer.html');
+                const footerHtml = await footerResponse.text();
+                document.getElementById('footer').innerHTML = footerHtml;
+            } catch (error) {
+                console.error('헤더와 푸터를 로드하는 중 오류 발생:', error);
+            }
+        }
+
+        // 페이지 로드 시 헤더와 푸터 포함
+        document.addEventListener('DOMContentLoaded', async () => {
+            await includeHTML();
+            loadNotices(); // 공지사항 로드 함수 호출
+        });
+    </script>
 </body>
 </html>

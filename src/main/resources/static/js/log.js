@@ -19,3 +19,23 @@ function enviewLogin() {
         window.location.href = 'index.html';
     }
 }
+  // 헤더와 푸터를 동적으로 로드
+  async function includeHTML() {
+    try {
+        const headerResponse = await fetch('/src/main/resources/templates/layout/header.html');
+        const headerHtml = await headerResponse.text();
+        document.getElementById('header').innerHTML = headerHtml;
+
+        const footerResponse = await fetch('/src/main/resources/templates/layout/footer.html');
+        const footerHtml = await footerResponse.text();
+        document.getElementById('footer').innerHTML = footerHtml;
+    } catch (error) {
+        console.error('헤더와 푸터를 로드하는 중 오류 발생:', error);
+    }
+}
+
+// 페이지 로드 시 헤더와 푸터 포함
+document.addEventListener('DOMContentLoaded', async () => {
+    await includeHTML();
+    loadNotices(); // 공지사항 로드 함수 호출
+});

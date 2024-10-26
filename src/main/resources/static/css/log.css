@@ -1,140 +1,134 @@
-@charset "UTF-8";
+/* Reset 기본 스타일 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.header-container,
+.footer-container {
+    display: block;
+    width: 100%;
+}
+
 
 /* Body Styling */
 body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f4f4;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    flex-direction: column; /* Flex direction to stack header, content, and footer vertically */
+    background: #f5f5f5;
+    font-family: 'Arial', sans-serif;
+    flex-direction: column;
 }
 
-/* Login Container */
+/* 로그인 영역 스타일 */
 #login {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: 100%;
-    height: calc(100vh - 80px); /* Adjust height to exclude header and footer */
-}
-
-/* Wrapper */
-.wrap {
-    background: #fff;
+    max-width: 400px;
+    background-color: #ffffff;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 400px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    padding: 40px;
+    margin-top: 20px; /* 헤더와의 여백 */
+    margin-bottom: 300px; /* 푸터와의 여백 */
 }
 
-/* Visual Section */
-.visual {
-    text-align: center;
-    background: #ff6347; /* Orange color */
-    padding: 20px;
-}
-
+/* 로고 이미지와 제목 */
 .visual h1 img {
     width: 100px;
-}
-
-/* Login Section */
-.login {
-    padding: 20px;
-    width: 100%;
-}
-
-.loginwrap {
-    text-align: center;
-}
-
-.loginwrap h2 img {
-    width: 150px;
     margin-bottom: 20px;
 }
 
-/* Login Area */
+.visual {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #ff6347;
+    border-bottom: 5px solid #e55330;
+}
+
+/* 로그인 폼 스타일 */
+.loginwrap h2 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
 .loginArea {
     margin-bottom: 20px;
-    width: 100%;
 }
 
-.loginArea fieldset {
-    border: none;
-    padding: 0;
-    width: 100%;
-}
-
+/* 입력 필드 스타일 */
 .loginArea input[type="text"],
 .loginArea input[type="password"] {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 12px;
+    margin-bottom: 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    box-sizing: border-box;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
 }
 
+.loginArea input[type="text"]:focus,
+.loginArea input[type="password"]:focus {
+    border-color: #ff6347;
+}
+
+/* 로그인 버튼 스타일 */
 .loginbtn {
-    display: inline-block;
-    background: #ff6347; /* Orange color */
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: #ff6347;
     color: #fff;
-    padding: 10px 20px;
+    border: none;
     border-radius: 5px;
-    text-decoration: none;
+    font-size: 16px;
     cursor: pointer;
     transition: background 0.3s;
+    font-weight: 700;
 }
 
 .loginbtn:hover {
     background: #e55330;
 }
 
-/* Find Area */
-.findArea,
-.registerArea {
-    text-align: left;
+/* 추가 정보 영역 스타일 */
+.findArea, .registerArea {
     margin-top: 20px;
-    width: 100%;
-}
-
-.findArea h5,
-.registerArea h5 {
-    color: #ff6347; /* Orange color */
-    font-size: 16px;
-}
-
-.findArea p,
-.registerArea p {
-    margin: 5px 0 10px;
+    padding: 15px;
+    background-color: #f8f8f8;
+    border-radius: 5px;
+    color: #666;
     font-size: 14px;
+    text-align: center;
+}
+
+.findArea h5, .registerArea h5 {
+    font-size: 16px;
+    color: #ff6347;
+    margin-bottom: 5px;
+}
+
+.findArea p, .registerArea p {
     color: #777;
+    font-size: 14px;
+    margin: 5px 0;
 }
 
-.findArea span,
-.registerArea span {
-    color: #e55330; /* Red color */
-    cursor: pointer;
-    text-decoration: underline;
-}
-
-/* General Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-a {
-    color: black;
+.findArea a, .registerArea a {
+    color: #e55330;
     text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
 }
 
-ul {
-    list-style: none;
+.findArea a:hover, .registerArea a:hover {
+    color: #ff6347;
 }
 

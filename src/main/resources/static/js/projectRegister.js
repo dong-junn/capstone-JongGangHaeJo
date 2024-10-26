@@ -27,20 +27,16 @@ async function submitProject() {
     }
 }
 
-// 모듈을 포함시키는 함수 (header와 footer 포함)
-async function includeHTML() {
-    try {
-        const headerResponse = await fetch('http://18.118.128.174:8080/docs/index.html');
-        const headerHtml = await headerResponse.text();
-        document.getElementById('header').innerHTML = headerHtml;
+ // 헤더와 푸터를 동적으로 로드하는 함수
+ async function includeHTML() {
+    const headerResponse = await fetch('http://127.0.0.1:5500/src/main/resources/templates/layout/header.html');
+    const headerHtml = await headerResponse.text();
+    document.getElementById('header').innerHTML = headerHtml;
 
-        const footerResponse = await fetch('http://18.118.128.174:8080/docs/index.html');
-        const footerHtml = await footerResponse.text();
-        document.getElementById('footer').innerHTML = footerHtml;
-    } catch (error) {
-        console.error('Error loading modules:', error);
-    }
+    const footerResponse = await fetch('http://127.0.0.1:5500/src/main/resources/templates/layout/footer.html');
+    const footerHtml = await footerResponse.text();
+    document.getElementById('footer').innerHTML = footerHtml;
 }
 
-// 페이지 로드 시 header와 footer를 포함시킴
-includeHTML();
+// 페이지 로드 시 헤더와 푸터를 로드
+document.addEventListener('DOMContentLoaded', includeHTML);

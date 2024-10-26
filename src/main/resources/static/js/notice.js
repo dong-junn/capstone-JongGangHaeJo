@@ -56,3 +56,40 @@ document.addEventListener('DOMContentLoaded', function() {
         noticeForm.reset();
     });
 });
+let isAdmin = true; // 관리자로 테스트
+
+// 공지사항 목록을 로드하는 함수
+function loadNotices() {
+    const notices = [
+        { id: 1, title: '공지사항 제목 1', content: '공지사항 내용 1입니다.', date: '2024-06-04' },
+        { id: 2, title: '공지사항 제목 2', content: '공지사항 내용 2입니다.', date: '2024-05-28' }
+    ];
+    renderNotices(notices);
+}
+
+// 공지사항을 렌더링하는 함수
+function renderNotices(notices) {
+    const noticeList = document.getElementById('notice-list');
+    noticeList.innerHTML = '';
+
+    notices.forEach(notice => {
+        const noticeItem = document.createElement('div');
+        noticeItem.classList.add('notice-item');
+        noticeItem.innerHTML = `
+            <h2>${notice.title}</h2>
+            <p>${notice.content}</p>
+            <span class="date">${notice.date}</span>
+        `;
+        noticeList.appendChild(noticeItem);
+    });
+}
+
+
+
+// 페이지 로드 시 공지사항 목록 로드 및 관리자 권한 확인
+document.addEventListener('DOMContentLoaded', () => {
+    loadNotices();
+    showAdminControls();
+});
+
+

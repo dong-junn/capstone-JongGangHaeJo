@@ -5,17 +5,12 @@ body {
     padding: 0;
     font-family: Arial, sans-serif;
     background: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    min-height: 100vh;
 }
 
 main {
     width: 100%;
     max-width: 800px;
-    margin: 20px;
+    margin: 20px auto;
     padding: 20px;
     background: #fff;
     border-radius: 10px;

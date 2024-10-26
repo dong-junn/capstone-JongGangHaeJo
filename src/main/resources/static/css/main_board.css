@@ -10,7 +10,11 @@ body {
     font-family: Arial, sans-serif; /* topbot.css 폰트 스타일 적용 */
 }
 
-
+.header-container,
+.footer-container {
+    display: block;
+    width: 100%;
+}
 
 /* Form container styling */
 .register-section {
@@ -28,7 +32,7 @@ body {
     text-align: center;
     margin-bottom: 30px;
     font-size: 28px;
-    color: #ff6347; /* 주황색 제목 */
+    color: #000000; /* 주황색 제목 */
 }
 
 .form-group {
