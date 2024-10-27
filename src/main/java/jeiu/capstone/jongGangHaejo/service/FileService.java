@@ -1,6 +1,8 @@
 package jeiu.capstone.jongGangHaejo.service;
 
+import jeiu.capstone.jongGangHaejo.domain.File;
 import jeiu.capstone.jongGangHaejo.exception.*;
+import jeiu.capstone.jongGangHaejo.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,11 +13,15 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.io.InputStream;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class FileService {
+
+    private final FileRepository fileRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(FileService.class);
 
@@ -30,6 +36,11 @@ public class FileService {
      * @param file 업로드할 파일
      * @return 업로드된 파일의 S3 URL
      */
+
+    public File saveFile(File file) {
+        return fileRepository.save(file);
+    }
+
     public String uploadFile(MultipartFile file) {
         String originalFilename = file.getOriginalFilename();
         if (originalFilename == null || originalFilename.isBlank()) {
@@ -74,5 +85,13 @@ public class FileService {
      */
     private String generateFileUrl(String fileName) {
         return s3Client.utilities().getUrl(builder -> builder.bucket(bucketName).key(fileName)).toExternalForm();
+    }
+
+    // 특정 게시물에 연결된 파일들을 조회하는 메서드
+    public List<File> getFilesByIds(List<Long> fileIds) {
+        if (fileIds == null || fileIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return fileRepository.findByFileIdIn(fileIds);
     }
 }

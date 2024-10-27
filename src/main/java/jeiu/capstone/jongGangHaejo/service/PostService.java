@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,19 +36,27 @@ public class PostService {
                 .build();
 
         // 파일 처리 및 연관 설정
-        for (MultipartFile file : files) {
-            if (!file.isEmpty()) {
-                String fileUrl = fileService.uploadFile(file); // S3에 파일 업로드 후 URL 획득
+        if (files != null && !files.isEmpty()) {
+            List<Long> fileIds = files.stream()
+                    .filter(file -> !file.isEmpty())
+                    .map(file -> {
+                        String fileUrl = fileService.uploadFile(file); // S3에 파일 업로드 후 URL 획득
 
-                File fileEntity = File.builder()
-                        .fileName(file.getOriginalFilename())
-                        .s3Path(fileUrl)
-                        .fileType(file.getContentType())
-                        .fileSize(file.getSize())
-                        .build();
+                        File fileEntity = File.builder()
+                                .fileName(file.getOriginalFilename())
+                                .s3Path(fileUrl)
+                                .fileType(file.getContentType())
+                                .fileSize(file.getSize())
+                                .build();
 
-                post.addFile(fileEntity); // 게시물과 파일의 연관 설정
-            }
+                        // 파일을 DB에 저장하고 파일 ID 반환
+                        File savedFile = fileService.saveFile(fileEntity);
+                        return savedFile.getFileId();
+                    })
+                    .collect(Collectors.toList());
+
+            // 게시물에 파일 ID 목록 설정
+            post.setFileIds(fileIds);
         }
 
         // 게시물 저장 (연관된 파일들도 함께 저장됨)
@@ -62,5 +71,11 @@ public class PostService {
      */
     public void savePost(Post post) {
         postRepository.save(post);
+    }
+
+    public Post getSinglePost(Long id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글 입니다"));
+        return post;
     }
 }
