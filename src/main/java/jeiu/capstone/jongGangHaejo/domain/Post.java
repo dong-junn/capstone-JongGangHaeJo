@@ -34,8 +34,13 @@ public class Post {
     @Column(name = "youtube_link", length = 255)
     private String youtubelink; // 유튜브 링크
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<File> files = new ArrayList<>();;  // 게시물에 첨부된 파일들
+    //CascadeType.REMOVE vs orphanRemoval = true 의 차이
+    //전자는 게시물에서 등록된 파일을 제거해도(연관 관계 삭제) 해당 파일은 그대로 DB에 남아있게 됨. (고아)
+    //후자는 파일을 제거하면, 해당 파일도 DB에서 제거되게 됨.
+    @ElementCollection
+    @CollectionTable(name = "post_file_ids", joinColumns = @JoinColumn(name = "post_id"))
+    @Column(name = "file_id")
+    private List<Long> fileIds = new ArrayList<>();  // 게시물에 첨부된 파일들
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now(); // 생성일시
@@ -50,18 +55,19 @@ public class Post {
     }
 
     @Builder //Builder패턴 사용
-    public Post(String username, String title, String content, String team, String youtubelink, List<File> files) {
+    public Post(String username, String title, String content, String team, String youtubelink, List<Long> fileIds) {
         this.username = username;
         this.title = title;
         this.content = content;
         this.team = team;
         this.youtubelink = youtubelink;
-        this.files = files != null ? files : new ArrayList<>();
+        if (fileIds != null) {
+            this.fileIds = fileIds;
+        }
     }
 
     // 파일 추가 메서드 (양방향 연관 관계 설정)
-    public void addFile(File file) {
-        files.add(file);
-        file.setPost(this);  // 파일에 게시물(Post) 설정
+    public void addFile(Long fileId) {
+        this.fileIds.add(fileId);  // 파일에 게시물(Post) 설정
     }
 }

@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -18,10 +17,10 @@ public class File {
     private Long fileId;  // Primary Key
 
     // Post 설정
-    @Setter
-    @ManyToOne(fetch = FetchType.LAZY)  // Post와 다대일 관계
-    @JoinColumn(name = "post_id")
-    private Post post;  // 게시물과의 연관관계
+//    @Setter
+//    @ManyToOne(fetch = FetchType.LAZY)  // Post와 다대일 관계
+//    @JoinColumn(name = "post_id")
+//    private Post post;  // 게시물과의 연관관계
 
     @Column(nullable = false, length = 255)
     private String fileName;  // 원래 파일 이름
@@ -41,7 +40,7 @@ public class File {
     // 빌더 패턴을 사용한 생성자
     @Builder
     public File(Post post, String fileName, String s3Path, String fileType, Long fileSize) {
-        this.post = post;
+//        this.post = post;
         this.fileName = fileName;
         this.s3Path = s3Path;
         this.fileType = fileType;
