@@ -31,8 +31,8 @@ body {
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     padding: 40px;
-    margin-top: 20px; /* 헤더와의 여백 */
-    margin-bottom: 300px; /* 푸터와의 여백 */
+    margin-top: 10px; /* 헤더와의 여백 */
+    margin-bottom: 40px; /* 푸터와의 여백 */
 }
 
 /* 로고 이미지와 제목 */

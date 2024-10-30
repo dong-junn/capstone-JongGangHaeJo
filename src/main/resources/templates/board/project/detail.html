@@ -8,7 +8,7 @@
     <script src="/src/main/resources/static/js/detail.js" defer></script>
 </head>
 <body>
-    <div id="header"></div>
+    <div class="header-container" id="header"></div>
 
     <main style="margin-top: 2%;">
         <section class="view-section">
@@ -60,7 +60,21 @@
             </div>
         </section>
     </main>
+    <div class="footer-container" id="footer"></div>
+    <script>
+        // 헤더와 푸터를 동적으로 로드
+        async function includeHTML() {
+            const headerResponse = await fetch('http://127.0.0.1:5500/src/main/resources/templates/layout/header.html');
+            const headerHtml = await headerResponse.text();
+            document.getElementById('header').innerHTML = headerHtml;
 
-    <div id="footer"></div>
+            const footerResponse = await fetch('http://127.0.0.1:5500/src/main/resources/templates/layout/footer.html');
+            const footerHtml = await footerResponse.text();
+            document.getElementById('footer').innerHTML = footerHtml;
+        }
+
+        // 페이지가 로드될 때 헤더와 푸터 포함
+        document.addEventListener('DOMContentLoaded', includeHTML);
+    </script>
 </body>
 </html>

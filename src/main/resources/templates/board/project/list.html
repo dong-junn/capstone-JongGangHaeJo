@@ -6,8 +6,7 @@
     <title>캡스톤 작품 보기</title>
 
     <link rel="stylesheet" href="http://127.0.0.1:5500/src/main/resources/templates/layout/topbot.css">
-    <link rel="stylesheet" href="../../../static/css/main_board.css">    
-
+    <link rel="stylesheet" href="../../../static/css/main_board.css">
 </head>
 <body>
     <!-- 헤더 포함 -->
@@ -17,14 +16,16 @@
         <section class="project-detail">
             <h1>캡스톤 프로젝트 리스트</h1>
             <div th:each="post : ${list}" class="project-info">
-                <img src="../../../static/img/143315.png" alt="프로젝트 이미지">
-                <div class="project-details">
-                    <h2><a th:text="${post.title}" th:href="@{/posts/read/{id}(id = ${post.id})}"></a></h2>
-                    <p>작성자: <span th:text="${post.writer}"></span></p>
-                    <p>프로젝트 설명: <span th:text="${post.content}"></span></p>
-                    <p>완성 날짜: <span th:text="${post.createdDate}"></span> </p>
-                    <p>조회수: <span th:text="${post.view}"></span></p>
-                </div>
+                <a href="../../board/project/detail.html"> <!-- detail.html로 이동 -->
+                    <img src="../../../static/img/143315.png" alt="프로젝트 이미지">
+                    <div class="project-details">
+                        <h2 th:text="${post.title}"></h2>
+                        <p>작성자: <span th:text="${post.writer}"></span></p>
+                        <p>프로젝트 설명: <span th:text="${post.content}"></span></p>
+                        <p>완성 날짜: <span th:text="${post.createdDate}"></span> </p>
+                        <p>조회수: <span th:text="${post.view}"></span></p>
+                    </div>
+                </a>
             </div>
 
             <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
@@ -38,18 +39,14 @@
     <div class="footer-container" id="footer"></div>
 
     <script>
-        // 헤더와 푸터를 동적으로 로드
         async function includeHTML() {
             const headerResponse = await fetch('http://127.0.0.1:5500/src/main/resources/templates/layout/header.html');
-            const headerHtml = await headerResponse.text();
-            document.getElementById('header').innerHTML = headerHtml;
+            document.getElementById('header').innerHTML = await headerResponse.text();
 
             const footerResponse = await fetch('http://127.0.0.1:5500/src/main/resources/templates/layout/footer.html');
-            const footerHtml = await footerResponse.text();
-            document.getElementById('footer').innerHTML = footerHtml;
+            document.getElementById('footer').innerHTML = await footerResponse.text();
         }
 
-        // 페이지가 로드될 때 헤더와 푸터 포함
         document.addEventListener('DOMContentLoaded', includeHTML);
     </script>
 </body>

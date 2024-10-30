@@ -7,12 +7,11 @@
     <link rel="stylesheet" href="http://127.0.0.1:5500/src/main/resources/templates/layout/topbot.css">
     <link rel="stylesheet" href="../../../static/css/uploadPro.css">
     <script src="/src/main/resources/static/js/projectRegister.js" defer></script>
-
 </head>
 <body>
     <div class="header-container" id="header"></div>
 
-    <main style="margin-top: 2%;">
+    <main>
         <section class="register-section">
             <h1>캡스톤 프로젝트</h1>
             <form id="register-form">
@@ -30,7 +29,7 @@
                 </div>
                 <div class="form-group">
                     <label for="projectDescription">작품 개요</label>
-                    <textarea id="projectDescription" name="content" rows="4" required></textarea>
+                    <textarea id="projectDescription" name="content" rows="6" required></textarea>
                 </div>
                 <div class="form-group">
                     <label for="yt_url">유튜브 영상 주소</label>
@@ -43,8 +42,6 @@
                 <button type="button" class="submit-button" onclick="submitProject()">등록하기</button>
             </form>
         </section>
-
-        
     </main>
 
     <div class="footer-container" id="footer"></div>
