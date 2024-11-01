@@ -9,7 +9,7 @@ spring:
     defer-datasource-initialization: true
     show-sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
@@ -19,16 +19,6 @@ spring:
       enabled: true
       max-file-size: 10MB  # 업로드할 수 있는 파일의 최대 크기 설정
       max-request-size: 10MB
-
-  cloud:
-    aws:
-      s3:
-        bucket: ${S3_BUCKET_NAME}
-      credentials:
-        access-key: ${S3_ACCESS_KEY}
-        secret-key: ${S3_SECRET_KEY}
-      region:
-        static: ap-northeast-2
 
 logging:
   level:
