@@ -30,9 +30,14 @@ public class UserRepositoryTest {
     void USER_SAVE_테스트() {
         //given
         UserFormDto form = new UserFormDto(testID, testPWD, testName);
+        User user = User.builder()
+                .id(form.getId())
+                .password(encoder.encode(form.getPassword()))
+                .name(form.getName())
+                .build();
 
         //when
-        User savedUser = userRepository.save(User.createUser(form, encoder));
+        User savedUser = userRepository.save(user);
 
         //then
         Assertions.assertThat(savedUser.getId()).isEqualTo(form.getId());
