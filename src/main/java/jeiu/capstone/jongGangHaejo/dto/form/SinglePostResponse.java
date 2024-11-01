@@ -1,4 +1,4 @@
-package jeiu.capstone.jongGangHaejo.dto.response;
+package jeiu.capstone.jongGangHaejo.dto.form;
 
 import lombok.Data;
 

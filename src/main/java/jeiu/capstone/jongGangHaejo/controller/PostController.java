@@ -3,7 +3,7 @@ package jeiu.capstone.jongGangHaejo.controller;
 import jakarta.validation.Valid;
 import jeiu.capstone.jongGangHaejo.domain.File;
 import jeiu.capstone.jongGangHaejo.domain.Post;
-import jeiu.capstone.jongGangHaejo.dto.response.SinglePostResponse;
+import jeiu.capstone.jongGangHaejo.dto.form.SinglePostResponse;
 import jeiu.capstone.jongGangHaejo.service.FileService;
 import jeiu.capstone.jongGangHaejo.service.PostService;
 import jeiu.capstone.jongGangHaejo.dto.request.PostCreateDto;
