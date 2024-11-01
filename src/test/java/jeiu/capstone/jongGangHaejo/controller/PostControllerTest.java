@@ -3,6 +3,7 @@ package jeiu.capstone.jongGangHaejo.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jeiu.capstone.jongGangHaejo.dto.request.PostCreateDto;
 import jeiu.capstone.jongGangHaejo.exception.InvalidFileNameException;
+import jeiu.capstone.jongGangHaejo.service.FileService;
 import jeiu.capstone.jongGangHaejo.service.PostService;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
@@ -31,6 +32,9 @@ class PostControllerTest {
 
     @MockBean
     private PostService postService;
+
+    @MockBean
+    private FileService fileService;
 
     @Autowired
     private ObjectMapper objectMapper;

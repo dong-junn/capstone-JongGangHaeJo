@@ -44,7 +44,7 @@ class FileServiceTest {
     }
 
     @Test
-    void uploadFile_Success() throws IOException {
+    void 파일_업로드_테스트() throws IOException {
         // given
         MockMultipartFile mockFile = new MockMultipartFile(
                 "file",
@@ -66,7 +66,7 @@ class FileServiceTest {
     }
 
     @Test
-    void uploadFile_InvalidFileName_ThrowsInvalidFileNameException() {
+    void 이름이_유효하지_않은_파일_업로드() {
         // given
         MockMultipartFile mockFile = new MockMultipartFile(
                 "file",
@@ -84,7 +84,7 @@ class FileServiceTest {
     }
 
     @Test
-    void uploadFile_S3Exception_ThrowsS3UploadException() throws IOException {
+    void S3_업로드_중_예외_발생() throws IOException {
         // given
         MockMultipartFile mockFile = new MockMultipartFile(
                 "file",
@@ -105,7 +105,7 @@ class FileServiceTest {
     }
 
     @Test
-    void uploadFile_SdkClientException_ThrowsAwsSdkException() throws IOException {
+    void AWS_SDK_예외_발생() throws IOException {
         // given
         MockMultipartFile mockFile = new MockMultipartFile(
                 "file",
@@ -126,7 +126,7 @@ class FileServiceTest {
     }
 
     @Test
-    void uploadFile_UnknownException_ThrowsFileUploadException() throws IOException {
+    void 알_수_없는_예외_발생() throws IOException {
         // given
         MockMultipartFile mockFile = new MockMultipartFile(
                 "file",

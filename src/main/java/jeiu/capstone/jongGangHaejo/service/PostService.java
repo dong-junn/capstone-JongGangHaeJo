@@ -51,8 +51,9 @@ public class PostService {
 
                         // 파일을 DB에 저장하고 파일 ID 반환
                         File savedFile = fileService.saveFile(fileEntity);
-                        return savedFile.getFileId();
+                        return savedFile != null ? savedFile.getFileId() : null;
                     })
+                    .filter(fileId -> fileId != null) // Null ID는 제외
                     .collect(Collectors.toList());
 
             // 게시물에 파일 ID 목록 설정
