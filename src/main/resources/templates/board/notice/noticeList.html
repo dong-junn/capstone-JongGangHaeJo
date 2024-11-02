@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항</title>
     <link rel="stylesheet" href="../../../static/css/notice.css">
-    <script src="/src/main/resources/static/js/notice.js" defer></script>
 </head>
 <body>
     <div class="header-container" id="header"></div>
@@ -13,20 +12,43 @@
     <main>
         <section class="notice-section">
             <h1>공지사항</h1>
-            <div class="notice-list" id="notice-list">
-                <!-- 공지사항 리스트가 추가되어야 함 -->
-            </div>
-            <div class="admin-controls">
-                <h2>공지사항 작성</h2>
-                <form id="noticeForm">
-                    <label for="title">제목</label>
-                    <input type="text" id="title" name="title" required>
-                    
-                    <label for="content">내용</label>
-                    <textarea id="content" name="content" required></textarea>
-                    
-                    <button type="button" onclick="submitNotice()">공지사항 등록</button>
-                </form>
+            <table class="notice-list" id="notice-list">
+                <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>제목</th>
+                        <th>첨부</th>
+                        <th>작성일</th>
+                        <th>조회</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 공지사항 항목 예시 -->
+                    <tr class="fixed-item">
+                        <td>공지</td>
+                        <td><a href="#">2024-1 SOFTCON 전시작품 동영상 템플릿</a></td>
+                        <td><i class="file-icon"></i></td>
+                        <td>2024-05-17</td>
+                        <td>919</td>
+                    </tr>
+                    <tr>
+                        <td>21</td>
+                        <td><a href="#">2023-2 SOFTCON 전시작품 동영상 템플릿</a></td>
+                        <td><i class="file-icon"></i></td>
+                        <td>2023-11-22</td>
+                        <td>1337</td>
+                    </tr>
+                    <!-- 동적 공지사항 항목들이 추가됨 -->
+                </tbody>
+            </table>
+            
+            <!-- Pagination -->
+            <div class="pagination">
+                <a href="#">«</a>
+                <a href="#">1</a>
+                <strong>2</strong>
+                <a href="#">3</a>
+                <a href="#">»</a>
             </div>
         </section>
     </main>
@@ -34,7 +56,6 @@
     <div class="footer-container" id="footer"></div>
 
     <script>
-        // 헤더와 푸터를 동적으로 로드
         async function includeHTML() {
             try {
                 const headerResponse = await fetch('/src/main/resources/templates/layout/header.html');
@@ -49,11 +70,7 @@
             }
         }
 
-        // 페이지 로드 시 헤더와 푸터 포함
-        document.addEventListener('DOMContentLoaded', async () => {
-            await includeHTML();
-            loadNotices(); // 공지사항 로드 함수 호출
-        });
+        document.addEventListener('DOMContentLoaded', includeHTML);
     </script>
 </body>
 </html>

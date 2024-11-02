@@ -25,7 +25,7 @@ main {
     padding-top: 10px; /* 위쪽에 약간의 패딩 추가 */
 }
 .project-detail h1 {
-    text-align: center; /* 텍스트 중앙 정렬 */
+    text-align: left; /* 텍스트 중앙 정렬 */
     margin-top: 20px; /* 상단 여백 */
     font-size: 24px;
     color: #333;
