@@ -12,10 +12,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
@@ -40,7 +40,6 @@ class PostControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    @WithMockUser
     void createPost_Success() throws Exception {
         // given
         PostCreateDto dto = new PostCreateDto();
@@ -70,6 +69,8 @@ class PostControllerTest {
                 "File 2 Content".getBytes()
         );
 
+        List<MockMultipartFile> files = List.of(file1, file2);
+
         // `createPost`는 void이므로 `doNothing()` 사용
         doNothing().when(postService).createPost(any(PostCreateDto.class), any(List.class));
 
@@ -89,7 +90,6 @@ class PostControllerTest {
     }
 
     @Test
-    @WithMockUser
     void createPost_FileServiceThrowsException_ShouldReturnErrorResponse() throws Exception {
         // given
         PostCreateDto dto = new PostCreateDto();
@@ -111,6 +111,8 @@ class PostControllerTest {
                 "text/plain",
                 "File Content".getBytes()
         );
+
+        List<MockMultipartFile> files = List.of(file);
 
         // `createPost`가 예외를 던지도록 설정 (void 메서드이므로 `doThrow()` 사용)
         doThrow(new InvalidFileNameException("파일 이름이 유효하지 않습니다."))

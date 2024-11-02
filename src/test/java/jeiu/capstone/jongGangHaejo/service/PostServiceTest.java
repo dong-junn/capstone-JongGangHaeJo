@@ -1,9 +1,9 @@
 package jeiu.capstone.jongGangHaejo.service;
 
-import jeiu.capstone.jongGangHaejo.domain.File;
 import jeiu.capstone.jongGangHaejo.domain.Post;
 import jeiu.capstone.jongGangHaejo.dto.request.PostCreateDto;
 import jeiu.capstone.jongGangHaejo.exception.InvalidFileNameException;
+import jeiu.capstone.jongGangHaejo.exception.ResourceNotFoundException;
 import jeiu.capstone.jongGangHaejo.repository.PostRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,24 +60,25 @@ class PostServiceTest {
                 "File 2 Content".getBytes()
         );
 
-        List<MockMultipartFile> files = Arrays.asList(file1, file2);
+        List<MultipartFile> files = Arrays.asList(file1, file2);
 
-        when(fileService.uploadFile(any(MockMultipartFile.class)))
-                .thenReturn("https://s3.ap-northeast-2.amazonaws.com/test-bucket/" + UUID.randomUUID().toString() + "_file1.txt",
-                        "https://s3.ap-northeast-2.amazonaws.com/test-bucket/" + UUID.randomUUID().toString() + "_file2.txt");
+        // Mock uploadFiles to return mock file IDs
+        when(fileService.uploadFiles(anyList()))
+                .thenReturn(Arrays.asList(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE,
+                        UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE));
 
-        // Mock 설정: saveFile 호출 시 File 객체 반환
-        when(fileService.saveFile(any(File.class))).thenAnswer(invocation -> {
-            File file = invocation.getArgument(0);
-            file.setFileId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE); // 고유 ID 설정
-            return file;
+        // Mock save post
+        when(postRepository.save(any(Post.class))).thenAnswer(invocation -> {
+            Post post = invocation.getArgument(0);
+            post.setPostid(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
+            return post;
         });
 
         // when
-        postService.createPost(dto, (List<MultipartFile>) (List<?>) files);
+        postService.createPost(dto, files);
 
         // then
-        verify(fileService, times(2)).uploadFile(any(MockMultipartFile.class));
+        verify(fileService, times(1)).uploadFiles(files);
         verify(postRepository, times(1)).save(postCaptor.capture());
 
         Post savedPost = postCaptor.getValue();
@@ -108,13 +109,16 @@ class PostServiceTest {
                 new byte[0]
         );
 
-        List<MockMultipartFile> files = Arrays.asList(emptyFile);
+        List<MultipartFile> files = Arrays.asList(emptyFile);
+
+        // Mock uploadFiles to return empty list
+        when(fileService.uploadFiles(anyList())).thenReturn(List.of());
 
         // when
-        postService.createPost(dto, (List<MultipartFile>) (List<?>) files);
+        postService.createPost(dto, files);
 
         // then
-        verify(fileService, never()).uploadFile(any(MockMultipartFile.class));
+        verify(fileService, times(1)).uploadFiles(files);
         verify(postRepository, times(1)).save(postCaptor.capture());
 
         Post savedPost = postCaptor.getValue();
@@ -141,19 +145,63 @@ class PostServiceTest {
                 "File Content".getBytes()
         );
 
-        List<MockMultipartFile> files = Arrays.asList(file);
+        List<MultipartFile> files = Arrays.asList(file);
 
-        when(fileService.uploadFile(any(MockMultipartFile.class)))
-                .thenThrow(new InvalidFileNameException("Invalid file name"));
+        // Mock uploadFiles to throw exception
+        when(fileService.uploadFiles(anyList()))
+                .thenThrow(new InvalidFileNameException("파일 이름이 유효하지 않습니다."));
 
         // when & then
         InvalidFileNameException exception = assertThrows(
                 InvalidFileNameException.class,
-                () -> postService.createPost(dto, (List<MultipartFile>) (List<?>) files)
+                () -> postService.createPost(dto, files)
         );
-        assertEquals("Invalid file name", exception.getMessage());
+        assertEquals("파일 이름이 유효하지 않습니다.", exception.getMessage());
 
-        verify(fileService, times(1)).uploadFile(any(MockMultipartFile.class));
+        verify(fileService, times(1)).uploadFiles(files);
         verify(postRepository, never()).save(any(Post.class));
+    }
+
+    @Test
+    void 단일_게시물_조회_테스트() {
+        // given
+        Long postId = 1L;
+        Post post = Post.builder()
+                .postid(postId)
+                .title("Test Title")
+                .content("Test Content")
+                .team("Test Team")
+                .youtubelink("https://youtube.com/test")
+                .fileIds(Arrays.asList(100L, 101L))
+                .build();
+
+        when(postRepository.findById(postId)).thenReturn(java.util.Optional.of(post));
+
+        // when
+        Post foundPost = postService.getSinglePost(postId);
+
+        // then
+        assertNotNull(foundPost);
+        assertEquals(postId, foundPost.getPostid());
+        assertEquals("Test Title", foundPost.getTitle());
+        assertEquals("Test Content", foundPost.getContent());
+        assertEquals("Test Team", foundPost.getTeam());
+        assertEquals("https://youtube.com/test", foundPost.getYoutubelink());
+        assertEquals(2, foundPost.getFileIds().size());
+    }
+
+    @Test
+    void 단일_게시물_조회_없는_경우() {
+        // given
+        Long postId = 1L;
+        when(postRepository.findById(postId)).thenReturn(java.util.Optional.empty());
+
+        // when & then
+        ResourceNotFoundException exception = assertThrows(
+                ResourceNotFoundException.class,
+                () -> postService.getSinglePost(postId)
+        );
+
+        assertEquals("게시물을 찾을 수 없습니다. 게시물 번호: " + postId, exception.getMessage());
     }
 }
