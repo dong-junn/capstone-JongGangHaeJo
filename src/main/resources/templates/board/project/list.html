@@ -17,7 +17,7 @@
             <h1>캡스톤 프로젝트 리스트</h1>
             <div th:each="post : ${list}" class="project-info">
                 <a href="../../board/project/detail.html"> <!-- detail.html로 이동 -->
-                    <img src="../../../static/img/143315.png" alt="프로젝트 이미지">
+                    <img src="../../../static/img/image.png" alt="프로젝트 이미지">
                     <div class="project-details">
                         <h2 th:text="${post.title}"></h2>
                         <p>작성자: <span th:text="${post.writer}"></span></p>
