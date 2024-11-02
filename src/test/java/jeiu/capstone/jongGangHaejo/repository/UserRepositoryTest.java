@@ -1,7 +1,7 @@
 package jeiu.capstone.jongGangHaejo.repository;
 
 import jeiu.capstone.jongGangHaejo.domain.user.User;
-import jeiu.capstone.jongGangHaejo.dto.form.UserFormDto;
+import jeiu.capstone.jongGangHaejo.dto.form.SignUpDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ public class UserRepositoryTest {
     @DisplayName("user table에 저장되는지 테스트")
     void USER_SAVE_테스트() {
         //given
-        UserFormDto form = new UserFormDto(testID, testPWD, testName);
+        SignUpDto form = new SignUpDto(testID, testPWD, testName);
         User user = User.builder()
                 .id(form.getId())
                 .password(encoder.encode(form.getPassword()))
