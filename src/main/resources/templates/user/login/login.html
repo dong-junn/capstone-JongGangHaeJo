@@ -14,58 +14,41 @@
     <!-- 로그인 폼 -->
     <div id="login">
         <div class="wrap">
-            <div class="visual">
-                <h1><img src="http://127.0.0.1:5500/src/main/resources/static/img/thumb.png" alt="게시판 로고" style="width: 250px;"></h1>
-            </div>
             <div class="login">
                 <div class="loginwrap">
                     <h2>로그인</h2>
                     <form id="LoginForm" name="LoginForm" method="post" action="/login">
                         <div class="loginArea">
-                            <fieldset>
                                 <label for="username">아이디</label>
                                 <input type="text" id="username" name="username" required>
                                 <label for="password">비밀번호</label>
                                 <input type="password" id="password" name="password" required>
                                 <button type="submit" class="loginbtn">로그인</button>
-                            </fieldset>
                         </div>
                     </form>
                     <div class="findArea">
-                        <div class="idsearch">
-                            <h5>아이디를 잊으셨나요?</h5>
-                            <p>회원님의 개인정보로<br>아이디를 찾을 수 있습니다.</p>
-                            <a href="findId.html"><span>아이디 찾기</span></a>
-                        </div>
-                        <div class="pwsearch">
-                            <h5>비밀번호를 잊으셨나요?</h5>
-                            <p>회원님의 개인정보로<br>비밀번호를 찾을 수 있습니다.</p>
-                            <a href="findpw.html"><span>비밀번호 찾기</span></a>
-                        </div>
+                        <a href="findId.html">아이디 찾기</a><br>
+                        <a href="findpw.html">비밀번호 찾기</a>
                     </div>
                     <div class="registerArea">
-                        <h5>아직 회원이 아니신가요?</h5>
-                        <p>회원가입을 통해 더 많은 서비스를<br>이용해보세요.</p>
-                        <a href="loginR.html"><span>회원가입</span></a>
+                        <a href="loginR.html">회원가입</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- 푸터 추가 -->
     <div class="footer-container" id="footer"></div>
+
     <script>
-        // 헤더와 푸터를 동적으로 로드
         async function includeHTML() {
             const headerResponse = await fetch('http://127.0.0.1:5500/src/main/resources/templates/layout/header.html');
-            const headerHtml = await headerResponse.text();
-            document.getElementById('header').innerHTML = headerHtml;
+            document.getElementById('header').innerHTML = await headerResponse.text();
 
             const footerResponse = await fetch('http://127.0.0.1:5500/src/main/resources/templates/layout/footer.html');
-            const footerHtml = await footerResponse.text();
-            document.getElementById('footer').innerHTML = footerHtml;
+            document.getElementById('footer').innerHTML = await footerResponse.text();
         }
-
-        // 페이지가 로드될 때 헤더와 푸터 포함
         document.addEventListener('DOMContentLoaded', includeHTML);
     </script>
 </body>

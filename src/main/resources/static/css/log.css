@@ -4,12 +4,6 @@
     padding: 0;
     box-sizing: border-box;
 }
-.header-container,
-.footer-container {
-    display: block;
-    width: 100%;
-}
-
 
 /* Body Styling */
 body {
@@ -17,9 +11,17 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: #f5f5f5;
+    background: #f8f8f8;
     font-family: 'Arial', sans-serif;
     flex-direction: column;
+    gap: 20px; /* 헤더와 푸터 간격 유지 */
+}
+
+.header-container,
+.footer-container {
+    display: block;
+    width: 100%;
+    padding: 10px 0; /* 헤더와 푸터에 약간의 여백 추가 */
 }
 
 /* 로그인 영역 스타일 */
@@ -30,9 +32,7 @@ body {
     border-radius: 10px;
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    padding: 40px;
-    margin-top: 10px; /* 헤더와의 여백 */
-    margin-bottom: 40px; /* 푸터와의 여백 */
+    padding: 20px;
 }
 
 /* 로고 이미지와 제목 */
@@ -41,24 +41,18 @@ body {
     margin-bottom: 20px;
 }
 
-.visual {
-    text-align: center;
-    padding: 20px 0;
-    background-color: #ff6347;
-    border-bottom: 5px solid #e55330;
-}
-
 /* 로그인 폼 스타일 */
 .loginwrap h2 {
     text-align: center;
     color: #333;
     font-size: 24px;
     margin-bottom: 20px;
-    font-weight: 700;
+    font-weight: bold;
 }
 
 .loginArea {
     margin-bottom: 20px;
+    border: none; /* 검은 테두리 제거 */
 }
 
 /* 입력 필드 스타일 */
@@ -66,17 +60,12 @@ body {
 .loginArea input[type="password"] {
     width: 100%;
     padding: 12px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    border: 2px solid #e55330;
     border-radius: 5px;
     font-size: 16px;
     outline: none;
     transition: border-color 0.3s;
-}
-
-.loginArea input[type="text"]:focus,
-.loginArea input[type="password"]:focus {
-    border-color: #ff6347;
 }
 
 /* 로그인 버튼 스타일 */
@@ -84,51 +73,32 @@ body {
     display: block;
     width: 100%;
     padding: 12px;
-    background: #ff6347;
+    background: #e55330;
     color: #fff;
     border: none;
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
     transition: background 0.3s;
-    font-weight: 700;
+    font-weight: bold;
 }
 
 .loginbtn:hover {
-    background: #e55330;
+    background: #ff6347;
 }
 
 /* 추가 정보 영역 스타일 */
 .findArea, .registerArea {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #f8f8f8;
-    border-radius: 5px;
-    color: #666;
-    font-size: 14px;
     text-align: center;
-}
-
-.findArea h5, .registerArea h5 {
-    font-size: 16px;
-    color: #ff6347;
-    margin-bottom: 5px;
-}
-
-.findArea p, .registerArea p {
-    color: #777;
-    font-size: 14px;
-    margin: 5px 0;
+    margin-top: 10px;
 }
 
 .findArea a, .registerArea a {
     color: #e55330;
     text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s;
+    font-weight: bold;
 }
 
 .findArea a:hover, .registerArea a:hover {
     color: #ff6347;
 }
-
