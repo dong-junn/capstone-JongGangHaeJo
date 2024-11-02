@@ -1,5 +1,6 @@
 package jeiu.capstone.jongGangHaejo.service;
 
+import jeiu.capstone.jongGangHaejo.domain.user.Role;
 import jeiu.capstone.jongGangHaejo.domain.user.User;
 import jeiu.capstone.jongGangHaejo.dto.form.UserFormDto;
 import jeiu.capstone.jongGangHaejo.repository.UserRepository;
@@ -23,6 +24,7 @@ public class UserService {
                 .id(form.getId())
                 .password(passwordEncoder.encode(form.getPassword()))
                 .name(form.getName())
+                .role(Role.USER)
                 .build();
 
         return userRepository.save(user);
