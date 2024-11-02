@@ -16,10 +16,10 @@ async function submitProject() {
         });
 
         if (response.ok) {
-            alert('프로젝트가 성공적으로 등록되었습니다.');
-            document.getElementById('register-form').reset();
+            window.location.href = '/projectList.html'; // 프로젝트 등록 성공 시 프로젝트 게시판으로 리다이렉트
         } else {
-            alert('프로젝트 등록에 실패했습니다. 다시 시도해주세요.');
+            const errorData = await response.json();
+            alert(`프로젝트 등록에 실패했습니다: ${errorData.message}`);
         }
     } catch (error) {
         console.error('Error submitting project:', error);
