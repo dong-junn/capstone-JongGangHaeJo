@@ -1,12 +1,11 @@
 package jeiu.capstone.jongGangHaejo.dto.form;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public class UserFormDto {
+public class SignUpDto {
 
     private final String id;
     private final String password;
