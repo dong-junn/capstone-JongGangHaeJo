@@ -3,7 +3,7 @@ package jeiu.capstone.jongGangHaejo.controller;
 import jakarta.validation.Valid;
 import jeiu.capstone.jongGangHaejo.domain.File;
 import jeiu.capstone.jongGangHaejo.domain.Post;
-import jeiu.capstone.jongGangHaejo.dto.form.SinglePostResponse;
+import jeiu.capstone.jongGangHaejo.dto.response.controllerAdvice.PostUploadExceptionDto;
 import jeiu.capstone.jongGangHaejo.service.FileService;
 import jeiu.capstone.jongGangHaejo.service.PostService;
 import jeiu.capstone.jongGangHaejo.dto.request.PostCreateDto;
@@ -57,20 +57,20 @@ public class PostController {
     }
 
     @GetMapping("/post/{postId}")
-    public SinglePostResponse getPost(@PathVariable(name = "postId") Long id) {
+    public PostUploadExceptionDto getPost(@PathVariable(name = "postId") Long id) {
         Post post = postService.getSinglePost(id); //게시물 불러오기
         List<File> files = fileService.getFilesByIds(post.getFileIds()); // 파일이 여러 개인 경우를 고려해서 리스트로 가져옴
 
         //게시물 정보 설정
-        SinglePostResponse dto = new SinglePostResponse();
+        PostUploadExceptionDto dto = new PostUploadExceptionDto();
         dto.setTitle(post.getTitle());
         dto.setContent(post.getContent());
         dto.setTeam(post.getTeam());
         dto.setYoutubelink(post.getYoutubelink());
 
         //첨부파일 설정
-        List<SinglePostResponse.FileDTO> fileDTOList = files.stream()
-                .map(file -> new SinglePostResponse.FileDTO(file.getS3Path(), file.getFileName()))
+        List<PostUploadExceptionDto.FileDTO> fileDTOList = files.stream()
+                .map(file -> new PostUploadExceptionDto.FileDTO(file.getS3Path(), file.getFileName()))
                 .collect(Collectors.toList());
         dto.setFiles(fileDTOList);
 
