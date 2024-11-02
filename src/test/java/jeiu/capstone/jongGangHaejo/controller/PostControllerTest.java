@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -40,6 +41,7 @@ class PostControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
+    @WithMockUser
     void createPost_Success() throws Exception {
         // given
         PostCreateDto dto = new PostCreateDto();
@@ -90,6 +92,7 @@ class PostControllerTest {
     }
 
     @Test
+    @WithMockUser
     void createPost_FileServiceThrowsException_ShouldReturnErrorResponse() throws Exception {
         // given
         PostCreateDto dto = new PostCreateDto();
