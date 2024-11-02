@@ -33,7 +33,7 @@ public class UserController {
     public Map<String, String> signIn(@RequestBody SignInDto form) {
         signInService.processLogin(form);
         Map<String, String> map = new HashMap<>();
-        map.put("message", "로그인에 성공");
+        map.put("message", "로그인에 성공 " + form.getUsername() + "님 환영합니다");
         return map;
     }
 }
