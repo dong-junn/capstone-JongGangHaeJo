@@ -20,16 +20,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                //권한이 없어도 아래 사항에 대하여서는 허용한다
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/error", "/favicon.ico").permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(login -> login
-                        .loginPage("/sign-in")
-                        .loginProcessingUrl("/sign-in")
-                        .defaultSuccessUrl("/")
-                        .permitAll()
-                )
+
+                //로그아웃 설정
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
@@ -37,8 +34,11 @@ public class SecurityConfig {
                         .invalidateHttpSession(true)
                         .permitAll()
                 )
-                .httpBasic(basic -> basic.disable())
-                .csrf(csrf -> csrf.disable())  // CSRF 비활성화도 추가
+
+                //REST API 관련 설정
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
