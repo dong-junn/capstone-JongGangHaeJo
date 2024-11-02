@@ -28,7 +28,7 @@ public class SignInService {
     public UserDetailsService userDetailsService(UserRepository userRepository) {
         return username -> {
             User user = userRepository.findById(username)
-                    .orElseThrow(() -> new UsernameNotFoundException(username + " 회원을 찾을 수 업습니다. 회원가입 후 진행해주세요."));
+                    .orElseThrow(() -> new UsernameNotFoundException(username + " 회원을 찾을 수 없습니다. 회원가입 후 진행해주세요."));
             return new SignInConfig(user);
         };
     }
