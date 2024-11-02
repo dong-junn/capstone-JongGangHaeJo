@@ -1,6 +1,6 @@
 package jeiu.capstone.jongGangHaejo.service;
 
-import jeiu.capstone.jongGangHaejo.domain.User;
+import jeiu.capstone.jongGangHaejo.domain.user.User;
 import jeiu.capstone.jongGangHaejo.dto.form.UserFormDto;
 import jeiu.capstone.jongGangHaejo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
