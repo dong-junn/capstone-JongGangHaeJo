@@ -1,8 +1,9 @@
 package jeiu.capstone.jongGangHaejo.service;
 
-import jeiu.capstone.jongGangHaejo.domain.File;
 import jeiu.capstone.jongGangHaejo.domain.Post;
 import jeiu.capstone.jongGangHaejo.dto.request.PostCreateDto;
+import jeiu.capstone.jongGangHaejo.exception.ResourceNotFoundException;
+import jeiu.capstone.jongGangHaejo.exception.common.CommonErrorCode;
 import jeiu.capstone.jongGangHaejo.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,42 +27,19 @@ public class PostService {
      */
     @Transactional
     public void createPost(PostCreateDto postCreateDto, List<MultipartFile> files) {
-        // 게시물 엔티티 생성
-        Post post = Post.builder()
-                .title(postCreateDto.getTitle())
-                .content(postCreateDto.getContent())
-                .team(postCreateDto.getTeam())
-                .youtubelink(postCreateDto.getYoutubelink())
-                .build();
+        // 파일 업로드 및 파일 ID 목록 획득
+        List<Long> fileIds = fileService.uploadFiles(files);
 
-        // 파일 처리 및 연관 설정
-        if (files != null && !files.isEmpty()) {
-            List<Long> fileIds = files.stream()
-                    .filter(file -> !file.isEmpty())
-                    .map(file -> {
-                        String fileUrl = fileService.uploadFile(file); // S3에 파일 업로드 후 URL 획득
+        // DTO에서 엔티티로 변환
+        Post post = postCreateDto.toEntity();
 
-                        File fileEntity = File.builder()
-                                .fileName(file.getOriginalFilename())
-                                .s3Path(fileUrl)
-                                .fileType(file.getContentType())
-                                .fileSize(file.getSize())
-                                .build();
+        // 게시물에 파일 ID 목록 설정
+        post.setFileIds(fileIds);
 
-                        // 파일을 DB에 저장하고 파일 ID 반환
-                        File savedFile = fileService.saveFile(fileEntity);
-                        return savedFile != null ? savedFile.getFileId() : null;
-                    })
-                    .filter(fileId -> fileId != null) // Null ID는 제외
-                    .collect(Collectors.toList());
-
-            // 게시물에 파일 ID 목록 설정
-            post.setFileIds(fileIds);
-        }
-
-        // 게시물 저장 (연관된 파일들도 함께 저장됨)
+        // 게시물 저장
         postRepository.save(post);
     }
+
 
     /**
      * 기존의 단순 게시물 저장 메서드.
@@ -74,9 +51,9 @@ public class PostService {
         postRepository.save(post);
     }
 
+    @Transactional(readOnly = true)
     public Post getSinglePost(Long id) {
-        Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글 입니다"));
-        return post;
+        return postRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("게시물을 찾을 수 없습니다. 게시물 번호: " + id, CommonErrorCode.RESOURCE_NOT_FOUND));
     }
 }
