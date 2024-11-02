@@ -1,11 +1,11 @@
-package jeiu.capstone.jongGangHaejo.dto.form;
+package jeiu.capstone.jongGangHaejo.dto.response.controllerAdvice;
 
 import lombok.Data;
 
 import java.util.List;
 
 @Data //@getter, @setter, @ToString 등등 종합 선물 세트
-public class SinglePostResponse {
+public class PostUploadExceptionDto {
 
     private String s3path;
     private String filename;
