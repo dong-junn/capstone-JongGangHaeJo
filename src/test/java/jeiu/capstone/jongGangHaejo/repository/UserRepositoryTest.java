@@ -1,6 +1,6 @@
 package jeiu.capstone.jongGangHaejo.repository;
 
-import jeiu.capstone.jongGangHaejo.domain.User;
+import jeiu.capstone.jongGangHaejo.domain.user.User;
 import jeiu.capstone.jongGangHaejo.dto.form.UserFormDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
