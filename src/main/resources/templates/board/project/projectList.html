@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="http://127.0.0.1:5500/src/main/resources/templates/layout/topbot.css">
     <link rel="stylesheet" href="../../../static/css/main_board.css">
+    <script src="http://127.0.0.1:5500/src/main/resources/static/js/projectList.js" defer></script>
 </head>
 <body>
     <!-- 헤더 포함 -->
@@ -16,41 +17,12 @@
         <section class="project-detail">
             <h1>캡스톤 프로젝트 리스트</h1>
             <div class="projects-container">
-                <div th:each="post : ${list}" class="project-info">
-                    <a href="../../board/project/detail.html"> <!-- detail.html로 이동 -->
-                        <img src="../../../static/img/image.png" alt="프로젝트 이미지">
-                        <div class="project-details">
-                            <h2 th:text="${post.title}"></h2>
-                            <p>작성자: <span th:text="${post.writer}"></span></p>
-                            <p>프로젝트 설명: <span th:text="${post.content}"></span></p>
-                            <p>완성 날짜: <span th:text="${post.createdDate}"></span></p>
-                            <p>조회수: <span th:text="${post.view}"></span></p>
-                        </div>
-                        <div class="detail-button">상세보기</div>
-                    </a>
-                </div>
+                <!-- 프로젝트 정보가 동적으로 추가됩니다 -->
             </div>
-
-            <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
-                <a th:if="${page != nowPage}" th:href="@{/posts/list(page = ${page - 1})}" th:text="${page}"></a>
-                <strong th:if="${page == nowPage}" th:text="${page}" style="color: red"></strong>
-            </th:block>
         </section>
     </main>
 
     <!-- 푸터 포함 -->
     <div class="footer-container" id="footer"></div>
-
-    <script>
-        async function includeHTML() {
-            const headerResponse = await fetch('http://127.0.0.1:5500/src/main/resources/templates/layout/header.html');
-            document.getElementById('header').innerHTML = await headerResponse.text();
-
-            const footerResponse = await fetch('http://127.0.0.1:5500/src/main/resources/templates/layout/footer.html');
-            document.getElementById('footer').innerHTML = await footerResponse.text();
-        }
-
-        document.addEventListener('DOMContentLoaded', includeHTML);
-    </script>
 </body>
 </html>
