@@ -1,44 +1,59 @@
 body {
     font-family: 'Arial', sans-serif;
 }
-/* main 요소의 상하 여백 추가 */
+
 main {
-    margin-top: 100px; /* 헤더와의 여백 */
-    margin-bottom: 100px; /* 푸터와의 여백 */
-    overflow-y: auto; /* 스크롤 가능하게 설정 */
-    max-height: 80vh; /* 전체 높이를 제한하여 스크롤이 나타나도록 */
+    margin-top: 100px;
+    margin-bottom: 100px;
+    overflow-y: auto;
+    max-height: 80vh;
     padding: 0 20px;
 }
+
 .header-container,
 .footer-container {
     display: block;
     width: 100%;
 }
 
-/* 리스트 항목 스타일 */
+/* 프로젝트 리스트 스타일 */
+.projects-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding-top: 10px; /* 위쪽에 약간의 패딩 추가 */
+}
+.project-detail h1 {
+    text-align: center; /* 텍스트 중앙 정렬 */
+    margin-top: 20px; /* 상단 여백 */
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px; /* 원하는 간격으로 조정 */
+}
 .project-info {
+    position: relative;
+    width: 22%;
     margin-bottom: 20px;
     border: 1px solid #ddd;
     border-radius: 8px;
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    padding: 10px;
     background-color: #f9f9f9;
-    transition: background 0.3s;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.project-info:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .project-info img {
-    width: 100px;
+    width: 100%;
     height: auto;
-    margin-right: 15px;
 }
 
-.project-info a {
-    display: flex;
-    text-decoration: none;
-    color: inherit;
-    width: 100%;
+.project-details {
+    padding: 15px;
 }
 
 .project-details h2 {
@@ -53,6 +68,26 @@ main {
     margin: 5px 0;
 }
 
-.project-info:hover {
-    background-color: #f1f1f1;
+/* 상세보기 버튼 스타일 */
+.detail-button {
+    display: none;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.project-info:hover .detail-button {
+    display: block;
+}
+
+.detail-button:hover {
+    background-color: #0056b3;
 }
