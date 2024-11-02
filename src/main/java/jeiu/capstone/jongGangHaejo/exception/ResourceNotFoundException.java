@@ -1,17 +1,17 @@
 package jeiu.capstone.jongGangHaejo.exception;
 
 /**
- * 파일 서비스 관련 예외의 기본 클래스
+ * 리소스를 찾을 수 없을 때 발생하는 예외
  */
-public class FileServiceException extends RuntimeException {
+public class ResourceNotFoundException extends RuntimeException {
     private final ErrorCode errorCode;
 
-    public FileServiceException(String message, ErrorCode errorCode) {
+    public ResourceNotFoundException(String message, ErrorCode errorCode) {
         super(message);
         this.errorCode = errorCode;
     }
 
-    public FileServiceException(String message, Throwable cause, ErrorCode errorCode) {
+    public ResourceNotFoundException(String message, Throwable cause, ErrorCode errorCode) {
         super(message, cause);
         this.errorCode = errorCode;
     }
