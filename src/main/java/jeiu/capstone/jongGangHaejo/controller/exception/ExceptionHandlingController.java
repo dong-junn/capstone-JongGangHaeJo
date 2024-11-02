@@ -114,7 +114,7 @@ public class ExceptionHandlingController {
      * @param e Exception 예외 객체
      * @return ErrorResponse를 담은 ResponseEntity
      */
-    @ExceptionHandler(Exception.class)
+    //@ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneralException(Exception e) {
         CommonErrorCode errorCode = CommonErrorCode.INTERNAL_SERVER_ERROR;
         log.error("Unhandled exception: {}", e.getMessage(), e);
