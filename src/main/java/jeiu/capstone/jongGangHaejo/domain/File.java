@@ -41,8 +41,7 @@ public class File {
 
     // 빌더 패턴을 사용한 생성자
     @Builder
-    public File(Post post, String fileName, String s3Path, String fileType, Long fileSize) {
-//        this.post = post;
+    public File(String fileName, String s3Path, String fileType, Long fileSize) {
         this.fileName = fileName;
         this.s3Path = s3Path;
         this.fileType = fileType;

@@ -55,7 +55,8 @@ public class Post {
     }
 
     @Builder //Builder패턴 사용
-    public Post(String username, String title, String content, String team, String youtubelink, List<Long> fileIds) {
+    public Post(Long postid, String username, String title, String content, String team, String youtubelink, List<Long> fileIds) {
+        this.postid = postid;
         this.username = username;
         this.title = title;
         this.content = content;

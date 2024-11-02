@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,16 +32,23 @@ public class FileService {
     private final S3Client s3Client;
 
     /**
+     * 파일을 DB에 저장합니다.
+     *
+     * @param file 저장할 파일 엔티티
+     * @return 저장된 파일 엔티티
+     */
+    public File saveFile(File file) {
+        return fileRepository.save(file);
+    }
+
+    /**
      * 파일을 S3에 업로드하고 파일 URL을 반환합니다.
      *
      * @param file 업로드할 파일
      * @return 업로드된 파일의 S3 URL
      */
 
-    public File saveFile(File file) {
-        return fileRepository.save(file);
-    }
-
+    //단일 파일를 업로드하는 메서드, 내부적으로만 사용됨
     public String uploadFile(MultipartFile file) {
         String originalFilename = file.getOriginalFilename();
         if (originalFilename == null || originalFilename.isBlank()) {
@@ -87,7 +95,45 @@ public class FileService {
         return s3Client.utilities().getUrl(builder -> builder.bucket(bucketName).key(fileName)).toExternalForm();
     }
 
-    // 특정 게시물에 연결된 파일들을 조회하는 메서드
+    /**
+     * 게시물 ID와 파일 목록을 받아 파일을 업로드하고 DB에 저장한 후 파일 ID 목록을 반환합니다.
+     *
+     * @param files 업로드할 파일 목록
+     * @return 저장된 파일의 ID 목록
+     */
+
+    //다중 파일을 업로드하는 메서드, 이를 주로 사용함
+    public List<Long> uploadFiles(List<MultipartFile> files) {
+        if (files == null || files.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return files.stream()
+                .filter(file -> !file.isEmpty())
+                .map(file -> {
+                    String fileUrl = uploadFile(file); // S3에 파일 업로드 후 URL 획득
+
+                    File fileEntity = File.builder()
+                            .fileName(file.getOriginalFilename())
+                            .s3Path(fileUrl)
+                            .fileType(file.getContentType())
+                            .fileSize(file.getSize())
+                            .build();
+
+                    // 파일을 DB에 저장하고 파일 ID 반환
+                    File savedFile = saveFile(fileEntity);
+                    return savedFile != null ? savedFile.getFileId() : null;
+                })
+                .filter(fileId -> fileId != null) // Null ID는 제외
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 특정 게시물에 연결된 파일들을 조회하는 메서드
+     *
+     * @param fileIds 파일 ID 목록
+     * @return 파일 목록
+     */
     public List<File> getFilesByIds(List<Long> fileIds) {
         if (fileIds == null || fileIds.isEmpty()) {
             return Collections.emptyList();
