@@ -1,5 +1,6 @@
 package jeiu.capstone.jongGangHaejo.controller;
 
+import jakarta.validation.Valid;
 import jeiu.capstone.jongGangHaejo.dto.form.user.SignInDto;
 import jeiu.capstone.jongGangHaejo.dto.form.user.SignUpDto;
 import jeiu.capstone.jongGangHaejo.service.user.SignInService;
@@ -22,7 +23,7 @@ public class UserController {
     private final SignInService signInService;
 
     @PostMapping("/sign-up")
-    public Map<String, String> singUp(@RequestBody SignUpDto form) {
+    public Map<String, String> singUp(@RequestBody @Valid SignUpDto form) {
         signUpService.createUser(form);
         Map<String, String> map = new HashMap<>();
         map.put("message", "종강해조 게시판의 회원이 되신 것을 환영합니다!");
