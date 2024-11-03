@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping("/sign-in")
-    public Map<String, String> signIn(@RequestBody SignInDto form) {
+    public Map<String, String> signIn(@RequestBody @Valid SignInDto form) {
         signInService.processLogin(form);
         Map<String, String> map = new HashMap<>();
         map.put("message", "로그인에 성공 하였습니다");
