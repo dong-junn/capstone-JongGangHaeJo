@@ -1,54 +1,79 @@
 package jeiu.capstone.jongGangHaejo.controller;
 
 import jakarta.validation.Valid;
+import jeiu.capstone.jongGangHaejo.domain.File;
+import jeiu.capstone.jongGangHaejo.domain.Post;
+import jeiu.capstone.jongGangHaejo.dto.response.controllerAdvice.PostUploadExceptionDto;
+import jeiu.capstone.jongGangHaejo.service.FileService;
+import jeiu.capstone.jongGangHaejo.service.PostService;
+import jeiu.capstone.jongGangHaejo.dto.request.PostCreateDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import jeiu.capstone.jongGangHaejo.dto.request.PostCreateDto;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@RequiredArgsConstructor //생성자 lombok
-@Slf4j //logging을 위한 lombok
-@RestController //RestAPI로 응답하기 위함
+@RequiredArgsConstructor // 생성자 주입을 위한 Lombok 어노테이션
+@Slf4j // 로깅을 위한 Lombok 어노테이션
+@RestController // REST API 컨트롤러
 public class PostController {
 
-    //Hello World가 브라우저에 출력된다(text/plain형식)
+    private final PostService postService;
+    private final FileService fileService;
+
+    /**
+     * 테스트 엔드포인트
+     */
     @GetMapping("/test")
     public String getTest() {
         return "안녕하세요 종강해조 프로젝트입니다";
     }
 
-    @PostMapping("/test")
-    public String postTest() {
-        return "안녕하세요 종강해조 프로젝트입니다";
+    /**
+     * 게시물 생성 엔드포인트
+     *
+     * @param postCreateDto 게시물 생성 DTO
+     * @param files         업로드할 파일 목록
+     * @return 응답 메시지
+     */
+    @PostMapping("/post")
+    public ResponseEntity<Map<String, String>> createPost(
+            @Valid @RequestPart("post") PostCreateDto postCreateDto, // 게시물 데이터
+            @RequestPart("files") List<MultipartFile> files // 첨부 파일들
+    ) {
+        // 게시물 데이터 로깅
+        log.info("게시물 작성 요청 / 제목: {}, 팀: {}", postCreateDto.getTitle(), postCreateDto.getTeam());
+        // 각 파일의 이름과 크기 로깅
+        files.forEach(file -> log.info("제공된 파일 명: {}, 크기: {} bytes", file.getOriginalFilename(), file.getSize()));
+        // 서비스 계층으로 게시물 생성 요청 위임
+        postService.createPost(postCreateDto, files);
+
+        // 성공 메시지 반환
+        return ResponseEntity.ok(Map.of("message", "게시물이 성공적으로 생성되었습니다."));
     }
 
-/*
-    @PostMapping("/test")
-    public String postTest(@RequestParam String title, @RequestParam String content) {
-        log.info("title={}, content={}", title, content);
-        return "Hello World";
-    }
- */
+    @GetMapping("/post/{postId}")
+    public PostUploadExceptionDto getPost(@PathVariable(name = "postId") Long id) {
+        Post post = postService.getSinglePost(id); //게시물 불러오기
+        List<File> files = fileService.getFilesByIds(post.getFileIds()); // 파일이 여러 개인 경우를 고려해서 리스트로 가져옴
 
-/*
-    @PostMapping("/test")  //Map을 이용하여 넘기는 방법도 있다
-    public String postTest(@RequestParam Map<String, String> params) {
-        log.info("params={}", params);
-        String title = params.get("title"); //추후 맵에서 꺼내 사용할 수도 있다
-        return "Hello World";
-    }
-    //클래스를 정의하여 넘기는 방법이 조금 더 유지보수 하기 좋아보인다 -> dto.request 패키지에 정의하겠음
- */
+        //게시물 정보 설정
+        PostUploadExceptionDto dto = new PostUploadExceptionDto();
+        dto.setTitle(post.getTitle());
+        dto.setContent(post.getContent());
+        dto.setTeam(post.getTeam());
+        dto.setYoutubelink(post.getYoutubelink());
 
-    //DTO를 통해 값을 가져오는 방식
-    @PostMapping("/post") //if문을 통해 예외를 던지는 방식대신 Dto에 @NotBlank를 걸고 @Valid를 통해 검증하는 방식 채택
-    public Map<String, String> post(@RequestBody @Valid PostCreateDto params) {
-        return Map.of();
+        //첨부파일 설정
+        List<PostUploadExceptionDto.FileDTO> fileDTOList = files.stream()
+                .map(file -> new PostUploadExceptionDto.FileDTO(file.getS3Path(), file.getFileName()))
+                .collect(Collectors.toList());
+        dto.setFiles(fileDTOList);
+
+        return dto;
     }
 }

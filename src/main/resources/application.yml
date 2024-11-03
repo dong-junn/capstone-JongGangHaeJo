@@ -1,29 +1,36 @@
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-
-# AWS RDS로 추후 세팅해야 함
   datasource:
-    url: jdbc:h2:tcp://localhost/~/test
-    username: sa
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://${DB_URL}:${DB_PORT}/capstone
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
     defer-datasource-initialization: true
     show-sql: true
     hibernate:
       ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
 
-cloud:
-  aws:
-    s3:
-      bucket: jeiucap-bucket
-    credentials:
-      access-key: ${access}
-      secret-key: ${secret}
-    region:
-      static: ap-northeast-2
-      auto: false
-    stack:
-      auto: false
+  cloud:
+    aws:
+      s3:
+        bucket: ${S3_BUCKET_NAME}
+      credentials:
+        access-key: ${AWS_ACCESS_KEY_ID}
+        secret-key: ${AWS_SECRET_ACCESS_KEY}
+      region:
+        static: ap-northeast-2
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB  # 업로드할 수 있는 파일의 최대 크기 설정
+      max-request-size: 10MB
+
+logging:
+  level:
+    org.apache.coyote.http11: trace
+    org.springframework.web.multipart: debug

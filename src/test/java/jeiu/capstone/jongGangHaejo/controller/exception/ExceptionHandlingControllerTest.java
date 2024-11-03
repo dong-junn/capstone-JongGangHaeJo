@@ -1,12 +1,11 @@
-package jeiu.capstone.jongGangHaejo.controller;
+package jeiu.capstone.jongGangHaejo.controller.exception;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import jeiu.capstone.jongGangHaejo.controller.PostController;
 import jeiu.capstone.jongGangHaejo.dto.request.PostCreateDto;
 import jeiu.capstone.jongGangHaejo.exception.InvalidFileNameException;
 import jeiu.capstone.jongGangHaejo.service.FileService;
 import jeiu.capstone.jongGangHaejo.service.PostService;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -14,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(PostController.class)
-class PostControllerTest {
+class ExceptionHandlingControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -41,7 +42,7 @@ class PostControllerTest {
 
     @Test
     @WithMockUser
-    void 게시물_생성_테스트() throws Exception {
+    void createPost_Success() throws Exception {
         // given
         PostCreateDto dto = new PostCreateDto();
         dto.setTitle("Test Title");
@@ -70,8 +71,6 @@ class PostControllerTest {
                 "File 2 Content".getBytes()
         );
 
-        List<MockMultipartFile> files = List.of(file1, file2);
-
         // `createPost`는 void이므로 `doNothing()` 사용
         doNothing().when(postService).createPost(any(PostCreateDto.class), any(List.class));
 
@@ -87,12 +86,13 @@ class PostControllerTest {
                 .andExpect(jsonPath("$.message").value("게시물이 성공적으로 생성되었습니다."));
 
         // verify
-        Mockito.verify(postService, Mockito.times(1)).createPost(any(PostCreateDto.class), any(List.class));
+        // PostService.createPost가 정확히 한 번 호출되었는지 검증
+        org.mockito.Mockito.verify(postService, org.mockito.Mockito.times(1)).createPost(any(PostCreateDto.class), any(List.class));
     }
 
     @Test
     @WithMockUser
-    void 게시물_생성_유효하지_않은_파일명() throws Exception {
+    void createPost_FileServiceThrowsException_ShouldReturnErrorResponse() throws Exception {
         // given
         PostCreateDto dto = new PostCreateDto();
         dto.setTitle("Test Title");
@@ -132,6 +132,6 @@ class PostControllerTest {
                 .andExpect(jsonPath("$.message").value("올바르지 않은 파라미터입니다."));
 
         // verify
-        Mockito.verify(postService, Mockito.times(1)).createPost(any(PostCreateDto.class), any(List.class));
+        org.mockito.Mockito.verify(postService, org.mockito.Mockito.times(1)).createPost(any(PostCreateDto.class), any(List.class));
     }
 }

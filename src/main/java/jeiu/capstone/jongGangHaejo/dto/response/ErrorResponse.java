@@ -1,32 +1,30 @@
+// package: jeiu.capstone.jongGangHaejo.dto.response
+
 package jeiu.capstone.jongGangHaejo.dto.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 예시 JSON
- * {
- *     "code": "400",
- *     "message": "Client 에러",
- *     "validation" {
- *         "title": "값이 비었습니다 값은 필수 값 입니다"
- *     }
- * }
- * 와 같은 JSON 응답 값을 만들기 위한 Class이다
+ * 오류 응답을 위한 DTO
  */
 @Getter
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class ErrorResponse {
+    private int code;
+    private String message;
+    private Map<String, String> validation;
 
-    private final String code;
-    private final String message;
+    public ErrorResponse(int code, String message) {
+        this.code = code;
+        this.message = message;
+    }
 
-    private Map<String, String> validation = new HashMap<>();
-
-    public void addValidation(String fieldName, String errorMessage) {
-        this.validation.put(fieldName, errorMessage);
+    public void setValidation(Map<String, String> validation) {
+        this.validation = validation;
     }
 }
