@@ -53,7 +53,13 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public Post getSinglePost(Long id) {
-        return postRepository.findById(id)
+        Post post = postRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("게시물을 찾을 수 없습니다. 게시물 번호: " + id, CommonErrorCode.RESOURCE_NOT_FOUND));
+
+        // 조회수 증가
+        postRepository.incrementViewCount(id);
+
+        // 조회된 게시물 반환
+        return post;
     }
 }
