@@ -18,6 +18,12 @@ body {
 }
 
 /* View container styling */
+/* 좋아요와 댓글 수 아이콘 스타일 */
+.project-actions span {
+    font-size: 18px;
+    color: #333;
+    margin-right: 15px;
+}
 .view-section {
     width: 90%;
     max-width: 800px;
@@ -36,7 +42,7 @@ body {
     font-size: 28px;
     color: #333;
     font-weight: bold;
-    border-bottom: 2px solid #007bff;
+    border-bottom: 2px solid #f39e0c;
     padding-bottom: 10px;
 }
 
@@ -71,14 +77,39 @@ body {
     color: #666;
 }
 
-/* Comment section styling */
-.comments-section {
-    margin-top: 40px;
-    width: 100%;
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+/* 댓글 입력 섹션 스타일 */
+.comment-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+#commentInput {
+    flex: 4;
+    height: 100px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    resize: none;
+}
+
+#submitComment {
+    flex: 1;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #ff8c00;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#submitComment:hover {
+    background-color: #e67300;
 }
 
 .comments-section h2 {
