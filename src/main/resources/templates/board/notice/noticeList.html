@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항</title>
     <link rel="stylesheet" href="../../../static/css/notice.css">
+    <script src="http://127.0.0.1:5500/src/main/resources/static/js/noticeList.js" defer></script>
 </head>
 <body>
     <div class="header-container" id="header"></div>
@@ -23,6 +24,7 @@
                     </tr>
                 </thead>
                 <tbody>
+<<<<<<< HEAD
                     <!-- 공지사항 항목 예시 -->
                     <tr class="fixed-item">
                         <td>공지</td>
@@ -50,27 +52,14 @@
                 <a href="#">3</a>
                 <a href="#">»</a>
             </div>
+=======
+                    <!-- 동적 공지사항 항목들이 추가됨 -->
+                </tbody>
+            </table>
+>>>>>>> 2f40a65955cb7cadc0dfd2082d8f6fb78602bd65
         </section>
     </main>
 
     <div class="footer-container" id="footer"></div>
-
-    <script>
-        async function includeHTML() {
-            try {
-                const headerResponse = await fetch('/src/main/resources/templates/layout/header.html');
-                const headerHtml = await headerResponse.text();
-                document.getElementById('header').innerHTML = headerHtml;
-
-                const footerResponse = await fetch('/src/main/resources/templates/layout/footer.html');
-                const footerHtml = await footerResponse.text();
-                document.getElementById('footer').innerHTML = footerHtml;
-            } catch (error) {
-                console.error('헤더와 푸터를 로드하는 중 오류 발생:', error);
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', includeHTML);
-    </script>
 </body>
 </html>
