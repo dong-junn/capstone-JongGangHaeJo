@@ -23,7 +23,7 @@ public class SignUpService {
         User user = User.builder()
                 .id(form.getId())
                 .password(passwordEncoder.encode(form.getPassword()))
-                .name(form.getName())
+                .name(form.getUsername())
                 .role(Role.ROLE_USER)
                 .build();
 

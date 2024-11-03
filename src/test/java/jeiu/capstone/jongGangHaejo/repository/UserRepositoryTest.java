@@ -33,7 +33,7 @@ public class UserRepositoryTest {
         User user = User.builder()
                 .id(form.getId())
                 .password(encoder.encode(form.getPassword()))
-                .name(form.getName())
+                .name(form.getUsername())
                 .build();
 
         //when
@@ -42,7 +42,7 @@ public class UserRepositoryTest {
         //then
         Assertions.assertThat(savedUser.getId()).isEqualTo(form.getId());
         Assertions.assertThat(encoder.matches(form.getPassword(), savedUser.getPassword())).isTrue();
-        Assertions.assertThat(savedUser.getName()).isEqualTo(form.getName());
+        Assertions.assertThat(savedUser.getName()).isEqualTo(form.getUsername());
 
     }
 }

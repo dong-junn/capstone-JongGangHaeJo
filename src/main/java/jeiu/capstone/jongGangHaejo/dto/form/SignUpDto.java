@@ -9,5 +9,5 @@ public class SignUpDto {
 
     private final String id;
     private final String password;
-    private final String name;
+    private final String username;
 }
