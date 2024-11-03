@@ -25,6 +25,7 @@ main {
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    justify-content: space-between; /* 컨텐츠와 pagination 사이 공간 배분 */
 }
 
 .notice-section {
@@ -87,7 +88,8 @@ main {
 .pagination {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: auto; /* 내용이 많을 때 아래쪽으로 이동 */
+    margin-bottom: 20px; /* footer와의 간격 */
 }
 
 .pagination a, .pagination strong {
