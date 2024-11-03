@@ -1,6 +1,7 @@
 package jeiu.capstone.jongGangHaejo.domain;
 
 import jakarta.persistence.*;
+import jeiu.capstone.jongGangHaejo.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,10 @@ public class Post {
 
     @Column(name = "youtube_link", length = 255)
     private String youtubelink; // 유튜브 링크
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     //CascadeType.REMOVE vs orphanRemoval = true 의 차이
     //전자는 게시물에서 등록된 파일을 제거해도(연관 관계 삭제) 해당 파일은 그대로 DB에 남아있게 됨. (고아)
