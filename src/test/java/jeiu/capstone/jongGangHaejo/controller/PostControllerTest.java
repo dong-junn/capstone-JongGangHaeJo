@@ -16,7 +16,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
-import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
@@ -42,7 +41,7 @@ class PostControllerTest {
 
     @Test
     @WithMockUser
-    void createPost_Success() throws Exception {
+    void 게시물_생성_테스트() throws Exception {
         // given
         PostCreateDto dto = new PostCreateDto();
         dto.setTitle("Test Title");
@@ -93,7 +92,7 @@ class PostControllerTest {
 
     @Test
     @WithMockUser
-    void createPost_FileServiceThrowsException_ShouldReturnErrorResponse() throws Exception {
+    void 게시물_생성_유효하지_않은_파일명() throws Exception {
         // given
         PostCreateDto dto = new PostCreateDto();
         dto.setTitle("Test Title");
@@ -129,8 +128,8 @@ class PostControllerTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .with(csrf()))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value("400"))
-                .andExpect(jsonPath("$.message").value("파일 이름이 유효하지 않습니다."));
+                .andExpect(jsonPath("$.code").value("4001"))
+                .andExpect(jsonPath("$.message").value("올바르지 않은 파라미터입니다."));
 
         // verify
         Mockito.verify(postService, Mockito.times(1)).createPost(any(PostCreateDto.class), any(List.class));
