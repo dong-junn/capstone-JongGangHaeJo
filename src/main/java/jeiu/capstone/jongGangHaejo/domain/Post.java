@@ -42,6 +42,8 @@ public class Post {
     @Column(name = "file_id")
     private List<Long> fileIds = new ArrayList<>();  // 게시물에 첨부된 파일들
 
+    private Long viewCount = 0L; //조회수
+
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now(); // 생성일시
 
@@ -55,16 +57,18 @@ public class Post {
     }
 
     @Builder //Builder패턴 사용
-    public Post(Long postid, String username, String title, String content, String team, String youtubelink, List<Long> fileIds) {
+    public Post(Long postid, String username, String title, String content, String team, String youtubelink, List<Long> fileIds, Long viewCount) {
         this.postid = postid;
         this.username = username;
         this.title = title;
         this.content = content;
         this.team = team;
         this.youtubelink = youtubelink;
-        if (fileIds != null) {
-            this.fileIds = fileIds;
-        }
+//        if (fileIds != null) {
+//            this.fileIds = fileIds;
+//        }
+        this.fileIds = fileIds;
+        this.viewCount = (viewCount != null) ? viewCount : 0L;
     }
 
     // 파일 추가 메서드 (양방향 연관 관계 설정)
