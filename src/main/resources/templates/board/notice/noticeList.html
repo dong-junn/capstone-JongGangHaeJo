@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항</title>
     <link rel="stylesheet" href="../../../static/css/notice.css">
+    <script src="http://127.0.0.1:5500/src/main/resources/static/js/noticeList.js" defer></script>
 </head>
 <body>
     <div class="header-container" id="header"></div>
@@ -23,54 +24,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- 공지사항 항목 예시 -->
-                    <tr class="fixed-item">
-                        <td>공지</td>
-                        <td><a href="#">2024-1 SOFTCON 전시작품 동영상 템플릿</a></td>
-                        <td><i class="file-icon"></i></td>
-                        <td>2024-05-17</td>
-                        <td>919</td>
-                    </tr>
-                    <tr>
-                        <td>21</td>
-                        <td><a href="#">2023-2 SOFTCON 전시작품 동영상 템플릿</a></td>
-                        <td><i class="file-icon"></i></td>
-                        <td>2023-11-22</td>
-                        <td>1337</td>
-                    </tr>
                     <!-- 동적 공지사항 항목들이 추가됨 -->
                 </tbody>
             </table>
-            
-            <!-- Pagination -->
-            <div class="pagination">
-                <a href="#">«</a>
-                <a href="#">1</a>
-                <strong>2</strong>
-                <a href="#">3</a>
-                <a href="#">»</a>
-            </div>
         </section>
     </main>
 
     <div class="footer-container" id="footer"></div>
-
-    <script>
-        async function includeHTML() {
-            try {
-                const headerResponse = await fetch('/src/main/resources/templates/layout/header.html');
-                const headerHtml = await headerResponse.text();
-                document.getElementById('header').innerHTML = headerHtml;
-
-                const footerResponse = await fetch('/src/main/resources/templates/layout/footer.html');
-                const footerHtml = await footerResponse.text();
-                document.getElementById('footer').innerHTML = footerHtml;
-            } catch (error) {
-                console.error('헤더와 푸터를 로드하는 중 오류 발생:', error);
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', includeHTML);
-    </script>
 </body>
 </html>
