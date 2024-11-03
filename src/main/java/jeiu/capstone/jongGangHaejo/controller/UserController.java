@@ -1,13 +1,10 @@
 package jeiu.capstone.jongGangHaejo.controller;
 
-import jeiu.capstone.jongGangHaejo.domain.user.User;
-import jeiu.capstone.jongGangHaejo.dto.form.SignInDto;
-import jeiu.capstone.jongGangHaejo.dto.form.SignUpDto;
-import jeiu.capstone.jongGangHaejo.repository.UserRepository;
+import jeiu.capstone.jongGangHaejo.dto.form.user.SignInDto;
+import jeiu.capstone.jongGangHaejo.dto.form.user.SignUpDto;
 import jeiu.capstone.jongGangHaejo.service.user.SignInService;
 import jeiu.capstone.jongGangHaejo.service.user.SignUpService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

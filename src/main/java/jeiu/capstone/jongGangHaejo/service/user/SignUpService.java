@@ -2,7 +2,7 @@ package jeiu.capstone.jongGangHaejo.service.user;
 
 import jeiu.capstone.jongGangHaejo.domain.user.Role;
 import jeiu.capstone.jongGangHaejo.domain.user.User;
-import jeiu.capstone.jongGangHaejo.dto.form.SignUpDto;
+import jeiu.capstone.jongGangHaejo.dto.form.user.SignUpDto;
 import jeiu.capstone.jongGangHaejo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

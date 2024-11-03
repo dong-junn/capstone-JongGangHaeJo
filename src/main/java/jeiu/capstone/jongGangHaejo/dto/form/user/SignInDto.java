@@ -1,4 +1,4 @@
-package jeiu.capstone.jongGangHaejo.dto.form;
+package jeiu.capstone.jongGangHaejo.dto.form.user;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

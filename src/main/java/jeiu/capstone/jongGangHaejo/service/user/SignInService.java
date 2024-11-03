@@ -2,7 +2,7 @@ package jeiu.capstone.jongGangHaejo.service.user;
 
 import jeiu.capstone.jongGangHaejo.config.SignInConfig;
 import jeiu.capstone.jongGangHaejo.domain.user.User;
-import jeiu.capstone.jongGangHaejo.dto.form.SignInDto;
+import jeiu.capstone.jongGangHaejo.dto.form.user.SignInDto;
 import jeiu.capstone.jongGangHaejo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
