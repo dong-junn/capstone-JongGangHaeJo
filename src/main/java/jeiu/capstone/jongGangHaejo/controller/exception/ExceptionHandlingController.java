@@ -124,4 +124,14 @@ public class ExceptionHandlingController {
 
         return new ResponseEntity<>(errorResponse, errorCode.getHttpStatus());
     }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ErrorResponse> handleUnauthorizedException(UnauthorizedException e) {
+        CommonErrorCode errorCode = e.getErrorCode();
+        log.error("UnauthorizedException: {}", e.getMessage(), e);
+
+        ErrorResponse errorResponse = new ErrorResponse(errorCode.getCode(), e.getMessage());
+
+        return new ResponseEntity<>(errorResponse, errorCode.getHttpStatus());
+    }
 }

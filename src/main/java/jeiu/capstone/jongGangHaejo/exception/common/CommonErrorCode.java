@@ -16,6 +16,7 @@ public enum CommonErrorCode implements ErrorCode {
     INVALID_FORMAT_ERROR(HttpStatus.BAD_REQUEST, 4002, "올바르지 않은 포맷입니다."),
     INVALID_TYPE_ERROR(HttpStatus.BAD_REQUEST, 4003, "올바르지 않은 타입입니다."),
     MISSING_REQUIRED_PARAMETER(HttpStatus.BAD_REQUEST, 4004, "필수 파라미터가 없습니다."),
+    UNAUTHORIZED_ERROR(HttpStatus.UNAUTHORIZED,4010, "인증되지 않았거나 권한이 없습니다."),
     AUTHENTICATION_FAILED(HttpStatus.UNAUTHORIZED, 4011, "인증에 실패했습니다."),
     AUTHORIZATION_FAILED(HttpStatus.FORBIDDEN, 4031, "권한이 없습니다."),
     RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, 4041, "요청한 게시물을 찾을 수 없습니다. 게시물 번호: {0}"),
