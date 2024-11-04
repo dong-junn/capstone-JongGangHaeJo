@@ -3,6 +3,7 @@ package jeiu.capstone.jongGangHaejo.controller;
 import jakarta.validation.Valid;
 import jeiu.capstone.jongGangHaejo.domain.File;
 import jeiu.capstone.jongGangHaejo.domain.Post;
+import jeiu.capstone.jongGangHaejo.dto.request.PostUpdateDto;
 import jeiu.capstone.jongGangHaejo.dto.response.controllerAdvice.PostUploadExceptionDto;
 import jeiu.capstone.jongGangHaejo.service.FileService;
 import jeiu.capstone.jongGangHaejo.service.PostService;
@@ -10,6 +11,7 @@ import jeiu.capstone.jongGangHaejo.dto.request.PostCreateDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,6 +58,21 @@ public class PostController {
         return ResponseEntity.ok(Map.of("message", "게시물이 성공적으로 생성되었습니다."));
     }
 
+    @PutMapping("/post/{postId}")
+    public ResponseEntity<Map<String, String>> updatePost(
+            @PathVariable Long postId,
+            @Validated @RequestPart("post") PostUpdateDto postUpdateDto,
+            @RequestPart(value = "files", required = false) List<MultipartFile> files
+    ) {
+        log.info("게시물 수정 요청 / 게시물 ID: {}, 제목: {}, 팀: {}", postId, postUpdateDto.getTitle(), postUpdateDto.getTeam());
+        if (files != null) {
+            files.forEach(file -> log.info("제공된 파일 명: {}, 크기: {} bytes", file.getOriginalFilename(), file.getSize()));
+        }
+        postService.updatePost(postId, postUpdateDto, files);
+
+        return ResponseEntity.ok(Map.of("message", "게시물이 성공적으로 수정되었습니다."));
+    }
+
     @GetMapping("/post/{postId}")
     public PostUploadExceptionDto getPost(@PathVariable(name = "postId") Long id) {
         Post post = postService.getSinglePost(id); //게시물 불러오기
@@ -75,5 +92,15 @@ public class PostController {
         dto.setFiles(fileDTOList);
 
         return dto;
+    }
+
+    @DeleteMapping("/post/{postId}")
+    public ResponseEntity<Map<String, String>> deletePost(
+            @PathVariable Long postId
+    ) {
+        log.info("게시물 삭제 요청 / 게시물 ID : {}", postId);
+        postService.deletePost(postId);
+        return ResponseEntity.ok(Map.of("message", "게시물이 성공적으로 삭제되었습니다."));
+
     }
 }

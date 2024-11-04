@@ -145,4 +145,6 @@ class PostServiceTest {
         verify(postRepository, times(1)).findById(postId);
         verify(postRepository, never()).incrementViewCount(anyLong());
     }
+
+
 }

@@ -2,10 +2,14 @@ package jeiu.capstone.jongGangHaejo.service;
 
 import jeiu.capstone.jongGangHaejo.domain.Post;
 import jeiu.capstone.jongGangHaejo.dto.request.PostCreateDto;
+import jeiu.capstone.jongGangHaejo.dto.request.PostUpdateDto;
 import jeiu.capstone.jongGangHaejo.exception.ResourceNotFoundException;
+import jeiu.capstone.jongGangHaejo.exception.UnauthorizedException;
 import jeiu.capstone.jongGangHaejo.exception.common.CommonErrorCode;
 import jeiu.capstone.jongGangHaejo.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,6 +45,41 @@ public class PostService {
     }
 
 
+    @Transactional
+    public void updatePost(Long postId, PostUpdateDto postUpdateDto, List<MultipartFile> files) {
+        // 게시물 조회
+        Post exPost = postRepository.findById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException("게시물을 찾을 수 없습니다. 게시물 번호: " + postId, CommonErrorCode.RESOURCE_NOT_FOUND));
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+
+        if (!exPost.getUsername().equals(currentUsername)) {
+            throw new UnauthorizedException("게시물을 수정할 권한이 없습니다.", CommonErrorCode.UNAUTHORIZED_ERROR);
+        }
+
+        // 게시물 필드 업데이트
+        exPost.setTitle(postUpdateDto.getTitle());
+        exPost.setContent(postUpdateDto.getContent());
+        exPost.setTeam(postUpdateDto.getTeam());
+        exPost.setYoutubelink(postUpdateDto.getYoutubelink());
+
+        // 파일 관리
+        if (files != null && !files.isEmpty()) {
+            // 기존 파일 삭제 (필요 시)
+            List<Long> exFileIds = exPost.getFileIds();
+            fileService.deleteFiles(exFileIds);
+
+            // 새로운 파일 업로드
+            List<Long> newFileIds = fileService.uploadFiles(files);
+            exPost.setFileIds(newFileIds);
+        }
+
+        // 게시물 저장
+        postRepository.save(exPost);
+    }
+
+
     /**
      * 기존의 단순 게시물 저장 메서드.
      * 필요 시 컨트롤러에서 직접 사용할 수 있습니다.
@@ -61,5 +100,44 @@ public class PostService {
 
         // 조회된 게시물 반환
         return post;
+    }
+
+
+    @Transactional
+    public void deletePost(Long postId) {
+        Post Post = postRepository.findById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException("게시물을 찾을 수 없습니다. 게시물 번호: " + postId, CommonErrorCode.RESOURCE_NOT_FOUND));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+
+        if (!Post.getUsername().equals(currentUsername)) {
+            throw new UnauthorizedException("게시물을 삭제할 권한이 없습니다.", CommonErrorCode.UNAUTHORIZED_ERROR);
+        }
+
+        //파일 삭제
+        if (Post.getFileIds() != null && !Post.getFileIds().isEmpty()) {
+            fileService.deleteFiles(Post.getFileIds());
+        }
+
+        //게시물 삭제
+        postRepository.delete(Post);
+
+    }
+
+    /**
+     * 현재 사용자가 게시물의 작성자인지 확인하는 메서드
+     * @PreAuthorize("@postService.isPostOwner(#postId)")
+     * 위 어노테이션을 사용하여 사용자 확인 가능
+     * @param postId 게시물의 ID
+     * @return 작성자일 경우 true, 아니면 false
+     */
+    public boolean isPostOwner(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException("게시물을 찾을 수 없습니다. 게시물 ID: " + postId, CommonErrorCode.RESOURCE_NOT_FOUND));
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+
+        return post.getUsername().equals(currentUsername);
     }
 }

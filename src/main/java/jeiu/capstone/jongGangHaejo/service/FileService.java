@@ -1,7 +1,9 @@
 package jeiu.capstone.jongGangHaejo.service;
 
+import jakarta.transaction.Transactional;
 import jeiu.capstone.jongGangHaejo.domain.File;
 import jeiu.capstone.jongGangHaejo.exception.*;
+import jeiu.capstone.jongGangHaejo.exception.common.CommonErrorCode;
 import jeiu.capstone.jongGangHaejo.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.io.InputStream;
@@ -139,5 +142,61 @@ public class FileService {
             return Collections.emptyList();
         }
         return fileRepository.findByFileIdIn(fileIds);
+    }
+
+
+    //단일 파일을 처리함 다중 파일은 아래에서 처리
+    @Transactional
+    public void deleteFile(Long fileId) {
+        File file = fileRepository.findById(fileId)
+                .orElseThrow(() -> new ResourceNotFoundException("파일을 찾을 수 없습니다. 파일 ID: " + fileId, CommonErrorCode.RESOURCE_NOT_FOUND));
+
+        try {
+            // S3에서 파일 삭제
+            DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(getFileKeyFromUrl(file.getS3Path()))
+                    .build();
+
+            s3Client.deleteObject(deleteObjectRequest);
+            logger.info("S3에서 파일 삭제 성공: {}", file.getS3Path());
+
+            // DB에서 파일 삭제
+            fileRepository.delete(file);
+            logger.info("DB에서 파일 삭제 성공: 파일 ID {}", fileId);
+
+        } catch (software.amazon.awssdk.services.s3.model.S3Exception e) {
+            logger.error("S3에서 파일 삭제 중 오류 발생: {}", e.getMessage(), e);
+            throw new S3UploadException("S3에서 파일 삭제 중 오류가 발생했습니다.", e);
+        } catch (Exception e) {
+            logger.error("파일 삭제 중 알 수 없는 오류 발생: {}", e.getMessage(), e);
+            throw new FileUploadException("파일 삭제 중 알 수 없는 오류가 발생했습니다.", e);
+        }
+    }
+
+    /**
+     * 파일 URL에서 S3 키를 추출하는 메서드
+     *
+     * @param fileUrl 파일의 S3 URL
+     * @return S3 키
+     */
+    private String getFileKeyFromUrl(String fileUrl) {
+        // 예시: https://bucket-name.s3.region.amazonaws.com/fileName
+        // 여기서는 파일 이름만 추출한다고 가정
+        return fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
+    }
+
+    /**
+     * 여러 파일을 삭제하는 메서드
+     *
+     * @param fileIds 삭제할 파일의 ID 목록
+     */
+    @Transactional
+    public void deleteFiles(List<Long> fileIds) {
+        if (fileIds == null || fileIds.isEmpty()) {
+            return;
+        }
+
+        fileIds.forEach(this::deleteFile);
     }
 }
