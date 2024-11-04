@@ -1,18 +1,16 @@
 package jeiu.capstone.jongGangHaejo.config;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.CustomAutowireConfigurer;
-import org.springframework.boot.autoconfigure.security.reactive.PathRequest;
+import jeiu.capstone.jongGangHaejo.domain.user.User;
+import jeiu.capstone.jongGangHaejo.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -48,6 +46,16 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService(UserRepository userRepository) {
+        return username -> {
+            User user = userRepository.findById(username)
+                    .orElseThrow(() -> new UsernameNotFoundException(username + "을 찾을 수 없습니다."));
+
+            return new UserConfig(user);
+        };
     }
 
     @Bean
