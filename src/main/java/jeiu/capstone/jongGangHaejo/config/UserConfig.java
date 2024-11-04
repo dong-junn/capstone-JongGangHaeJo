@@ -14,6 +14,6 @@ public class UserConfig extends User {
     }
 
     public UserConfig(jeiu.capstone.jongGangHaejo.domain.user.User user) {
-        super(user.getId(), user.getPassword(), List.of(new SimpleGrantedAuthority("USER")));
+        super(user.getId(), user.getPassword(), List.of(new SimpleGrantedAuthority("ROLE_USER")));
     }
 }
