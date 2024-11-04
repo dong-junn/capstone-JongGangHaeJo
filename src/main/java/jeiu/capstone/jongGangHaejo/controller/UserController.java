@@ -1,9 +1,8 @@
 package jeiu.capstone.jongGangHaejo.controller;
 
 import jakarta.validation.Valid;
-import jeiu.capstone.jongGangHaejo.dto.form.user.SignInDto;
 import jeiu.capstone.jongGangHaejo.dto.form.user.SignUpDto;
-import jeiu.capstone.jongGangHaejo.service.user.SignUpService;
+import jeiu.capstone.jongGangHaejo.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,11 +17,11 @@ import java.util.Map;
 @RequestMapping("/member")
 public class UserController {
 
-    private final SignUpService signUpService;
+    private final UserService userService;
 
     @PostMapping("/sign-up")
     public Map<String, String> singUp(@RequestBody @Valid SignUpDto form) {
-        signUpService.createUser(form);
+        userService.createUser(form);
         Map<String, String> map = new HashMap<>();
         map.put("message", "종강해조 게시판의 회원이 되신 것을 환영합니다!");
         return map;
