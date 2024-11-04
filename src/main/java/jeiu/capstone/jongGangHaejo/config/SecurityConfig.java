@@ -26,6 +26,7 @@ public class SecurityConfig {
                         .requestMatchers("/", "/error", "/favicon.ico").permitAll() //기본적으로 필요
                         .requestMatchers(HttpMethod.POST, "/member/sign-in").permitAll() //회원가입
                         .requestMatchers(HttpMethod.POST, "/member/sign-up").permitAll() //로그인
+                        .requestMatchers("/user").hasRole("USER")
                         .anyRequest().authenticated()
                 )
 
