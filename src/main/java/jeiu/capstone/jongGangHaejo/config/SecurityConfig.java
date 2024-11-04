@@ -24,10 +24,20 @@ public class SecurityConfig {
                 //권한이 없어도 아래 사항에 대하여서는 허용한다
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/error", "/favicon.ico").permitAll() //기본적으로 필요
-                        .requestMatchers(HttpMethod.POST, "/member/sign-in").permitAll() //회원가입
-                        .requestMatchers(HttpMethod.POST, "/member/sign-up").permitAll() //로그인
+                        .requestMatchers(HttpMethod.POST, "/member/sign-up").permitAll() //회원가입
+                        .requestMatchers(HttpMethod.POST, "/member/sign-in").permitAll() //로그인
                         .requestMatchers("/user").hasRole("USER")
                         .anyRequest().authenticated()
+                )
+
+                .formLogin(form -> form
+                        .usernameParameter("id")
+                        .passwordParameter("password")
+                        .loginPage("/member/sign-in")
+                        .loginProcessingUrl("/member/sign-in")
+                        .defaultSuccessUrl("/")
+                        .failureUrl("/member/sign-up")
+                        .permitAll()
                 )
 
                 //로그아웃 설정
@@ -40,11 +50,7 @@ public class SecurityConfig {
                 )
 
                 //REST API 관련 설정
-                .formLogin(AbstractHttpConfigurer::disable)
-                .httpBasic(AbstractHttpConfigurer::disable)
-                .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .csrf(AbstractHttpConfigurer::disable);
 
         return http.build();
     }
