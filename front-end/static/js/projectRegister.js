@@ -29,11 +29,11 @@ async function submitProject() {
 
  // 헤더와 푸터를 동적으로 로드하는 함수
 async function includeHTML() {
-    const headerResponse = await fetch('http://127.0.0.1:5500/capstone-JongGangHaeJo/front-end/templates/layout/header.html');
+    const headerResponse = await fetch('http://127.0.0.1:5500/front-end/templates/layout/header.html');
     const headerHtml = await headerResponse.text();
     document.getElementById('header').innerHTML = headerHtml;
 
-    const footerResponse = await fetch('http://127.0.0.1:5500/capstone-JongGangHaeJo/front-end/templates/layout/footer.html');
+    const footerResponse = await fetch('http://127.0.0.1:5500/front-end/templates/layout/footer.html');
     const footerHtml = await footerResponse.text();
     document.getElementById('footer').innerHTML = footerHtml;
 }

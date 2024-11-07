@@ -4,79 +4,84 @@ body {
     padding: 0;
     font-family: Arial, sans-serif;
     background: #f4f4f4;
-}
-
-/* Admin Container */
-#admin {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    width: 100%;
-    height: calc(100vh - 80px); /* Adjust height to exclude header and footer */
-}
-
-/* Wrapper */
-.wrap {
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 400px;
-    overflow: hidden;
-    text-align: center;
-    padding: 20px;
+    height: 100vh; /* 화면 전체 높이 설정 */
 }
 
 /* Header Styling */
-header {
-    background: #ff6347; /* 주황색 */
-    padding: 10px 0;
-    text-align: center;
-}
-
-.header_warp {
+.header-container {
+    background: #ff6347;
+    color: white;
     width: 100%;
-    margin: 0 auto;
+    text-align: center;
+    padding: 20px 0;
 }
 
-.main_logo {
-    color: #fff;
-    font-size: 24px;
-    text-decoration: none;
-}
-
-/* Button Container */
-.button-container {
-    margin-top: 20px;
-}
-
-.admin-btn {
-    display: inline-block;
-    background: #ff6347; /* 주황색 */
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background 0.3s;
-    margin: 5px;
-}
-
-.admin-btn:hover {
-    background: #e55330;
-}
-
-/* General Styling */
-* {
+.header-container h1 {
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    font-size: 24px;
 }
 
-a {
-    color: black;
-    text-decoration: none;
+/* Welcome Message Styling */
+.welcome-message {
+    font-size: 32px; /* 더 큰 폰트 크기 */
+    font-weight: bold;
+    color: #333;
+    margin: auto 0; /* 헤더와 푸터 사이 중간에 배치 */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* 중간 배치를 위해 전체 높이 설정 */
 }
 
-ul {
+/* Navigation Bar */
+.admin-nav {
+    width: 50%; /* 화면의 절반 너비 */
+    background: #333;
+    color: white;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto; /* 중앙 정렬 */
+    border-radius: 10px; /* 네비게이션 바에 둥근 모서리 추가 */
+}
+
+.admin-nav ul {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.admin-nav li {
     list-style: none;
+}
+
+.admin-nav a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    transition: background-color 0.3s;
+    text-align: center; /* 텍스트 중앙 정렬 */
+}
+
+.admin-nav a:hover {
+    background-color: #ff6347;
+    color: white;
+    border-radius: 5px;
+}
+
+/* Footer Styling */
+.footer-container {
+    background: #333;
+    color: white;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
 }

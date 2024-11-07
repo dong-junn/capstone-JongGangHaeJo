@@ -4,12 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JEIU 캡스톤 프로젝트 - 공지사항 등록</title>
-    <link rel="stylesheet" href="capstone-JongGangHaeJo/front-end/static/css/uploadPro.css">
+    <link rel="stylesheet" href="../../../static/css/admin.css"> 
+    <link rel="stylesheet" href="/front-end/static/css/noticeR.css">
 
-    <script src="/src/main/resources/static/js/noticeRegister.js" defer></script>
+    <script src="/front-end/static/js/notice.js" defer></script>
 </head>
 <body>
-    <div class="header-container" id="header"></div>
+    <!-- 헤더 -->
+    <div class="header-container">
+        <h1>JEIU CAPSTONE 관리자 페이지</h1>
+    </div>
+
+    <!-- 네비게이션 바 -->
+    <div class="admin-nav">
+        <ul>
+            <li><a href="/front-end/templates/board/project/modify.html">프로젝트 관리</a></li>
+            <li><a href="/front-end/templates/board/notice/noticeRegister.html">공지사항 관리</a></li>
+            <li><a href="/front-end/templates/user/login/userAdmin.html">회원 관리</a></li>
+        </ul>
+    </div>
 
     <main style="margin-top: 2%;">
         <section class="register-section">
@@ -36,28 +49,9 @@
         </section>
     </main>
 
-    <div class="footer-container" id="footer"></div>
-    <script>
-        // 헤더와 푸터를 동적으로 로드
-        async function includeHTML() {
-            try {
-                const headerResponse = await fetch('http://127.0.0.1:5500/capstone-JongGangHaeJo/front-end/templates/layout/header.html');
-                const headerHtml = await headerResponse.text();
-                document.getElementById('header').innerHTML = headerHtml;
-
-                const footerResponse = await fetch('http://127.0.0.1:5500/capstone-JongGangHaeJo/front-end/templates/layout/footer.html');
-                const footerHtml = await footerResponse.text();
-                document.getElementById('footer').innerHTML = footerHtml;
-            } catch (error) {
-                console.error('헤더와 푸터를 로드하는 중 오류 발생:', error);
-            }
-        }
-
-        // 페이지 로드 시 헤더와 푸터 포함
-        document.addEventListener('DOMContentLoaded', async () => {
-            await includeHTML();
-            loadNotices(); // 공지사항 로드 함수 호출
-        });
-    </script>
+    <div class="footer-container">
+        <p>&copy; JEIU 재능대학교</p>
+    </div>
+    
 </body>
 </html>

@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JEIU 캡스톤 프로젝트 - 프로젝트 보기</title>
-    <link rel="stylesheet" href="/capstone-JongGangHaeJo/front-end/static/css/detail.css">
+    <link rel="stylesheet" href="/front-end/static/css/detail.css">
     <script src="https://kit.fontawesome.com/fff8ef1317.js" crossorigin="anonymous"></script>
-    <script src="/src/main/resources/static/js/detail.js" defer></script>
+    <script src="front-end/static/js/detail.js" defer></script>
 </head>
 <body>
     <div class="header-container" id="header"></div>
@@ -61,11 +61,11 @@
     <script>
         // 헤더와 푸터를 동적으로 로드
         async function includeHTML() {
-            const headerResponse = await fetch('http://127.0.0.1:5500/capstone-JongGangHaeJo/front-end/templates/layout/header.html');
+            const headerResponse = await fetch('http://127.0.0.1:5500/front-end/templates/layout/header.html');
             const headerHtml = await headerResponse.text();
             document.getElementById('header').innerHTML = headerHtml;
 
-            const footerResponse = await fetch('http://127.0.0.1:5500/capstone-JongGangHaeJo/front-end/templates/layout/footer.html');
+            const footerResponse = await fetch('http://127.0.0.1:5500/front-end/templates/layout/footer.html');
             const footerHtml = await footerResponse.text();
             document.getElementById('footer').innerHTML = footerHtml;
         }

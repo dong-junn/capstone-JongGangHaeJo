@@ -79,3 +79,36 @@ main {
     border-radius: 5px;
     
 }
+
+
+/* Navigation Bar */
+.admin-nav {
+    width: 100%;
+    background: #333;
+    color: white;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.admin-nav ul {
+    display: flex;
+    gap: 20px;
+}
+
+.admin-nav li {
+    list-style: none;
+}
+
+.admin-nav a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    transition: background-color 0.3s;
+}
+
+.admin-nav a:hover {
+    background-color: #ff6347;
+    color: white;
+    border-radius: 5px;
+}

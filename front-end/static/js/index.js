@@ -21,7 +21,7 @@ async function loadProjects() {
 // 더보기 버튼을 눌렀을 때 추가 프로젝트 로드
 async function loadMoreProjects() {
     try {
-        const response = await fetch('http://127.0.0.1:5500/src/main/resources/templates/board/project/detail.html');
+        const response = await fetch('http://127.0.0.1:5500/front-end/templates/board/project/detail.html');
         const moreProjects = await response.json();
 
         const thumbnailsContainer = document.getElementById('thumbnails');
@@ -43,11 +43,11 @@ document.addEventListener('DOMContentLoaded', loadProjects);
 // 모듈을 포함시키는 함수 (header와 footer 포함)
 async function includeHTML() {
     try {
-        const headerResponse = await fetch('http://127.0.0.1:5500/capstone-JongGangHaeJo/front-end/templates/layout/header.html');
+        const headerResponse = await fetch('http://127.0.0.1:5500/front-end/templates/layout/header.html');
         const headerHtml = await headerResponse.text();
         document.getElementById('header').innerHTML = headerHtml;
 
-        const footerResponse = await fetch('http://127.0.0.1:5500/capstone-JongGangHaeJo/front-end/templates/layout/footer.html');
+        const footerResponse = await fetch('http://127.0.0.1:5500/front-end/templates/layout/footer.html');
         const footerHtml = await footerResponse.text();
         document.getElementById('footer').innerHTML = footerHtml;
     } catch (error) {
