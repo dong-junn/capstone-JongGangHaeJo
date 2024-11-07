@@ -2,12 +2,12 @@ package jeiu.capstone.jongGangHaejo.security.config;
 
 import jeiu.capstone.jongGangHaejo.domain.user.User;
 import jeiu.capstone.jongGangHaejo.repository.UserRepository;
+import jeiu.capstone.jongGangHaejo.security.jwt.JwtAuthenticationFilter;
+import jeiu.capstone.jongGangHaejo.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -15,16 +15,23 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final UserDetailsService userDetailsService;
+
+    private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        JwtAuthenticationFilter jwtAuthFilter = new JwtAuthenticationFilter(jwtUtil, userDetailsService());
+
         http
                 //권한이 없어도 아래 사항에 대하여서는 허용한다
                 .authorizeHttpRequests(auth -> auth
@@ -35,15 +42,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
 
-                .formLogin(form -> form
-                        .usernameParameter("id")
-                        .passwordParameter("password")
-                        .loginPage("/member/sign-in")
-                        .loginProcessingUrl("/member/sign-in")
-                        .defaultSuccessUrl("/")
-                        .failureUrl("/member/sign-up")
-                        .permitAll()
-                )
+                .formLogin(AbstractHttpConfigurer::disable)
 
                 //로그아웃 설정
                 .logout(logout -> logout
@@ -60,31 +59,29 @@ public class SecurityConfig {
                 //JWT관련 설정
                 .sessionManagement(session -> session
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        );
+                )
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
     @Bean
-    public UserDetailsService userDetailsService(UserRepository userRepository) {
-        return username -> {
-            User user = userRepository.findById(username)
-                    .orElseThrow(() -> new UsernameNotFoundException(username + "을 찾을 수 없습니다."));
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return userId -> {
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new UsernameNotFoundException(userId + "을 찾을 수 없습니다."));
 
             return new UserConfig(user);
         };
     }
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(bCryptPasswordEncoder());
-        return authProvider;
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter(jwtUtil, userDetailsService());
     }
 }
