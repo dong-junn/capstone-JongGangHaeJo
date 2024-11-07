@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>JEIU 캡스톤 프로젝트 - 작품 등록</title>
-     <link rel="stylesheet" href="http://127.0.0.1:5500/src/main/resources/templates/layout/topbot.css">
-     <link rel="stylesheet" href="../../../static/css/uploadPro.css">
+        <link rel="stylesheet" href="../../../static/css/uploadPro.css">
 
     
 </head>
@@ -54,11 +53,11 @@
     <script>
         // 헤더와 푸터를 동적으로 로드하는 함수
         async function includeHTML() {
-            const headerResponse = await fetch('http://127.0.0.1:5500/src/main/resources/templates/layout/header.html');
+            const headerResponse = await fetch('http://127.0.0.1:5500/capstone-JongGangHaeJo/front-end/templates/layout/header.html');
             const headerHtml = await headerResponse.text();
             document.getElementById('header').innerHTML = headerHtml;
 
-            const footerResponse = await fetch('http://127.0.0.1:5500/src/main/resources/templates/layout/footer.html');
+            const footerResponse = await fetch('http://127.0.0.1:5500/capstone-JongGangHaeJo/front-end/templates/layout/footer.html');
             const footerHtml = await footerResponse.text();
             document.getElementById('footer').innerHTML = footerHtml;
         }

@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>로그인 페이지</title>
-    <link rel="stylesheet" href="/src/main/resources/static/css/log.css">
-    <script src="/static/js/login.js" defer></script> 
-    <script src="/static/js/includeHTML.js" defer></script>
+    <link rel="stylesheet" href="/capstone-JongGangHaeJo/front-end/static/css/log.css">
+    <script src="/capstone-JongGangHaeJo/front-end/static/js/login.js" defer></script> 
+    <script src="/capstone-JongGangHaeJo/front-end/static/js/includeHTML.js" defer></script>
 </head>
 <body>
     <!-- 헤더 추가 -->
@@ -40,15 +40,5 @@
     <!-- 푸터 추가 -->
     <div class="footer-container" id="footer"></div>
 
-    <script>
-        async function includeHTML() {
-            const headerResponse = await fetch('http://127.0.0.1:5500/src/main/resources/templates/layout/header.html');
-            document.getElementById('header').innerHTML = await headerResponse.text();
-
-            const footerResponse = await fetch('http://127.0.0.1:5500/src/main/resources/templates/layout/footer.html');
-            document.getElementById('footer').innerHTML = await footerResponse.text();
-        }
-        document.addEventListener('DOMContentLoaded', includeHTML);
-    </script>
 </body>
 </html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JEIU 캡스톤 프로젝트 - 공지사항 등록</title>
-    <link rel="stylesheet" href="/src/main/resources/static/css/uploadPro.css">
+    <link rel="stylesheet" href="capstone-JongGangHaeJo/front-end/static/css/uploadPro.css">
 
     <script src="/src/main/resources/static/js/noticeRegister.js" defer></script>
 </head>
@@ -41,11 +41,11 @@
         // 헤더와 푸터를 동적으로 로드
         async function includeHTML() {
             try {
-                const headerResponse = await fetch('/src/main/resources/templates/layout/header.html');
+                const headerResponse = await fetch('http://127.0.0.1:5500/capstone-JongGangHaeJo/front-end/templates/layout/header.html');
                 const headerHtml = await headerResponse.text();
                 document.getElementById('header').innerHTML = headerHtml;
 
-                const footerResponse = await fetch('/src/main/resources/templates/layout/footer.html');
+                const footerResponse = await fetch('http://127.0.0.1:5500/capstone-JongGangHaeJo/front-end/templates/layout/footer.html');
                 const footerHtml = await footerResponse.text();
                 document.getElementById('footer').innerHTML = footerHtml;
             } catch (error) {
