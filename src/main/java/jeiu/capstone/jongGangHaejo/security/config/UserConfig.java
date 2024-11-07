@@ -1,4 +1,4 @@
-package jeiu.capstone.jongGangHaejo.config;
+package jeiu.capstone.jongGangHaejo.security.config;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

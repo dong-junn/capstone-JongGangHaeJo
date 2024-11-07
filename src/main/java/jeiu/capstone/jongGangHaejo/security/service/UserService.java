@@ -1,4 +1,4 @@
-package jeiu.capstone.jongGangHaejo.service.user;
+package jeiu.capstone.jongGangHaejo.security.service;
 
 import jeiu.capstone.jongGangHaejo.domain.user.Role;
 import jeiu.capstone.jongGangHaejo.domain.user.User;

@@ -1,7 +1,6 @@
-package jeiu.capstone.jongGangHaejo.config;
+package jeiu.capstone.jongGangHaejo.security.config;
 
 import jeiu.capstone.jongGangHaejo.domain.user.User;
-import jeiu.capstone.jongGangHaejo.jwt.JwtAuthFilter;
 import jeiu.capstone.jongGangHaejo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -17,14 +16,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
 public class SecurityConfig {
-
-    private final JwtAuthFilter jwtAuthFilter;
     private final UserDetailsService userDetailsService;
 
     @Bean
@@ -64,9 +60,7 @@ public class SecurityConfig {
                 //JWT관련 설정
                 .sessionManagement(session -> session
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        )
-                .authenticationProvider(authenticationProvider())
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        );
 
         return http.build();
     }

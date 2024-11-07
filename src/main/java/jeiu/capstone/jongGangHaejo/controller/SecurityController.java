@@ -1,6 +1,6 @@
 package jeiu.capstone.jongGangHaejo.controller;
 
-import jeiu.capstone.jongGangHaejo.config.UserConfig;
+import jeiu.capstone.jongGangHaejo.security.config.UserConfig;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
