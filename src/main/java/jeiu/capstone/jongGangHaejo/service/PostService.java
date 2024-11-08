@@ -3,11 +3,15 @@ package jeiu.capstone.jongGangHaejo.service;
 import jeiu.capstone.jongGangHaejo.domain.Post;
 import jeiu.capstone.jongGangHaejo.dto.request.PostCreateDto;
 import jeiu.capstone.jongGangHaejo.dto.request.PostUpdateDto;
+import jeiu.capstone.jongGangHaejo.dto.response.PagedResponse;
+import jeiu.capstone.jongGangHaejo.dto.response.PostResponseDto;
 import jeiu.capstone.jongGangHaejo.exception.ResourceNotFoundException;
 import jeiu.capstone.jongGangHaejo.exception.UnauthorizedException;
 import jeiu.capstone.jongGangHaejo.exception.common.CommonErrorCode;
 import jeiu.capstone.jongGangHaejo.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -15,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -100,6 +105,39 @@ public class PostService {
 
         // 조회된 게시물 반환
         return post;
+    }
+
+    /**
+     * 페이징된 게시물 목록을 조회합니다.
+     *
+     * @param pageable 페이징 및 정렬 정보
+     * @return 페이징된 게시물 응답 DTO
+     */
+    @Transactional(readOnly = true)
+    public PagedResponse<PostResponseDto> getPagedPosts(Pageable pageable) {
+        Page<Post> postPage = postRepository.findAll(pageable);
+
+        List<PostResponseDto> content = postPage.getContent().stream()
+                .map(post -> new PostResponseDto(
+                        post.getPostid(),
+                        post.getTitle(),
+                        post.getContent(),
+                        post.getTeam(),
+                        post.getYoutubelink(),
+                        post.getUsername(),
+                        post.getCreatedAt().toString(),
+                        post.getUpdatedAt().toString()
+                ))
+                .collect(Collectors.toList());
+
+        return new PagedResponse<>(
+                content,
+                postPage.getNumber(),
+                postPage.getSize(),
+                postPage.getTotalElements(),
+                postPage.getTotalPages(),
+                postPage.isLast()
+        );
     }
 
 

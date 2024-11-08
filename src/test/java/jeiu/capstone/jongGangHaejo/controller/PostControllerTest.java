@@ -3,17 +3,23 @@ package jeiu.capstone.jongGangHaejo.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jeiu.capstone.jongGangHaejo.dto.request.PostCreateDto;
 import jeiu.capstone.jongGangHaejo.dto.request.PostUpdateDto;
+import jeiu.capstone.jongGangHaejo.dto.response.PagedResponse;
+import jeiu.capstone.jongGangHaejo.dto.response.PostResponseDto;
 import jeiu.capstone.jongGangHaejo.exception.InvalidFileNameException;
 import jeiu.capstone.jongGangHaejo.exception.ResourceNotFoundException;
 import jeiu.capstone.jongGangHaejo.exception.UnauthorizedException;
 import jeiu.capstone.jongGangHaejo.exception.common.CommonErrorCode;
 import jeiu.capstone.jongGangHaejo.service.FileService;
 import jeiu.capstone.jongGangHaejo.service.PostService;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -25,8 +31,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(PostController.class)
@@ -404,4 +409,76 @@ class PostControllerTest {
         // verify
         Mockito.verify(postService, Mockito.times(1)).deletePost(postId);
     }
+
+    /**
+     * 페이징된 게시물 목록 조회 성공 테스트
+     */
+    @Test
+    @WithMockUser
+    void 페이징_처리_게시물_불러오기() throws Exception {
+        // given
+        int page = 0;
+        int size = 10;
+        String sortBy = "createdAt"; // 작성일 기준
+        String direction = "desc"; // 역순 (최근 날짜부터)
+
+        PostResponseDto post1 = new PostResponseDto(1L, "Title1", "Content1", "Team1", "https://youtube.com/1", "user1", "2024-01-01", "2024-01-02");
+        PostResponseDto post2 = new PostResponseDto(2L, "Title2", "Content2", "Team2", "https://youtube.com/2", "user2", "2024-01-03", "2024-01-04");
+
+        List<PostResponseDto> posts = List.of(post1, post2);
+        PagedResponse<PostResponseDto> pagedResponse = new PagedResponse<>(posts, page, size, 2, 1, true);
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), sortBy));
+
+        Mockito.when(postService.getPagedPosts(any(Pageable.class))).thenReturn(pagedResponse);
+
+        // when & then
+        mockMvc.perform(get("/posts")
+                        .param("page", String.valueOf(page))
+                        .param("size", String.valueOf(size))
+                        .param("sort", sortBy + "," + direction)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").isArray())
+                .andExpect(jsonPath("$.content.length()").value(2))
+                .andExpect(jsonPath("$.content[0].id").value(post1.getId()))
+                .andExpect(jsonPath("$.content[0].title").value(post1.getTitle()))
+                .andExpect(jsonPath("$.content[1].id").value(post2.getId()))
+                .andExpect(jsonPath("$.content[1].title").value(post2.getTitle()))
+                .andExpect(jsonPath("$.page").value(page))
+                .andExpect(jsonPath("$.size").value(size))
+                .andExpect(jsonPath("$.totalElements").value(2))
+                .andExpect(jsonPath("$.totalPages").value(1))
+                .andExpect(jsonPath("$.last").value(true));
+
+        // verify
+        Mockito.verify(postService, Mockito.times(1)).getPagedPosts(any(Pageable.class));
+    }
+
+    /**
+     * 페이징된 게시물 목록 조회 시 잘못된 페이지 요청 테스트
+     */
+    @Test
+    @WithMockUser
+    void 잘못된_페이지_번호_요청() throws Exception {
+        // given
+        String invalidPage = "invalid";
+        int size = 10;
+        String sortBy = "createdAt";
+        String direction = "desc";
+
+        // when & then
+        mockMvc.perform(get("/posts")
+                        .param("page", invalidPage)
+                        .param("size", String.valueOf(size))
+                        .param("sort", sortBy + "," + direction)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(CommonErrorCode.INVALID_ARGUMENT_ERROR.getCode()))
+                .andExpect(jsonPath("$.message").value(Matchers.containsString("파라미터의 타입이 잘못되었습니다")));
+
+        // verify
+        Mockito.verify(postService, Mockito.times(0)).getPagedPosts(any(Pageable.class));
+    }
+
 }
