@@ -1,3 +1,5 @@
+// login.js
+
 // REST API를 이용한 로그인 기능
 async function loginUser() {
     const loginForm = document.getElementById('LoginForm');
@@ -41,13 +43,13 @@ document.addEventListener('DOMContentLoaded', () => {
 // 헤더와 푸터를 동적으로 로드하는 함수
 async function includeHTML() {
     try {
-        const headerResponse = await fetch('http://127.0.0.1:5500/front-end/templates/layout/header.html');
+        const headerResponse = await fetch('/front-end/templates/layout/header.html');
         const headerHtml = await headerResponse.text();
-        document.getElementById('header').innerHTML = headerHtml;
+        document.querySelector('.header-container').innerHTML = headerHtml;
 
-        const footerResponse = await fetch('http://127.0.0.1:5500/front-end/templates/layout/footer.html');
+        const footerResponse = await fetch('/front-end/templates/layout/footer.html');
         const footerHtml = await footerResponse.text();
-        document.getElementById('footer').innerHTML = footerHtml;
+        document.querySelector('.footer-container').innerHTML = footerHtml;
     } catch (error) {
         console.error('Error loading modules:', error);
     }
