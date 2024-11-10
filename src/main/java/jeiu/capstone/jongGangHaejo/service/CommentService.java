@@ -50,6 +50,7 @@ public class CommentService {
                 .content(dto.getContent())
                 .username(username)
                 .postId(postId)
+                .parentCommentId(dto.getParentCommentId()) // 부모 댓글 ID
                 .build();
 
         Comment savedComment = commentRepository.save(comment);

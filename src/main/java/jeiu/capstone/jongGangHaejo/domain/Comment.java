@@ -4,11 +4,13 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 public class Comment {
 
@@ -25,20 +27,25 @@ public class Comment {
     @Column(nullable = false)
     private Long postId;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt = LocalDateTime.now();
+
+    @Column(name = "parent_comment_id")
+    private Long parentCommentId;
 
     @Builder
-    public Comment(String content, String username, Long postId) {
+    public Comment(String content, String username, Long postId, Long parentCommentId) {
         this.content = content;
         this.username = username;
         this.postId = postId;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+        this.parentCommentId = parentCommentId;
     }
 
-    public void update(String content) {
-        this.content = content;
+    @PreUpdate
+    public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
 }

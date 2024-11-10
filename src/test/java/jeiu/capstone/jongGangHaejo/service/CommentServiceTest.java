@@ -182,4 +182,40 @@ class CommentServiceTest {
         assertThrows(UnauthorizedException.class,
                 () -> commentService.deleteComment(commentId));
     }
+
+    @Test
+    @DisplayName("대댓글 생성 성공")
+    void 대댓글_생성_성공() {
+        // given
+        Long postId = 1L;
+        Long parentCommentId = 1L;
+        CommentCreateDto dto = new CommentCreateDto();
+        dto.setContent("대댓글 내용");
+        dto.setParentCommentId(parentCommentId);
+
+        // SecurityContext와 Authentication 스텁 설정
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        when(authentication.getName()).thenReturn("testUser");
+
+        given(postRepository.existsById(postId)).willReturn(true);
+        given(commentRepository.save(any(Comment.class)))
+                .willAnswer(invocation -> {
+                    Comment comment = invocation.getArgument(0);
+                    return Comment.builder()
+                            .content(comment.getContent())
+                            .username(comment.getUsername())
+                            .postId(comment.getPostId())
+                            .parentCommentId(comment.getParentCommentId())
+                            .build();
+                });
+
+        // when
+        CommentResponseDto response = commentService.createComment(postId, dto);
+
+        // then
+        assertThat(response.getContent()).isEqualTo("대댓글 내용");
+        assertThat(response.getUsername()).isEqualTo("testUser");
+        assertThat(response.getParentCommentId()).isEqualTo(parentCommentId);
+        verify(commentRepository, times(1)).save(any(Comment.class));
+    }
 }
