@@ -39,15 +39,14 @@ body {
 
 /* Navigation Bar */
 .admin-nav {
-    width: 50%; /* 화면의 절반 너비 */
+    width: 50%; /* 네비게이션 바 너비를 줄여 중앙에 위치 */
     background: #333;
     color: white;
     padding: 10px 0;
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin: 0 auto; /* 중앙 정렬 */
-    border-radius: 10px; /* 네비게이션 바에 둥근 모서리 추가 */
+    margin: 20px auto;
+    border-radius: 10px;
 }
 
 .admin-nav ul {
@@ -64,15 +63,15 @@ body {
     color: white;
     text-decoration: none;
     padding: 8px 16px;
+    text-align: center;
     transition: background-color 0.3s;
-    text-align: center; /* 텍스트 중앙 정렬 */
 }
 
 .admin-nav a:hover {
     background-color: #ff6347;
-    color: white;
     border-radius: 5px;
 }
+
 
 /* Footer Styling */
 .footer-container {

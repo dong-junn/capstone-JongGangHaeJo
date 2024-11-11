@@ -1,16 +1,67 @@
-@charset "UTF-8";
+/* Reset 기본 스타일 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 /* Body Styling */
 body {
-    margin: 0;
-    padding: 0;
     font-family: Arial, sans-serif;
     background: #f4f4f4;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: 100vh;
-    flex-direction: column; /* Flex direction to stack header, content, and footer vertically */
+    min-height: 100vh;
+}
+
+/* Header Styling */
+.header-container {
+    background: #ff6347;
+    color: white;
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.header-container h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+/* Navigation Bar */
+.admin-nav {
+    width: 50%; /* 네비게이션 바 너비를 줄여 중앙에 위치 */
+    background: #333;
+    color: white;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+    border-radius: 10px;
+}
+
+.admin-nav ul {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.admin-nav li {
+    list-style: none;
+}
+
+.admin-nav a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.admin-nav a:hover {
+    background-color: #ff6347;
+    border-radius: 5px;
 }
 
 /* User Admin Container */
@@ -19,7 +70,7 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: calc(100vh - 80px); /* Adjust height to exclude header and footer */
+    padding: 20px;
 }
 
 /* Wrapper */
@@ -27,70 +78,51 @@ body {
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 80%; /* Adjust width as needed */
+    width: 80%;
+    max-width: 800px;
     padding: 20px;
     text-align: center;
 }
 
-/* Header Styling */
-header {
-    background: #ff6347; /* 주황색 */
-    padding: 10px 0;
-    text-align: center;
-}
-
-.header_warp {
-    width: 100%;
-    margin: 0 auto;
-}
-
-.main_logo {
-    color: #fff;
-    font-size: 24px;
-    text-decoration: none;
-}
-
-/* User List Container */
+/* User List Styling */
 .user-list-container {
-    overflow-x: auto; /* Horizontal scroll */
+    overflow-x: auto;
     display: flex;
-    align-items: center;
+    justify-content: center;
 }
 
 .user-list {
     display: flex;
-    width: max-content; /* Ensure the list can expand horizontally */
+    flex-wrap: wrap;
+    gap: 10px;
     padding: 10px;
 }
 
 .user {
-    background: #f4f4f4;
-    padding: 10px;
+    background: #f9f9f9;
+    padding: 15px;
     border-radius: 5px;
-    margin-right: 10px; /* Space between users */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 200px; /* Minimum width for each user block */
+    width: 220px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 .user p {
-    margin: 0;
     font-size: 16px;
     color: #333;
 }
 
-/* Button Container */
+/* Button Styling */
 .admin-btn {
     display: inline-block;
-    background: #ff6347; /* 주황색 */
-    color: #fff;
-    padding: 10px 20px;
+    background: #ff6347;
+    color: white;
+    padding: 8px 12px;
     border-radius: 5px;
     text-decoration: none;
     cursor: pointer;
     transition: background 0.3s;
-    margin: 5px;
+    margin: 5px 0;
 }
 
 .admin-btn:hover {
@@ -98,14 +130,22 @@ header {
 }
 
 .edit-btn {
-    background: #ffb347; /* 밝은 주황색 */
+    background: #ffb347;
 }
 
 .edit-btn:hover {
     background: #e59930;
 }
 
-/* Edit Form */
+.delete-btn {
+    background: #ff6347;
+}
+
+.delete-btn:hover {
+    background: #e55330;
+}
+
+/* Edit Form Styling */
 .edit-form {
     display: none;
     margin-top: 10px;
@@ -114,5 +154,25 @@ header {
 .edit-form label {
     display: block;
     font-size: 14px;
-   
+    margin-top: 5px;
+}
+
+.edit-form input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+/* Footer Styling */
+.footer-container {
+    background: #333;
+    color: white;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
 }

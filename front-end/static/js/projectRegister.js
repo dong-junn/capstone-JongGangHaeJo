@@ -26,6 +26,27 @@ async function submitProject() {
         alert('오류가 발생했습니다. 나중에 다시 시도해주세요.');
     }
 }
+// 작성자 로그인 여부를 확인하고 수정 버튼을 동적으로 생성
+function displayEditButton() {
+    const isAuthorLoggedIn = true; // 실제 로그인 확인 로직 추가 필요
+    const editButtonContainer = document.getElementById("editButtonContainer");
+
+    if (isAuthorLoggedIn) {
+        const editButton = document.createElement("button");
+        editButton.className = "edit-button";
+        editButton.innerText = "수정하기";
+        editButton.onclick = () => {
+            window.location.href = "/front-end/templates/board/project/projectRegister.html"; // 수정 페이지로 이동
+        };
+        editButtonContainer.appendChild(editButton);
+    }
+}
+
+// 페이지 로드 시 수정 버튼 확인
+document.addEventListener("DOMContentLoaded", () => {
+    includeHTML();
+    displayEditButton();
+});
 
  // 헤더와 푸터를 동적으로 로드하는 함수
 async function includeHTML() {
