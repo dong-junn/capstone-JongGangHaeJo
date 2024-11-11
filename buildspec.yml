@@ -1,0 +1,19 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      java: 17
+      docker: 20
+    commands:
+      - echo "Installing necessary dependencies..."
+      - ./gradlew build  # Gradle 빌드를 수행하여 JAR 파일 생성
+  build:
+    commands:
+      - echo "Building Docker image..."
+      - docker build -t my-app .
+  post_build:
+    commands:
+      - echo "Pushing Docker image to ECR..."
+      - $(aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 123456789012.dkr.ecr.us-west-2.amazonaws.com)
+      - docker tag my-app:latest 123456789012.dkr.ecr.us-west-2.amazonaws.com/my-repo:latest
+      - docker push 123456789012.dkr.ecr.us-west-2.amazonaws.com/my-repo:latest
