@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Table(name = "likes")
 @Getter
 @Setter
 @NoArgsConstructor
