@@ -32,7 +32,7 @@ body {
     padding: 40px 30px;
     margin-top: 20px;
     text-align: center;
-    margin-bottom: auto; /* 하단 여백 */
+    margin-bottom: auto;
 }
 
 .wrap h2 {
@@ -61,7 +61,9 @@ body {
     margin-bottom: 5px;
 }
 
-.form-group input[type="email"] {
+.form-group input[type="email"],
+.form-group input[type="text"],
+.form-group input[type="password"] {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
@@ -69,7 +71,17 @@ body {
     box-sizing: border-box;
 }
 
-.email-check {
+.form-group select {
+    width: 100px;
+    margin-right: 5px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.email-check,
+.phone-check {
     margin-top: 10px;
     background-color: #0066cc;
     color: #fff;
