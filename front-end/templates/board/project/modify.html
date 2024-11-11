@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>JEIU 캡스톤 프로젝트 작품 수정</title>
+    <title>JEIU 캡스톤 프로젝트 - 프로젝트 관리</title>
     <link rel="stylesheet" href="../../../static/css/modify.css">
 </head>
 
@@ -22,45 +22,68 @@
         </ul>
     </div>
 
-    <!-- 메인 콘텐츠 -->
-    <main style="margin-top: 2%;">
-        <section class="register-section">
-            <h1>캡스톤 프로젝트</h1>
-            <form th:action="@{/api/posts/update/{id}(id = ${posts.id})}" method="post" enctype="multipart/form-data" id="register-form">
-                <div class="form-group">
-                    <label for="projectName">작품 이름</label>
-                    <input type="text" id="projectName" name="title" required>
+    <!-- 프로젝트 목록 -->
+    <main>
+        <section class="project-list-section">
+            <h1>캡스톤 프로젝트 목록</h1>
+            <div class="project-list">
+                <!-- 예시 프로젝트 항목 -->
+                <div class="project-item">
+                    <h3>프로젝트 제목 예시 1</h3>
+                    <p>작성자: 김재서</p>
+                    <button class="delete-button" onclick="deleteProject(1)">삭제</button>
                 </div>
-                <div class="form-group">
-                    <label for="authorName">등록자 이름</label>
-                    <input type="text" id="authorName" name="writer" required>
+                <div class="project-item">
+                    <h3>프로젝트 제목 예시 2</h3>
+                    <p>작성자: 이우진</p>
+                    <button class="delete-button" onclick="deleteProject(2)">삭제</button>
                 </div>
-                <div class="form-group">
-                    <label for="teamMem">팀 명</label>
-                    <input type="text" id="teamMem" name="teamMem" required>
+                <div class="project-item">
+                    <h3>프로젝트 제목 예시 2</h3>
+                    <p>작성자: 이동준</p>
+                    <button class="delete-button" onclick="deleteProject(2)">삭제</button>
                 </div>
-                <div class="form-group">
-                    <label for="projectDescription">작품 개요</label>
-                    <textarea id="projectDescription" name="content" rows="4" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="yt_url">유튜브 영상 주소</label>
-                    <input type="text" id="yt_url" name="yt_url">
-                </div>
-                <div class="form-group">
-                    <label for="poster">첨부파일</label>
-                    <input type="file" id="poster" name="poster">
-                </div>
-                <input type="hidden" name="_method" value="put"/>
-                <button type="submit" class="submit-button">수정하기</button>
-            </form>
+                <!-- 추가된 프로젝트 항목 -->
+            </div>
         </section>
+        <div class="pagination">
+            <button onclick="changePage(currentPage - 1)">이전</button>
+            <button onclick="changePage(currentPage + 1)">다음</button>
+        </div>
+        
     </main>
 
     <!-- 푸터 -->
     <div class="footer-container">
         <p>&copy; JEIU 재능대학교</p>
     </div>
+
+    <script>
+        function deleteProject(projectId) {
+            // 삭제 로직 추가
+            alert(`프로젝트 ${projectId}을 삭제합니다.`);
+            // 실제 삭제 요청이 서버로 전송되도록 API 요청 추가
+        }
+        const itemsPerPage = 9; // 한 페이지에 표시할 프로젝트 개수
+let currentPage = 1;
+
+function displayPage(page) {
+    const items = document.querySelectorAll('.project-item');
+    items.forEach((item, index) => {
+        item.style.display = (index >= (page - 1) * itemsPerPage && index < page * itemsPerPage) ? 'block' : 'none';
+    });
+}
+
+// 페이지 버튼을 클릭할 때
+function changePage(page) {
+    currentPage = page;
+    displayPage(currentPage);
+}
+
+// 페이지 로드 시 초기 페이지 표시
+displayPage(currentPage);
+
+    </script>
 </body>
 
 </html>

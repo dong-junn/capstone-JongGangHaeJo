@@ -63,61 +63,93 @@ body {
     background-color: #ff6347;
     border-radius: 5px;
 }
+/* main 스타일 */
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding: 20px;
+    max-width: 1200px; /* 최대 너비 설정 */
+    width: 100%;
+    background-color: #2c1717;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-/* Form Section */
-.register-section {
-    background: #ffffff;
+/* 프로젝트 리스트 섹션 스타일 */
+.project-list-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
     padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 90%; /* 페이지 너비에 맞춰 넓게 설정 */
-    max-width: 800px;
-    margin: 20px auto; /* 중앙 배치 */
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.register-section h1 {
-    text-align: center;
+.project-list-section h1 {
+    font-size: 28px;
     color: #333;
-    margin-bottom: 30px;
-}
-
-/* Form Group */
-.form-group {
     margin-bottom: 20px;
 }
 
-.form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-.form-group input[type="text"],
-.form-group textarea,
-.form-group input[type="file"] {
-    width: 100%;
-    padding: 12px;
+/* 프로젝트 아이템 스타일 */
+.project-item {
+    flex: 1 1 100%; /* 최대 너비를 한 줄로 설정 */
+    margin: 20px;
+    padding: 20px;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-    box-sizing: border-box;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    max-width: 100%; /* 최대 너비를 100%로 설정 */
 }
 
-/* Submit Button */
-.submit-button {
-    width: 100%;
-    padding: 15px;
-    background-color: #ff6347;
+.project-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 삭제 버튼 스타일 */
+.delete-button {
+    display: inline-block;
+    background-color: #ff6347; /* 주황색 */
     color: white;
-    border: none;
+    padding: 10px 20px;
     border-radius: 5px;
-    font-size: 18px;
+    text-decoration: none;
     cursor: pointer;
     transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+.delete-button:hover {
+    background-color: #e55330;
+}
+
+/* Pagination Styling */
+.pagination {
+    display: flex;
+    justify-content: center;
     margin-top: 20px;
 }
 
-.submit-button:hover {
+.pagination button {
+    background-color: #ff6347;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.pagination button:hover {
     background-color: #e55330;
 }
 
@@ -132,4 +164,3 @@ body {
     bottom: 0;
     left: 0;
 }
-
