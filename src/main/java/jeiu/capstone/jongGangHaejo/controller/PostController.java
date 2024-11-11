@@ -3,13 +3,20 @@ package jeiu.capstone.jongGangHaejo.controller;
 import jakarta.validation.Valid;
 import jeiu.capstone.jongGangHaejo.domain.File;
 import jeiu.capstone.jongGangHaejo.domain.Post;
+import jeiu.capstone.jongGangHaejo.dto.request.PostUpdateDto;
+import jeiu.capstone.jongGangHaejo.dto.response.PagedResponse;
+import jeiu.capstone.jongGangHaejo.dto.response.PostResponseDto;
 import jeiu.capstone.jongGangHaejo.dto.response.controllerAdvice.PostUploadExceptionDto;
 import jeiu.capstone.jongGangHaejo.service.FileService;
 import jeiu.capstone.jongGangHaejo.service.PostService;
 import jeiu.capstone.jongGangHaejo.dto.request.PostCreateDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,6 +63,21 @@ public class PostController {
         return ResponseEntity.ok(Map.of("message", "게시물이 성공적으로 생성되었습니다."));
     }
 
+    @PutMapping("/post/{postId}")
+    public ResponseEntity<Map<String, String>> updatePost(
+            @PathVariable Long postId,
+            @Validated @RequestPart("post") PostUpdateDto postUpdateDto,
+            @RequestPart(value = "files", required = false) List<MultipartFile> files
+    ) {
+        log.info("게시물 수정 요청 / 게시물 ID: {}, 제목: {}, 팀: {}", postId, postUpdateDto.getTitle(), postUpdateDto.getTeam());
+        if (files != null) {
+            files.forEach(file -> log.info("제공된 파일 명: {}, 크기: {} bytes", file.getOriginalFilename(), file.getSize()));
+        }
+        postService.updatePost(postId, postUpdateDto, files);
+
+        return ResponseEntity.ok(Map.of("message", "게시물이 성공적으로 수정되었습니다."));
+    }
+
     @GetMapping("/post/{postId}")
     public PostUploadExceptionDto getPost(@PathVariable(name = "postId") Long id) {
         Post post = postService.getSinglePost(id); //게시물 불러오기
@@ -75,5 +97,49 @@ public class PostController {
         dto.setFiles(fileDTOList);
 
         return dto;
+    }
+
+    /**
+     * 페이징된 게시물 목록 조회 엔드포인트
+     *
+     * @param page 페이지 번호 (0부터 시작)
+     * @param size 페이지 크기
+     * @param sort 정렬 기준 (예: createdAt,desc)
+     * @return 페이징된 게시물 응답 DTO
+     */
+    @GetMapping("/posts")
+    public ResponseEntity<PagedResponse<PostResponseDto>> getPagedPosts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "createdAt,desc") String[] sort
+    ) {
+//        log.info("페이징된 게시물 조회 요청 / 페이지: {}, 크기: {}, 정렬: {}", page, size, sort);
+
+        // 정렬 설정
+        Sort.Direction direction = Sort.Direction.DESC;
+        String sortBy = "createdAt"; // 기본 정렬 기준 현재는 작성일
+
+        if (sort.length == 2) {
+            sortBy = sort[0];
+            direction = Sort.Direction.fromString(sort[1]);
+        } else if (sort.length == 1) {
+            sortBy = sort[0];
+        }
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+
+        PagedResponse<PostResponseDto> pagedPosts = postService.getPagedPosts(pageable);
+
+        return ResponseEntity.ok(pagedPosts);
+    }
+
+    @DeleteMapping("/post/{postId}")
+    public ResponseEntity<Map<String, String>> deletePost(
+            @PathVariable Long postId
+    ) {
+        log.info("게시물 삭제 요청 / 게시물 ID : {}", postId);
+        postService.deletePost(postId);
+        return ResponseEntity.ok(Map.of("message", "게시물이 성공적으로 삭제되었습니다."));
+
     }
 }

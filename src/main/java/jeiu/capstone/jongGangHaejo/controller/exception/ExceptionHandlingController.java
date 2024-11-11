@@ -10,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.validation.FieldError;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -121,6 +122,35 @@ public class ExceptionHandlingController {
 
         // ErrorResponse 객체 생성
         ErrorResponse errorResponse = new ErrorResponse(errorCode.getCode(), errorCode.getMessage());
+
+        return new ResponseEntity<>(errorResponse, errorCode.getHttpStatus());
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ErrorResponse> handleUnauthorizedException(UnauthorizedException e) {
+        CommonErrorCode errorCode = e.getErrorCode();
+        log.error("UnauthorizedException: {}", e.getMessage(), e);
+
+        ErrorResponse errorResponse = new ErrorResponse(errorCode.getCode(), e.getMessage());
+
+        return new ResponseEntity<>(errorResponse, errorCode.getHttpStatus());
+    }
+
+    /**
+     * 메서드 인자 타입 불일치 예외 처리
+     *
+     * @param e MethodArgumentTypeMismatchException 예외 객체
+     * @return ErrorResponse를 담은 ResponseEntity
+     */
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+        CommonErrorCode errorCode = CommonErrorCode.INVALID_ARGUMENT_ERROR;
+
+        String message = String.format("'%s' 파라미터의 타입이 잘못되었습니다. 예상 타입: %s", e.getName(), e.getRequiredType().getSimpleName());
+
+        log.error("MethodArgumentTypeMismatchException: {}", message, e);
+
+        ErrorResponse errorResponse = new ErrorResponse(errorCode.getCode(), message);
 
         return new ResponseEntity<>(errorResponse, errorCode.getHttpStatus());
     }
