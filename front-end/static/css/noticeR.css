@@ -12,7 +12,6 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100vh;
 }
 
 /* Header Styling */
@@ -21,7 +20,7 @@ body {
     color: white;
     width: 100%;
     text-align: center;
-    padding: 20px 0;
+    padding: 15px 0;
 }
 
 .header-container h1 {
@@ -29,96 +28,91 @@ body {
     font-size: 24px;
 }
 
-/* Navigation Bar */
-.admin-nav {
-    width: 50%; /* 네비게이션 바 너비를 줄여 중앙에 위치 */
-    background: #333;
-    color: white;
-    padding: 10px 0;
-    display: flex;
-    justify-content: center;
-    margin: 20px auto;
-    border-radius: 10px;
-}
-
-.admin-nav ul {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-.admin-nav li {
-    list-style: none;
-}
-
-.admin-nav a {
-    color: white;
-    text-decoration: none;
-    padding: 8px 16px;
-    text-align: center;
-    transition: background-color 0.3s;
-}
-
-.admin-nav a:hover {
-    background-color: #ff6347;
-    border-radius: 5px;
-}
-
-/* Notice Register Section */
-.register-section {
+/* Register Container */
+.wrap {
     background: #ffffff;
-    padding: 40px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 90%; /* 페이지 너비에 맞춰 넓게 설정 */
-    max-width: 800px;
-    margin: 20px auto; /* 중앙 배치 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 600px;
+    padding: 20px 40px;
+    margin-top: 20px;
 }
 
-.register-section h1 {
+.wrap h1 {
+    font-size: 18px;
+    color: #ff6347;
     text-align: center;
-    color: #333;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
-/* Form Group */
+/* Form Styling */
+form {
+    width: 100%;
+}
+
 .form-group {
     margin-bottom: 20px;
 }
 
 .form-group label {
+    font-size: 14px;
+    color: #333;
     display: block;
-    font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
 }
 
 .form-group input[type="text"],
-.form-group textarea,
-.form-group input[type="file"] {
-    width: 100%;
-    padding: 12px;
+.form-group input[type="password"],
+.form-group input[type="email"],
+.form-group select {
+    width: calc(100% - 120px);
+    padding: 8px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    font-size: 16px;
     box-sizing: border-box;
+}
+
+.email-check,
+.phone-check {
+    background-color: #0066cc;
+    color: #fff;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.info {
+    font-size: 12px;
+    color: #ff6347;
+    display: block;
+    margin-top: 5px;
+}
+
+.checkbox-group label {
+    font-size: 14px;
+    color: #333;
+    margin-right: 15px;
 }
 
 /* Submit Button */
 .submit-button {
     width: 100%;
-    padding: 15px;
-    background-color: #ff6347;
-    color: white;
+    background: #ff6347;
+    color: #fff;
+    padding: 10px;
     border: none;
     border-radius: 5px;
-    font-size: 18px;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background 0.3s;
     margin-top: 20px;
 }
 
 .submit-button:hover {
-    background-color: #e55330;
+    background: #e55330;
 }
 
 /* Footer Styling */

@@ -1,46 +1,86 @@
-<!DOCTYPE>
-<html xmlns:th="http://www.thymeleaf.org/">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>회원가입 페이지</title>
-    <link rel="stylesheet" href="../../../static/css/topbot.css">
-    <link rel="stylesheet" href="../../../static/css/logR.css">
-    <script src="https://kit.fontawesome.com/fff8ef1317.js" crossorigin="anonymous"></script>
-    <script src="../../../static/js/includeHTML.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <link rel="stylesheet" href="/front-end/static/css/logR.css">
 </head>
 <body>
     <div class="header-container" id="header"></div>
+        <h1>회원가입</h1>
+    </div>
 
-    <div id="register">
-        <div class="wrap">
-            <h1>회원가입</h1>
-            <form id="RegisterForm" name="RegisterForm" method="post" action="/auth/joinProc">
-                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+    <div id="register" class="wrap">
+        <h1>가입에 사용하실 이메일주소를 입력해주세요</h1>
+        <form>
+            <div class="form-group">
+                <label for="email">이메일 인증</label>
+                <input type="email" id="email" name="email" required>
+                <button type="button" class="email-check">이메일 확인</button>
+            </div>
 
-                <label for="reg_id">아이디</label>
-                <input type="text" id="reg_id" name="username">
+            <div class="form-group">
+                <label for="name">이름</label>
+                <input type="text" id="name" name="name" required>
+            </div>
 
-                <label for="reg_pw">비밀번호</label>
-                <input type="password" id="reg_pw" name="password">
+            <div class="form-group">
+                <label for="password">비밀번호</label>
+                <input type="password" id="password" name="password" required>
+                <span class="info">비밀번호는 영문 / 숫자를 조합한 8~20자 까지 입력 가능합니다.</span>
+            </div>
 
-                <label for="reg_pw_confirm">비밀번호 확인</label>
-                <input type="password" id="reg_pw_confirm" name="password_confirm">
+            <div class="form-group">
+                <label for="confirm-password">비밀번호 확인</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+            </div>
 
-                <label for="email">이메일</label>
-                <input type="email" id="email" name="email">
+            <div class="form-group">
+                <label for="phone">휴대폰번호</label>
+                <select name="phone-code">
+                    <option value="010">010</option>
+                    <option value="011">011</option>
+                    <option value="016">016</option>
+                </select>
+                <input type="text" id="phone" name="phone" required>
+                <button type="button" class="phone-check">인증번호</button>
+                <input type="text" id="phone-auth" name="phone-auth" placeholder="인증번호" required>
+            </div>
 
-                <label for="nickname">닉네임</label>
-                <input type="text" id="nickname" name="nickname">
+            <div class="form-group">
+                <label>수신동의</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="email-consent"> E-mail</label>
+                    <label><input type="checkbox" name="sms-consent"> 문자(SMS)</label>
+                </div>
+            </div>
 
-                <button type="submit">회원가입</button>
-            </form>
-        </div>
+            <button type="submit" class="submit-button">회원가입</button>
+        </form>
     </div>
 
     <div class="footer-container" id="footer"></div>
 
-    <script>
-        includeHTML();
-    </script>
+    </div>
 </body>
 </html>
+<script>
+// 헤더와 푸터를 동적으로 로드하는 함수
+async function includeHTML() {
+    try {
+        const headerResponse = await fetch('/front-end/templates/layout/header.html');
+        const headerHtml = await headerResponse.text();
+        document.querySelector('.header-container').innerHTML = headerHtml;
+
+        const footerResponse = await fetch('/front-end/templates/layout/footer.html');
+        const footerHtml = await footerResponse.text();
+        document.querySelector('.footer-container').innerHTML = footerHtml;
+    } catch (error) {
+        console.error('Error loading modules:', error);
+    }
+}
+
+// 페이지 로드 시 헤더와 푸터를 포함시킴
+document.addEventListener('DOMContentLoaded', includeHTML);
+</script>
