@@ -24,5 +24,8 @@ ENV JWT_SECRET_KEY=${JWT_SECRET_KEY}
 # JAR파일을 container로 복사
 COPY build/libs/jongGangHaejo-0.0.1-SNAPSHOT.jar /app/jongGangHaejo.jar
 
+# 포트지정
+EXPOSE 8080
+
 # 아래 명령어와 함께 실행
 CMD ["java", "-jar", "/app/jongGangHaejo.jar"]
