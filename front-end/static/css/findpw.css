@@ -7,15 +7,12 @@
 
 /* Body Styling */
 body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh;
-    background: #f8f8f8;
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding-top: 40px; /* 상단 여백 추가 */
-    padding-bottom: 40px; /* 하단 여백 유지 */
+    min-height: 100vh;
 }
 .header-container,
 .footer-container {
@@ -62,8 +59,7 @@ body {
 }
 
 .form-group input[type="email"],
-.form-group input[type="text"],
-.form-group input[type="password"] {
+.form-group input[type="text"] {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
@@ -71,17 +67,8 @@ body {
     box-sizing: border-box;
 }
 
-.form-group select {
-    width: 100px;
-    margin-right: 5px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-.email-check,
-.phone-check {
+/* 이메일 확인 버튼 */
+.email-check {
     margin-top: 10px;
     background-color: #0066cc;
     color: #fff;

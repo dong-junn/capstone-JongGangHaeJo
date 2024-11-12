@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <title>비밀번호 찾기</title>
     <link rel="stylesheet" href="../../../static/css/findpw.css">
-
+</head>
 <body>
     <div class="header-container" id="header"></div>
     <div id="find-password" class="wrap">
         <h2>비밀번호 찾기</h2>
-        <p>가입 시 등록한 이메일 주소로 비밀번호를 재설정할 수 있습니다.</p>
+        <p>가입 시 등록한 이메일 주소와 이름을 통해 비밀번호를 재설정할 수 있습니다.</p>
         <form>
             <div class="form-group">
                 <label for="email">이메일</label>
@@ -22,30 +22,19 @@
                 <input type="text" id="name" name="name" required>
             </div>
 
-            <div class="form-group">
-                <label for="phone">휴대폰번호</label>
-                <select name="phone-code">
-                    <option value="010">010</option>
-                    <option value="011">011</option>
-                    <option value="016">016</option>
-                </select>
-                <input type="text" id="phone" name="phone" required>
-                <button type="button" class="phone-check">인증번호</button>
-                <input type="text" id="phone-auth" name="phone-auth" placeholder="인증번호" required>
-            </div>
-
             <button type="submit" class="submit-button">비밀번호 재설정</button>
         </form>
     </div>
+
     <div class="footer-container" id="footer"></div>
+    
     <script>
-  // 헤더와 푸터를 동적으로 로드하는 함수
-  async function includeHTML() {
+        async function includeHTML() {
             try {
                 const headerResponse = await fetch('/front-end/templates/layout/header.html');
                 const headerHtml = await headerResponse.text();
                 document.querySelector('.header-container').innerHTML = headerHtml;
-        
+
                 const footerResponse = await fetch('/front-end/templates/layout/footer.html');
                 const footerHtml = await footerResponse.text();
                 document.querySelector('.footer-container').innerHTML = footerHtml;
@@ -53,8 +42,7 @@
                 console.error('Error loading modules:', error);
             }
         }
-        
-        // 페이지 로드 시 헤더와 푸터를 포함시킴
+
         document.addEventListener('DOMContentLoaded', includeHTML);
     </script>
 </body>
