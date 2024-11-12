@@ -2,9 +2,9 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
     <link rel="stylesheet" href="/front-end/static/css/logR.css">
+    <script src="/front-end/static/js/loginR.js" defer></script>
 </head>
 <body>
     <div class="header-container" id="header"></div>
@@ -44,8 +44,6 @@
                     <option value="016">016</option>
                 </select>
                 <input type="text" id="phone" name="phone" required>
-                <button type="button" class="phone-check">인증번호</button>
-                <input type="text" id="phone-auth" name="phone-auth" placeholder="인증번호" required>
             </div>
 
             <div class="form-group">
@@ -65,22 +63,3 @@
     </div>
 </body>
 </html>
-<script>
-// 헤더와 푸터를 동적으로 로드하는 함수
-async function includeHTML() {
-    try {
-        const headerResponse = await fetch('/front-end/templates/layout/header.html');
-        const headerHtml = await headerResponse.text();
-        document.querySelector('.header-container').innerHTML = headerHtml;
-
-        const footerResponse = await fetch('/front-end/templates/layout/footer.html');
-        const footerHtml = await footerResponse.text();
-        document.querySelector('.footer-container').innerHTML = footerHtml;
-    } catch (error) {
-        console.error('Error loading modules:', error);
-    }
-}
-
-// 페이지 로드 시 헤더와 푸터를 포함시킴
-document.addEventListener('DOMContentLoaded', includeHTML);
-</script>
