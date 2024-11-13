@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
-public class SecurityExceptionHandler {
+public class UserNameNotFoundResponse {
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public ErrorResponseDto handleUsernameNotFoundException(UsernameNotFoundException e) {
