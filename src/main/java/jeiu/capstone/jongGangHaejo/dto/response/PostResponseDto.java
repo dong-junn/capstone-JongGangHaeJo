@@ -14,10 +14,11 @@ public class PostResponseDto {
     private String username; // 게시물 작성자
     private String createdAt;
     private String updatedAt;
+    private Long viewCount;
 
     // 필요에 따라 파일 정보도 포함할 수 있습니다.
 
-    public PostResponseDto(Long id, String title, String content, String team, String youtubelink, String username, String createdAt, String updatedAt) {
+    public PostResponseDto(Long id, String title, String content, String team, String youtubelink, String username, String createdAt, String updatedAt, Long viewCount) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -26,5 +27,6 @@ public class PostResponseDto {
         this.username = username;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.viewCount = viewCount;
     }
 }

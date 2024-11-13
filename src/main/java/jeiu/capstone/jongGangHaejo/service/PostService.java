@@ -12,6 +12,8 @@ import jeiu.capstone.jongGangHaejo.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -126,7 +128,8 @@ public class PostService {
                         post.getYoutubelink(),
                         post.getUsername(),
                         post.getCreatedAt().toString(),
-                        post.getUpdatedAt().toString()
+                        post.getUpdatedAt().toString(),
+                        post.getViewCount()
                 ))
                 .collect(Collectors.toList());
 
@@ -162,20 +165,21 @@ public class PostService {
 
     }
 
-    /**
-     * 현재 사용자가 게시물의 작성자인지 확인하는 메서드
-     * @PreAuthorize("@postService.isPostOwner(#postId)")
-     * 위 어노테이션을 사용하여 사용자 확인 가능
-     * @param postId 게시물의 ID
-     * @return 작성자일 경우 true, 아니면 false
-     */
-    public boolean isPostOwner(Long postId) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new ResourceNotFoundException("게시물을 찾을 수 없습니다. 게시물 ID: " + postId, CommonErrorCode.RESOURCE_NOT_FOUND));
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUsername = authentication.getName();
-
-        return post.getUsername().equals(currentUsername);
+    public List<PostResponseDto> getTop3Posts() {
+        // 최신 게시물 3개를 조회
+        Pageable pageable = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "createdAt"));
+        return postRepository.findAll(pageable).stream()
+                .map(post -> new PostResponseDto(
+                        post.getPostid(),
+                        post.getTitle(),
+                        post.getContent(),
+                        post.getTeam(),
+                        post.getYoutubelink(),
+                        post.getUsername(),
+                        post.getCreatedAt().toString(),
+                        post.getUpdatedAt().toString(),
+                        post.getViewCount() // 조회수 포함
+                ))
+                .collect(Collectors.toList());
     }
 }
