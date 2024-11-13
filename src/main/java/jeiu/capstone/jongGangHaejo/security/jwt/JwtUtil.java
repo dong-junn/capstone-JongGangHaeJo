@@ -3,6 +3,7 @@ package jeiu.capstone.jongGangHaejo.security.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +29,8 @@ public class JwtUtil {
 
     @PostConstruct
     public void init() {
-        // 더 안전한 키 생성 방식으로 변경
-        this.key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
     // 토큰 생성 (로그인 성공 시 사용)
