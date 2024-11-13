@@ -48,7 +48,7 @@ public class UserService {
 
         // 2. 비밀번호 검증
         if (!passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
-            throw new BadCredentialsException("Invalid password");
+            throw new BadCredentialsException("아이디 혹은 비밀번호가 틀렸습니다!");
         }
 
         // 3. UserConfig 생성 및 토큰 생성
