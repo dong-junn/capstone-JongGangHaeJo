@@ -14,12 +14,12 @@ import java.util.Map;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ErrorResponseDto {
+public class ErrorResponse {
     private int code;
     private String message;
     private Map<String, String> validation;
 
-    public ErrorResponseDto(int code, String message) {
+    public ErrorResponse(int code, String message) {
         this.code = code;
         this.message = message;
     }
