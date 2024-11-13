@@ -1,4 +1,4 @@
-package jeiu.capstone.jongGangHaejo.controller.exception;
+package jeiu.capstone.jongGangHaejo.security.handler;
 
 import jeiu.capstone.jongGangHaejo.dto.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
