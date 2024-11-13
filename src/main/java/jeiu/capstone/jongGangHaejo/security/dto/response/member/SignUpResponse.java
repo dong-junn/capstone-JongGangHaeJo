@@ -1,4 +1,4 @@
-package jeiu.capstone.jongGangHaejo.security.dto.response;
+package jeiu.capstone.jongGangHaejo.security.dto.response.member;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
