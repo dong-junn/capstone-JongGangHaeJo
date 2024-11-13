@@ -1,5 +1,6 @@
 package jeiu.capstone.jongGangHaejo.security.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jeiu.capstone.jongGangHaejo.domain.user.User;
 import jeiu.capstone.jongGangHaejo.repository.UserRepository;
 import jeiu.capstone.jongGangHaejo.security.handler.Http401Handler;
@@ -38,8 +39,8 @@ public class SecurityConfig {
                 //권한이 없어도 아래 사항에 대하여서는 허용한다
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/error", "/favicon.ico").permitAll() //기본적으로 필요
-                        .requestMatchers(HttpMethod.POST, "/member/sign-up").permitAll() //회원가입
-                        .requestMatchers(HttpMethod.POST, "/member/sign-in").permitAll() //로그인
+                        .requestMatchers("sign-up").permitAll() //회원가입
+                        .requestMatchers("sign-in").permitAll() //로그인
                         .requestMatchers("/user").hasRole("USER")
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().authenticated()
@@ -67,8 +68,8 @@ public class SecurityConfig {
 
                 //401, 403 custom handler 등록
                 .exceptionHandling(e -> {
-                    e.accessDeniedHandler(new Http403Handler());
-                    e.authenticationEntryPoint(new Http401Handler());
+                    e.accessDeniedHandler(new Http403Handler(new ObjectMapper()));
+                    e.authenticationEntryPoint(new Http401Handler(new ObjectMapper()));
                 });
 
         return http.build();
