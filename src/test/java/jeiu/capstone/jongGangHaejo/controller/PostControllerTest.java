@@ -3,7 +3,7 @@ package jeiu.capstone.jongGangHaejo.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jeiu.capstone.jongGangHaejo.dto.request.PostCreateDto;
 import jeiu.capstone.jongGangHaejo.dto.request.PostUpdateDto;
-import jeiu.capstone.jongGangHaejo.dto.response.PagedResponse;
+import jeiu.capstone.jongGangHaejo.dto.response.PagedResponseDto;
 import jeiu.capstone.jongGangHaejo.dto.response.PostResponseDto;
 import jeiu.capstone.jongGangHaejo.exception.InvalidFileNameException;
 import jeiu.capstone.jongGangHaejo.exception.ResourceNotFoundException;
@@ -426,11 +426,11 @@ class PostControllerTest {
         PostResponseDto post2 = new PostResponseDto(2L, "Title2", "Content2", "Team2", "https://youtube.com/2", "user2", "2024-01-03", "2024-01-04");
 
         List<PostResponseDto> posts = List.of(post1, post2);
-        PagedResponse<PostResponseDto> pagedResponse = new PagedResponse<>(posts, page, size, 2, 1, true);
+        PagedResponseDto<PostResponseDto> pagedResponseDto = new PagedResponseDto<>(posts, page, size, 2, 1, true);
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), sortBy));
 
-        Mockito.when(postService.getPagedPosts(any(Pageable.class))).thenReturn(pagedResponse);
+        Mockito.when(postService.getPagedPosts(any(Pageable.class))).thenReturn(pagedResponseDto);
 
         // when & then
         mockMvc.perform(get("/posts")

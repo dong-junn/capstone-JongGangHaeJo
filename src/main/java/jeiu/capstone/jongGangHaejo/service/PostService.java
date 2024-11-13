@@ -3,7 +3,7 @@ package jeiu.capstone.jongGangHaejo.service;
 import jeiu.capstone.jongGangHaejo.domain.Post;
 import jeiu.capstone.jongGangHaejo.dto.request.PostCreateDto;
 import jeiu.capstone.jongGangHaejo.dto.request.PostUpdateDto;
-import jeiu.capstone.jongGangHaejo.dto.response.PagedResponse;
+import jeiu.capstone.jongGangHaejo.dto.response.PagedResponseDto;
 import jeiu.capstone.jongGangHaejo.dto.response.PostResponseDto;
 import jeiu.capstone.jongGangHaejo.exception.ResourceNotFoundException;
 import jeiu.capstone.jongGangHaejo.exception.UnauthorizedException;
@@ -114,7 +114,7 @@ public class PostService {
      * @return 페이징된 게시물 응답 DTO
      */
     @Transactional(readOnly = true)
-    public PagedResponse<PostResponseDto> getPagedPosts(Pageable pageable) {
+    public PagedResponseDto<PostResponseDto> getPagedPosts(Pageable pageable) {
         Page<Post> postPage = postRepository.findAll(pageable);
 
         List<PostResponseDto> content = postPage.getContent().stream()
@@ -130,7 +130,7 @@ public class PostService {
                 ))
                 .collect(Collectors.toList());
 
-        return new PagedResponse<>(
+        return new PagedResponseDto<>(
                 content,
                 postPage.getNumber(),
                 postPage.getSize(),

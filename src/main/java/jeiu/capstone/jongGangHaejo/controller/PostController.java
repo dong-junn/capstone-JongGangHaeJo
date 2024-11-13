@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import jeiu.capstone.jongGangHaejo.domain.File;
 import jeiu.capstone.jongGangHaejo.domain.Post;
 import jeiu.capstone.jongGangHaejo.dto.request.PostUpdateDto;
-import jeiu.capstone.jongGangHaejo.dto.response.PagedResponse;
+import jeiu.capstone.jongGangHaejo.dto.response.PagedResponseDto;
 import jeiu.capstone.jongGangHaejo.dto.response.PostResponseDto;
 import jeiu.capstone.jongGangHaejo.dto.response.controllerAdvice.PostUploadExceptionDto;
 import jeiu.capstone.jongGangHaejo.service.FileService;
@@ -108,7 +108,7 @@ public class PostController {
      * @return 페이징된 게시물 응답 DTO
      */
     @GetMapping("/posts")
-    public ResponseEntity<PagedResponse<PostResponseDto>> getPagedPosts(
+    public ResponseEntity<PagedResponseDto<PostResponseDto>> getPagedPosts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "createdAt,desc") String[] sort
@@ -128,7 +128,7 @@ public class PostController {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
-        PagedResponse<PostResponseDto> pagedPosts = postService.getPagedPosts(pageable);
+        PagedResponseDto<PostResponseDto> pagedPosts = postService.getPagedPosts(pageable);
 
         return ResponseEntity.ok(pagedPosts);
     }
