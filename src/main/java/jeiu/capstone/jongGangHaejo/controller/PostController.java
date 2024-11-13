@@ -7,6 +7,7 @@ import jeiu.capstone.jongGangHaejo.dto.request.PostUpdateDto;
 import jeiu.capstone.jongGangHaejo.dto.response.PagedResponseDto;
 import jeiu.capstone.jongGangHaejo.dto.response.PostResponseDto;
 import jeiu.capstone.jongGangHaejo.dto.response.controllerAdvice.PostUploadExceptionDto;
+import jeiu.capstone.jongGangHaejo.security.config.UserConfig;
 import jeiu.capstone.jongGangHaejo.service.FileService;
 import jeiu.capstone.jongGangHaejo.service.PostService;
 import jeiu.capstone.jongGangHaejo.dto.request.PostCreateDto;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,12 +52,17 @@ public class PostController {
     @PostMapping("/post")
     public ResponseEntity<Map<String, String>> createPost(
             @Valid @RequestPart("post") PostCreateDto postCreateDto, // 게시물 데이터
-            @RequestPart("files") List<MultipartFile> files // 첨부 파일들
+            @RequestPart("files") List<MultipartFile> files,
+            @AuthenticationPrincipal UserConfig userConfig // 현재 인증된 사용자 정보
     ) {
         // 게시물 데이터 로깅
         log.info("게시물 작성 요청 / 제목: {}, 팀: {}", postCreateDto.getTitle(), postCreateDto.getTeam());
         // 각 파일의 이름과 크기 로깅
         files.forEach(file -> log.info("제공된 파일 명: {}, 크기: {} bytes", file.getOriginalFilename(), file.getSize()));
+
+        // 사용자 이름 설정
+        postCreateDto.setUsername(userConfig.getUsername());
+
         // 서비스 계층으로 게시물 생성 요청 위임
         postService.createPost(postCreateDto, files);
 

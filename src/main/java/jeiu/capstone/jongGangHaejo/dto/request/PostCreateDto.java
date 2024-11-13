@@ -24,6 +24,8 @@ public class PostCreateDto { //PostController에 params를 넘기기 위한 DTO
     @ValidYoutubeUrl //유튜브 링크임을 검증하는 어노테이션
     private String youtubelink;
 
+    private String username;
+
     /**
      * DTO를 엔티티로 변환하는 메서드
      *
