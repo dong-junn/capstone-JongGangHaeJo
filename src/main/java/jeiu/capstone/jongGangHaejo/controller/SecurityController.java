@@ -12,4 +12,9 @@ public class SecurityController {
     public String user(@AuthenticationPrincipal UserConfig user) {
         return "로그인 회원: " + user.getUsername();
     }
+
+    @GetMapping("/admin")
+    public String admin() {
+        return "어드민 페이지";
+    }
 }
