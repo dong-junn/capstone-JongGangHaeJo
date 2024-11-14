@@ -422,8 +422,8 @@ class PostControllerTest {
         String sortBy = "createdAt"; // 작성일 기준
         String direction = "desc"; // 역순 (최근 날짜부터)
 
-        PostResponseDto post1 = new PostResponseDto(1L, "Title1", "Content1", "Team1", "https://youtube.com/1", "user1", "2024-01-01", "2024-01-02");
-        PostResponseDto post2 = new PostResponseDto(2L, "Title2", "Content2", "Team2", "https://youtube.com/2", "user2", "2024-01-03", "2024-01-04");
+        PostResponseDto post1 = new PostResponseDto(1L, "Title1", "Content1", "Team1", "https://youtube.com/1", "user1", "2024-01-01", "2024-01-02", 0L);
+        PostResponseDto post2 = new PostResponseDto(2L, "Title2", "Content2", "Team2", "https://youtube.com/2", "user2", "2024-01-03", "2024-01-04", 0L);
 
         List<PostResponseDto> posts = List.of(post1, post2);
         PagedResponseDto<PostResponseDto> pagedResponseDto = new PagedResponseDto<>(posts, page, size, 2, 1, true);
