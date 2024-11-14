@@ -1,5 +1,6 @@
 package jeiu.capstone.jongGangHaejo.repository;
 
+import jeiu.capstone.jongGangHaejo.config.QueryDslTestConfig;
 import jeiu.capstone.jongGangHaejo.domain.user.User;
 import jeiu.capstone.jongGangHaejo.dto.form.user.SignUpDto;
 import org.assertj.core.api.Assertions;
@@ -8,10 +9,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @DataJpaTest
+@Import(QueryDslTestConfig.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+
 public class UserRepositoryTest {
 
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
