@@ -2,13 +2,7 @@ body {
     font-family: 'Arial', sans-serif;
 }
 
-main {
-    margin-top: 100px;
-    margin-bottom: 100px;
-    overflow-y: auto;
-    max-height: 80vh;
-    padding: 0 20px;
-}
+
 
 .header-container,
 .footer-container {
@@ -16,78 +10,157 @@ main {
     width: 100%;
 }
 
-/* 프로젝트 리스트 스타일 */
+/* Main 스타일 */
+main {
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Project List Section 스타일 */
+.project-detail {
+    text-align: center;
+}
+
+.project-detail h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* Projects Container 스타일 */
 .projects-container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    justify-content: center;
-    padding-top: 10px; /* 위쪽에 약간의 패딩 추가 */
+    justify-content: space-between;
 }
-.project-detail h1 {
-    text-align: left; /* 텍스트 중앙 정렬 */
-    margin-top: 20px; /* 상단 여백 */
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px; /* 원하는 간격으로 조정 */
-}
+
+/* Project Item 스타일 */
 .project-info {
-    position: relative;
-    width: 22%;
-    margin-bottom: 20px;
+    width: calc(33.33% - 20px); /* 한 줄에 3개씩 배치 */
+    background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
     overflow: hidden;
-    background-color: #f9f9f9;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    }
+
 
 .project-info:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* 이미지가 박스 크기에 맞게 조절되도록 설정 */
 .project-info img {
     width: 100%;
-    height: auto;
+    height: 180px; /* 고정된 높이 설정 */
+    object-fit: cover; /* 이미지 비율 유지하면서 박스에 맞게 자르기 */
+    background-color: #f4f4f4; /* 이미지가 없을 경우 배경색 */
+    display: block;
 }
 
-.project-details {
-    padding: 15px;
+.project-info img:not([src]) {
+    content: ""; /* 이미지가 없을 때도 공간 차지 */
+    display: block;
+    background-color: #f4f4f4;
 }
+
+/* 프로젝트 상세 내용 스타일 */
+.project-details {
+    text-align: center; /* 중앙 정렬 */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
 
 .project-details h2 {
-    margin: 0;
     font-size: 18px;
-    color: #333;
+    color: #003366;
+    margin-bottom: 10px;
 }
 
 .project-details p {
     font-size: 14px;
-    color: #666;
-    margin: 5px 0;
+    color: #555;
+    margin-bottom: 5px;
 }
 
 /* 상세보기 버튼 스타일 */
 .detail-button {
-    display: none;
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 8px 16px;
-    background-color: #007bff;
+    display: inline-block;
+    margin-top: 10px; /* 위쪽 간격 추가 */
+    padding: 10px 20px;
+    background-color: #ffa500; /* 옅은 주황색 */
     color: #fff;
-    font-size: 14px;
+    text-decoration: none;
+    font-weight: bold;
     border-radius: 5px;
-    cursor: pointer;
     transition: background-color 0.3s;
 }
 
-.project-info:hover .detail-button {
+.detail-button:hover {
+    background-color: #ff8c00; /* 버튼에 호버 시 더 진한 주황색 */
+}
+
+
+/* 상세보기 버튼 */
+.detail-button {
     display: block;
+    width: 100%; /* 칸에 맞도록 너비를 100%로 설정 */
+    text-align: center;
+    padding: 10px;
+    background-color: #ffa500; /* 옅은 주황색 */
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    border-top: 1px solid #ddd;
+    transition: background-color 0.3s;
+    border-bottom-left-radius: 8px; /* 버튼과 카드의 아래 모서리가 매끄럽게 연결되도록 설정 */
+    border-bottom-right-radius: 8px;
 }
 
 .detail-button:hover {
-    background-color: #0056b3;
+    background-color: #ff8c00; /* 조금 더 진한 주황색으로 변경 */
+}
+
+
+/* Pagination 스타일 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 5px;
+}
+
+.pagination-link {
+    padding: 8px 12px;
+    background-color: #ddd;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.pagination-link:hover {
+    background-color: #bbb;
+}
+
+.pagination-link strong {
+    background-color: #00509e;
+    color: white;
 }
