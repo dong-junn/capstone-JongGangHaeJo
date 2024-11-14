@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>비밀번호 찾기</title>
     <link rel="stylesheet" href="../../../static/css/findpw.css">
+    <script src="/front-end/static/js/api.js" defer></script> 
+    <script src="/front-end/static/js/includeHtml.js" defer></script> 
 </head>
 <body>
     <div class="header-container" id="header"></div>
@@ -28,22 +30,6 @@
 
     <div class="footer-container" id="footer"></div>
     
-    <script>
-        async function includeHTML() {
-            try {
-                const headerResponse = await fetch('/front-end/templates/layout/header.html');
-                const headerHtml = await headerResponse.text();
-                document.querySelector('.header-container').innerHTML = headerHtml;
-
-                const footerResponse = await fetch('/front-end/templates/layout/footer.html');
-                const footerHtml = await footerResponse.text();
-                document.querySelector('.footer-container').innerHTML = footerHtml;
-            } catch (error) {
-                console.error('Error loading modules:', error);
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', includeHTML);
-    </script>
+    
 </body>
 </html>
