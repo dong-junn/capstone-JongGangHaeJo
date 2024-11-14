@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공지사항</title>
+    <link rel="stylesheet" href="../../../static/css/notice.css">
+    <script src="/front-end/static/js/noticeList.js" defer></script>
+</head>
+<body>
+    <div class="header-container" id="header"></div>
+
+    <main>
+        <section class="notice-section">
+            <h1>공지사항</h1>
+            <table class="notice-list" id="notice-list">
+                <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>제목</th>
+                        <th>첨부</th>
+                        <th>작성일</th>
+                        <th>조회</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 공지사항 항목이 동적으로 추가됩니다 -->
+                    <tr class="notice-item">
+                        <td>1</td>
+                        <td><a href="/notice/1">공지사항 제목 1</a></td>
+                        <td><i class="file-icon"></i></td>
+                        <td>2024-06-04</td>
+                        <td>123</td>
+                    </tr>
+                    <tr class="notice-item">
+                        <td>2</td>
+                        <td><a href="/notice/2">공지사항 제목 2</a></td>
+                        <td></td>
+                        <td>2024-05-28</td>
+                        <td>456</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+            
+            <!-- Pagination 컨테이너 추가 -->
+            <div class="pagination">
+                <a href="#" class="pagination-link">«</a>`
+                <a href="#" class="pagination-link">1</a>
+                <strong class="pagination-link">2</strong>
+                <a href="#" class="pagination-link">3</a>
+                <a href="#" class="pagination-link">»</a>
+            </div>
+        </section>
+    </main>
+
+    <div class="footer-container" id="footer"></div>
+</body>
+</html>

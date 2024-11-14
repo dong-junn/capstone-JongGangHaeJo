@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEIU 캡스톤 프로젝트 - 프로젝트 보기</title>
+    <link rel="stylesheet" href="/front-end/static/css/detail.css">
+    <script src="https://kit.fontawesome.com/fff8ef1317.js" crossorigin="anonymous"></script>
+    <script src="/front-end/static/js/detail.js" defer></script>
+</head>
+<body>
+    <div class="header-container" id="header"></div>
+
+    <main style="margin-top: 2%;">
+        <section class="view-section">
+            <h1>캡스톤 프로젝트</h1>
+            <div class="project-details" id="project-details">
+                <div class="author-info">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="project-overview">
+                    <h2 id="projectOverview">작품 개요</h2>
+                </div>
+                <div class="project-poster">
+                    <h2>발표 자료</h2>
+                    <img src="/front-end/static/img/ex.jpg" alt="Poster" id="projectPoster">
+                </div>
+                <div class="project-youtube-video">
+                    <h2>유튜브 동영상</h2>
+                    <iframe id="youtubeVideo" width="560" height="315" src="https://www.youtube.com/watch?v=B0e1zkQe4SM" 
+                            title="YouTube video player" frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen></iframe>
+                </div>
+                <div class="project-actions">
+                    <!-- 좋아요 버튼 및 카운트 -->
+                    <span id="likeCount"><i class="fas fa-heart" style="color: #ff6b6b; margin-right: 5px;"></i> <span id="likeNum">0</span>개</span>
+                    <!-- 댓글 수 표시 -->
+                    <span><i class="fas fa-comment" style="color: #007bff; margin-right: 5px;"></i> <span id="commentNum">0</span>개</span>
+                </div>
+                
+                <!-- 로그인한 작성자에게만 수정 버튼 표시 -->
+                <div id="editButtonContainer" style="margin-top: 20px;"></div>
+
+                <h2>댓글</h2>
+                <!-- 댓글 입력 폼 -->
+                <textarea id="commentInput" placeholder="댓글을 입력하세요"></textarea>
+                <button id="submitComment" onclick="submitComment()">댓글 달기</button>
+                
+                <!-- 댓글 리스트 -->
+                <div id="commentsList">
+                </div>
+            </div>
+        </section>
+    </main>
+    <div class="footer-container" id="footer"></div>
+    <script>
+        // 헤더와 푸터를 동적으로 로드
+        async function includeHTML() {
+            const headerResponse = await fetch('http://127.0.0.1:5500/front-end/templates/layout/header.html');
+            const headerHtml = await headerResponse.text();
+            document.getElementById('header').innerHTML = headerHtml;
+
+            const footerResponse = await fetch('http://127.0.0.1:5500/front-end/templates/layout/footer.html');
+            const footerHtml = await footerResponse.text();
+            document.getElementById('footer').innerHTML = footerHtml;
+        }
+
+        // 페이지가 로드될 때 헤더와 푸터 포함
+        document.addEventListener('DOMContentLoaded', includeHTML);
+    </script>
+</body>
+</html>

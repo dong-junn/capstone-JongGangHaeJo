@@ -1,0 +1,174 @@
+/* Reset 기본 스타일 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+/* Header와 Footer 간격 조정 */
+.header-container,
+.footer-container {
+    width: 100%;
+}
+/* main 스타일 */
+main {
+    flex: 1;
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 30px 40px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 중앙 배열 */
+}
+
+/* 중앙 배치 및 넓이 조정 */
+.view-section {
+    width: 100%;
+    max-width: 1100px;
+    text-align: left;
+    padding: 30px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+.project-poster,
+.project-youtube-video {
+    width: 100%;
+    max-width: 1100px;
+    text-align: left;
+    margin-bottom: 30px;
+}
+
+/* 발표 자료 제목 스타일 */
+.project-poster h2,
+.project-youtube-video h2 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* 유튜브 동영상 스타일 */
+.project-youtube-video {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 비율 */
+    height: 0;
+    overflow: hidden;
+}
+
+.project-youtube-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.project-details,
+.comment-section,
+.project-actions {
+    width: 100%;
+    max-width: 1100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 제목 중앙 정렬 */
+.view-section h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+    color: #333;
+    font-weight: bold;
+    border-bottom: 2px solid #f39e0c;
+    padding-bottom: 10px;
+}
+
+/* 댓글 섹션 */
+.comment-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 15px;
+    width: 100%;
+}
+
+#commentInput {
+    width: 100%; /* 가로 너비를 전체로 설정 */
+    max-width: 800px; /* 최대 가로 너비 설정 (필요시) */
+    height: 200px; /* 댓글 입력창 높이 증가 */
+    padding: 15px; /* 패딩 조정 */
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    resize: none;
+}
+
+
+#submitComment {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #ff8c00;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#submitComment:hover {
+    background-color: #e67300;
+}
+
+/* 댓글 스타일 */
+.comment {
+    background-color: #f1f1f1;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.comment-author {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.comment-content {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* project-actions 스타일을 수평 배열로 조정 */
+.project-actions {
+    display: flex;
+    flex-direction: row; /* 수평 배열 */
+    align-items: center;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    gap: 15px; /* 요소 간 간격 추가 */
+    width: 100%;
+}

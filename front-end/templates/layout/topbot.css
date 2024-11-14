@@ -1,0 +1,256 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+
+.header_warp,
+.nav_warp,
+.footer_warp,
+header,
+footer {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+header, footer {
+    position: relative;
+    left: 0;
+    right: 0;
+}
+
+/* 상단 부분 */
+body {
+    padding-top: 160px; /* 고정된 헤더와 네비게이션이 페이지 내용을 가리지 않도록 위쪽 공간 확보 */
+    margin: 0; /* 브라우저 기본 여백 제거 */
+}
+
+/* 헤더 스타일 */
+.header_warp {
+    position: fixed; /* 헤더를 화면에 고정 */
+    top: 0; /* 화면의 가장 상단에 위치 */
+    text-align: center;
+    width: 100%; /* 화면 전체 너비 */
+    background-color: white; /* 헤더의 배경을 흰색으로 설정 */
+    z-index: 1000; /* 다른 요소 위에 표시되도록 z-index 설정 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.); /* 살짝 그림자 효과로 부각 */
+    padding: 10px 0; /* 위아래 여백 추가 */
+}
+
+.header_warp a {
+    font-size: 40px;
+    font-weight: 900;
+    color: black; /* 로고의 글씨 색상을 검정으로 설정 */
+    text-decoration: none; /* 링크의 기본 밑줄 제거 */
+}
+
+/* 네비게이션 스타일 */
+.nav_warp {
+    position: fixed; /* 네비게이션도 화면에 고정 */
+    top: 60px; /* 헤더 바로 아래에 위치 (헤더 높이만큼 내려줌) */
+    left: 0;
+    width: 100%;
+    background-color: white; /* 배경색을 헤더와 동일하게 설정 */
+    z-index: 999; /* 헤더보다는 아래에 위치하므로 낮은 z-index */
+    box-shadow: 0 2px 5px rgba(247, 125, 38, 0.1); /* 네비게이션에도 그림자 효과 추가 */
+    display: flex; /* 수평 정렬을 위한 플렉스 박스 */
+    justify-content: center; /* 메뉴 항목을 중앙 정렬 */
+    height: 60px; /* 네비게이션 바의 높이 */
+}
+
+.nav_warp ul {
+    display: flex;
+    list-style: none; /* 목록의 기본 스타일 제거 */
+    padding: 0;
+    margin: 0;
+    justify-content: center; /* 메뉴 항목을 중앙 정렬 */
+    align-items: center; /* 메뉴 항목 수직 중앙 정렬 */
+    height: 100%;
+}
+
+.nav_warp li {
+    padding: 0 20px; /* 메뉴 항목 간의 간격 추가 */
+    display: flex;
+    align-items: center; /* 수직 중앙 정렬 */
+    height: 100%;
+}
+
+.nav_warp a {
+    font-size: 18px;
+    font-weight: 700;
+    text-decoration: none; /* 링크의 기본 밑줄 제거 */
+    color: black; /* 링크 색상을 검정으로 설정 */
+    display: flex;
+    align-items: center; /* 수직 중앙 정렬 */
+    height: 100%; /* 부모 요소의 높이 전체 사용 */
+    padding: 21px 0; /* 수직 중앙을 조정하기 위한 패딩 */
+    line-height: normal; /* 수직 중앙을 맞추기 위해 line-height를 normal로 설정 */
+
+}
+
+
+
+
+/* 하단 부분 */
+footer {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.footer_warp {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.fir {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    background-color: #333333; /* 배경색 설정 */
+    color: #e0e0e0; /* 텍스트 색상 설정 */
+}
+
+.fir ul {
+    display: flex;
+    list-style: none;
+}
+
+.fir ul li {
+    margin-right: 20px;
+    font-size: 16px;
+}
+
+.fir ul li a {
+    color: #e0e0e0;
+    text-decoration: none;
+}
+
+.fir .top_btn {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.sec {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.sec ul {
+    margin-left: 30px;
+    list-style: none;
+}
+
+.sec ul li {
+    font-size: 14px;
+    color: #333333;
+}
+
+.sec ul li p {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 900;
+    color: #333333;
+}
+
+/* 반응형 디자인을 위한 미디어 쿼리 */
+
+/* 태블릿 (768px 이하) */
+@media (max-width: 768px) {
+    .header_warp a {
+        font-size: 30px;
+    }
+
+    .nav_warp a {
+        font-size: 18px;
+    }
+
+    .nav li {
+        padding: 0 20px;
+    }
+
+    .fir {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .fir ul {
+        flex-direction: column;
+        margin-left: 0;
+    }
+
+    .fir ul li {
+        margin-bottom: 10px;
+    }
+
+    .sec {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .sec ul {
+        margin-left: 0;
+    }
+
+    .sec ul li {
+        font-size: 14px;
+    }
+}
+
+/* 모바일 (480px 이하) */
+@media (max-width: 480px) {
+    .header_warp a {
+        font-size: 24px;
+    }
+
+    .nav_warp a {
+        font-size: 16px;
+    }
+
+    .nav li {
+        padding: 0 10px;
+    }
+
+    .fir {
+        padding: 5px 10px;
+    }
+
+    .fir ul {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .sec {
+        padding: 10px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .sec ul {
+        margin-left: 0;
+    }
+
+    .sec ul li {
+        font-size: 12px;
+    }
+
+    .sec ul li p {
+        font-size: 14px;
+    }
+}

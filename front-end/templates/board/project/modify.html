@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JEIU 캡스톤 프로젝트 - 프로젝트 관리</title>
+    <link rel="stylesheet" href="../../../static/css/modify.css">
+</head>
+
+<body>
+    <!-- 헤더 -->
+    <div class="header-container">
+        <h1>JEIU CAPSTONE 관리자 페이지</h1>
+    </div>
+
+    <!-- 네비게이션 바 -->
+    <div class="admin-nav">
+        <ul>
+            <li><a href="/front-end/templates/board/project/modify.html">프로젝트 관리</a></li>
+            <li><a href="/front-end/templates/board/notice/noticeRegister.html">공지사항 관리</a></li>
+            <li><a href="/front-end/templates/user/login/userAdmin.html">회원 관리</a></li>
+        </ul>
+    </div>
+
+    <!-- 프로젝트 목록 -->
+    <main>
+        <section class="project-list-section">
+            <h1>캡스톤 프로젝트 목록</h1>
+            <div class="project-list">
+                <!-- 예시 프로젝트 항목 -->
+                <div class="project-item">
+                    <h3>프로젝트 제목 예시 1</h3>
+                    <p>작성자: 김재서</p>
+                    <button class="delete-button" onclick="deleteProject(1)">삭제</button>
+                </div>
+                <div class="project-item">
+                    <h3>프로젝트 제목 예시 2</h3>
+                    <p>작성자: 이우진</p>
+                    <button class="delete-button" onclick="deleteProject(2)">삭제</button>
+                </div>
+                <div class="project-item">
+                    <h3>프로젝트 제목 예시 2</h3>
+                    <p>작성자: 이동준</p>
+                    <button class="delete-button" onclick="deleteProject(2)">삭제</button>
+                </div>
+                <!-- 추가된 프로젝트 항목 -->
+            </div>
+        </section>
+        <div class="pagination">
+            <button onclick="changePage(currentPage - 1)">이전</button>
+            <button onclick="changePage(currentPage + 1)">다음</button>
+        </div>
+        
+    </main>
+
+    <!-- 푸터 -->
+    <div class="footer-container">
+        <p>&copy; JEIU 재능대학교</p>
+    </div>
+
+    <script>
+        function deleteProject(projectId) {
+            // 삭제 로직 추가
+            alert(`프로젝트 ${projectId}을 삭제합니다.`);
+            // 실제 삭제 요청이 서버로 전송되도록 API 요청 추가
+        }
+        const itemsPerPage = 9; // 한 페이지에 표시할 프로젝트 개수
+let currentPage = 1;
+
+function displayPage(page) {
+    const items = document.querySelectorAll('.project-item');
+    items.forEach((item, index) => {
+        item.style.display = (index >= (page - 1) * itemsPerPage && index < page * itemsPerPage) ? 'block' : 'none';
+    });
+}
+
+// 페이지 버튼을 클릭할 때
+function changePage(page) {
+    currentPage = page;
+    displayPage(currentPage);
+}
+
+// 페이지 로드 시 초기 페이지 표시
+displayPage(currentPage);
+
+    </script>
+</body>
+
+</html>

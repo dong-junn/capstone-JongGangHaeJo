@@ -1,0 +1,118 @@
+/* Reset 기본 스타일 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.header-container,
+.footer-container {
+    display: block;
+    width: 100%;
+    padding: 10px 0; /* 헤더와 푸터에 약간의 여백 추가 */
+}
+
+
+/* Register Container */
+.wrap {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 600px;
+    padding: 40px 30px;
+    margin-top: 20px;
+}
+
+.wrap h1 {
+    font-size: 18px;
+    color: #ff6347;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Form Styling */
+form {
+    width: 100%;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="email"],
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.email-check,
+.phone-check {
+    margin-top: 10px;
+    background-color: #0066cc;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.info {
+    font-size: 12px;
+    color: #ff6347;
+    margin-top: 5px;
+}
+
+.checkbox-group {
+    display: flex;
+    gap: 20px;
+    margin-top: 5px;
+}
+
+.checkbox-group label {
+    font-size: 14px;
+    color: #333;
+}
+
+/* Submit Button */
+.submit-button {
+    width: 100%;
+    background: #ff6347;
+    color: #fff;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 20px;
+}
+
+.submit-button:hover {
+    background: #e55330;
+}
+

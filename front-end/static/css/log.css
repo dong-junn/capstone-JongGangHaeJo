@@ -1,0 +1,109 @@
+/* Reset 기본 스타일 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    background: #f8f8f8;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding-top: 40px; /* 상단 여백 추가 */
+    padding-bottom: 40px; /* 하단 여백 유지 */
+}
+
+.header-container,
+.footer-container {
+    display: block;
+    width: 100%;
+    padding: 10px 0; /* 헤더와 푸터에 약간의 여백 추가 */
+}
+
+/* 로그인 영역 스타일 */
+#login {
+    width: 100%;
+    max-width: 400px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: auto; /* 하단 여백 */
+}
+
+/* 로고 이미지와 제목 */
+.visual h1 img {
+    width: 100px;
+    margin-bottom: 20px;
+}
+
+/* 로그인 폼 스타일 */
+.loginwrap h2 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.loginArea {
+    margin-bottom: 20px;
+    border: none; /* 검은 테두리 제거 */
+}
+
+/* 입력 필드 스타일 */
+.loginArea input[type="text"],
+.loginArea input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 2px solid #e55330;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+/* 로그인 버튼 스타일 */
+.loginbtn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: #e55330;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-weight: bold;
+}
+
+.loginbtn:hover {
+    background: #ff6347;
+}
+
+/* 추가 정보 영역 스타일 */
+.additional-links {
+    display: flex;
+    justify-content: center; /* 가운데 정렬 */
+    gap: 10px; /* 각 링크 간의 간격 */
+    color: #888888; /* 텍스트 색상 */
+    font-size: 14px;
+    margin-top: 20px; /* 위쪽 간격 */
+}
+
+.additional-links a {
+    text-decoration: none;
+    color: #888888;
+    font-weight: normal;
+}
+
+.additional-links a:hover {
+    color: #e55330; /* 링크 호버 시 색상 */
+}

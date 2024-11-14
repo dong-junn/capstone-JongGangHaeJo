@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>캡스톤 프로젝트</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <script src="../static/js/index.js" defer></script>
+
+    
+
+</head>
+<body>
+    <div class="header-container" id="header"></div>
+
+    <main>
+        <section class="main-image">
+        
+            <video id="mainVideo" controls loop autoplay muted >
+                <source src="https://www.jeiu.ac.kr/img/main/main_video.mp4" type="video/mp4">
+            </video>
+           </section>
+        <section class="project-thumbnails">
+            <p id="capTitle">캡스톤 프로젝트</p>
+            <div class="thumbnails-container" id="thumbnails">
+                <!-- 프로젝트 썸네일이 여기 추가됩니다 -->
+            </div>
+            <button class="more-button" onclick="loadMoreProjects()">더보기</button>
+        </section>
+    </main>
+
+    <div class="footer-container" id="footer"></div>
+</body>
+</html>

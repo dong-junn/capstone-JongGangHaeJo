@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비밀번호 재설정</title>
+    <link rel="stylesheet" href="/front-end/static/css/repw.css">
+</head>
+<body>
+    <div class="header-container">
+        <h1>비밀번호 재설정</h1>
+    </div>
+
+    <div class="container">
+        <form>
+            <div class="form-group">
+                <label for="new-password">새 비밀번호</label>
+                <input type="password" id="new-password" name="new-password" placeholder="영문, 숫자가 포함된 8자 ~ 20자 입력" required>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm-password">새 비밀번호 확인</label>
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="비밀번호 확인" required>
+            </div>
+
+            <p>입력하신 새로운 비밀번호로 변경하시겠습니까?</p>
+
+            <button type="submit" class="submit-button">확인</button>
+            <button type="button" class="cancel-button" onclick="location.href='login.html'">로그인하기</button>
+        </form>
+    </div>
+</body>
+</html>

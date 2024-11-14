@@ -1,0 +1,178 @@
+/* Reset 기본 스타일 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Header Styling */
+.header-container {
+    background: #ff6347;
+    color: white;
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.header-container h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+/* Navigation Bar */
+.admin-nav {
+    width: 50%; /* 네비게이션 바 너비를 줄여 중앙에 위치 */
+    background: #333;
+    color: white;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+    border-radius: 10px;
+}
+
+.admin-nav ul {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.admin-nav li {
+    list-style: none;
+}
+
+.admin-nav a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.admin-nav a:hover {
+    background-color: #ff6347;
+    border-radius: 5px;
+}
+
+/* User Admin Container */
+#userAdmin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+}
+
+/* Wrapper */
+.wrap {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 800px;
+    padding: 20px;
+    text-align: center;
+}
+
+/* User List Styling */
+.user-list-container {
+    overflow-x: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.user-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+}
+
+.user {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+    width: 220px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.user p {
+    font-size: 16px;
+    color: #333;
+}
+
+/* Button Styling */
+.admin-btn {
+    display: inline-block;
+    background: #ff6347;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin: 5px 0;
+}
+
+.admin-btn:hover {
+    background: #e55330;
+}
+
+.edit-btn {
+    background: #ffb347;
+}
+
+.edit-btn:hover {
+    background: #e59930;
+}
+
+.delete-btn {
+    background: #ff6347;
+}
+
+.delete-btn:hover {
+    background: #e55330;
+}
+
+/* Edit Form Styling */
+.edit-form {
+    display: none;
+    margin-top: 10px;
+}
+
+.edit-form label {
+    display: block;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.edit-form input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+/* Footer Styling */
+.footer-container {
+    background: #333;
+    color: white;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
