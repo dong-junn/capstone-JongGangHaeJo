@@ -17,11 +17,12 @@ async function loginUser() {
         });
 
         if (response.ok) {
-            const token = response.headers.get('Authorization');
+            const data = await response.json(); // 응답을 JSON으로 파싱
+            const token = data.token; // 토큰 추출
             if (token) {
                 localStorage.setItem('authToken', token);
                 alert('로그인 성공');
-                window.location.href = '/'; // 로그인 성공 후 메인 페이지로 리다이렉트
+                // window.location.href = '/'; // 로그인 성공 후 메인 페이지로 리다이렉트
             } else {
                 alert('로그인에 성공했으나 토큰을 받지 못했습니다. 다시 시도해주세요.');
             }
@@ -33,6 +34,24 @@ async function loginUser() {
         console.error('Error during login:', error);
         alert('로그인 중 오류가 발생했습니다. 나중에 다시 시도해주세요.');
     }
+}
+
+// API 요청 시 토큰을 헤더에 추가하는 함수
+async function fetchWithAuth(url, options = {}) {
+    const token = localStorage.getItem('authToken');
+    const headers = {
+        'Content-Type': 'application/json',
+        ...options.headers,
+    };
+
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    return fetch(url, {
+        ...options,
+        headers,
+    });
 }
 
 // 로그인 폼 제출 시 REST API 호출
