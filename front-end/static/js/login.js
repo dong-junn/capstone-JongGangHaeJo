@@ -8,7 +8,7 @@ async function loginUser() {
     };
 
     try {
-        const response = await fetch('http://127.0.0.1:8080/sign-in', {
+        const response = await fetchWithoutAuth('http://3.147.12.27:8080/sign-in', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -39,20 +39,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// 헤더와 푸터를 동적으로 로드하는 함수
-async function includeHTML() {
-    try {
-        const headerResponse = await fetch('/front-end/templates/layout/header.html');
-        const headerHtml = await headerResponse.text();
-        document.querySelector('.header-container').innerHTML = headerHtml;
-
-        const footerResponse = await fetch('/front-end/templates/layout/footer.html');
-        const footerHtml = await footerResponse.text();
-        document.querySelector('.footer-container').innerHTML = footerHtml;
-    } catch (error) {
-        console.error('Error loading modules:', error);
-    }
-}
-
-// 페이지 로드 시 헤더와 푸터를 포함시킴
-document.addEventListener('DOMContentLoaded', includeHTML);

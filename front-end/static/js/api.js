@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://127.0.0.1:8080'; // 환경별 API URL 설정
+const API_BASE_URL = 'http://3.147.12.27:8080'; // 환경별 API URL 설정
 
 // 인증이 필요한 API 요청을 위한 공통 함수
 async function fetchWithAuth(url, options = {}) {

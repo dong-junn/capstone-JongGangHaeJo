@@ -1,22 +1,17 @@
-function includeHTML() {
-    var z, i, elmnt, file, xhttp;
-    z = document.getElementsByTagName("*");
-    for (i = 0; i < z.length; i++) {
-        elmnt = z[i];
-        file = elmnt.getAttribute("include-html");
-        if (file) {
-            xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    elmnt.innerHTML = this.responseText;
-                    elmnt.removeAttribute("include-html");
-                    includeHTML();
-                }
-            }
-            xhttp.open("GET", file, true);
-            xhttp.send();
-            return;
-        }
+// 헤더와 푸터를 동적으로 로드하는 함수
+async function includeHTML() {
+    try {
+        const headerResponse = await fetch('/front-end/templates/layout/header.html');
+        const headerHtml = await headerResponse.text();
+        document.querySelector('.header-container').innerHTML = headerHtml;
+
+        const footerResponse = await fetch('/front-end/templates/layout/footer.html');
+        const footerHtml = await footerResponse.text();
+        document.querySelector('.footer-container').innerHTML = footerHtml;
+    } catch (error) {
+        console.error('모듈 로드 중 오류 발생:', error);
     }
-    
 }
+
+// 페이지 로드 시 헤더와 푸터를 포함시킴
+document.addEventListener('DOMContentLoaded', includeHTML);
