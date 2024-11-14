@@ -1,9 +1,10 @@
 // REST API를 이용해 프로젝트 리스트를 불러오는 함수
-async function loadProjects() {
+async function loadProjects(currentPage = 1) {
     try {
-        const response = await fetch('http://18.118.128.174:8080/projects');
+        const response = await fetch(`http://18.118.128.174:8080/api/projects?page=${currentPage}`);
         if (response.ok) {
-            const projects = await response.json();
+            const projectsData = await response.json();
+            const projects = projectsData.projects;
             const projectsContainer = document.querySelector('.projects-container');
             projectsContainer.innerHTML = '';
 
@@ -25,6 +26,8 @@ async function loadProjects() {
                 `;
                 projectsContainer.appendChild(projectElement);
             });
+
+            loadPagination(projectsData.totalPages, currentPage); // 페이지네이션 로드
         } else {
             const errorData = await response.json();
             alert(`프로젝트 목록을 불러오지 못했습니다: ${errorData.message}`);
@@ -35,24 +38,52 @@ async function loadProjects() {
     }
 }
 
-// 페이지네이션을 불러오는 함수
-async function loadPagination(startPage, endPage, nowPage) {
+// 페이지네이션을 동적으로 로드하는 함수
+async function loadPagination(totalPages, currentPage) {
     try {
-        const paginationContainer = document.querySelector('main section.project-detail');
-        const paginationBlock = document.createElement('div');
-        paginationBlock.className = 'pagination';
+        const paginationContainer = document.querySelector('.pagination');
+        paginationContainer.innerHTML = '';
 
-        for (let page = startPage; page <= endPage; page++) {
-            const pageElement = document.createElement(page === nowPage ? 'strong' : 'a');
-            pageElement.textContent = page;
-            pageElement.style.color = page === nowPage ? 'red' : '';
-            if (page !== nowPage) {
-                pageElement.href = `/posts/list?page=${page - 1}`;
+        // 이전 페이지 링크
+        const prevLink = document.createElement('a');
+        prevLink.href = '#';
+        prevLink.textContent = '«';
+        prevLink.classList.toggle('disabled', currentPage === 1);
+        prevLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (currentPage > 1) {
+                loadProjects(currentPage - 1);
             }
-            paginationBlock.appendChild(pageElement);
+        });
+        paginationContainer.appendChild(prevLink);
+
+        // 페이지 번호 링크
+        for (let i = 1; i <= totalPages; i++) {
+            const pageLink = document.createElement(i === currentPage ? 'strong' : 'a');
+            pageLink.textContent = i;
+            if (i !== currentPage) {
+                pageLink.href = '#';
+                pageLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    loadProjects(i);
+                });
+            }
+            pageLink.classList.add('pagination-link');
+            paginationContainer.appendChild(pageLink);
         }
 
-        paginationContainer.appendChild(paginationBlock);
+        // 다음 페이지 링크
+        const nextLink = document.createElement('a');
+        nextLink.href = '#';
+        nextLink.textContent = '»';
+        nextLink.classList.toggle('disabled', currentPage === totalPages);
+        nextLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (currentPage < totalPages) {
+                loadProjects(currentPage + 1);
+            }
+        });
+        paginationContainer.appendChild(nextLink);
     } catch (error) {
         console.error('Error loading pagination:', error);
     }
@@ -61,11 +92,11 @@ async function loadPagination(startPage, endPage, nowPage) {
 // 헤더와 푸터를 동적으로 로드하는 함수
 async function includeHTML() {
     try {
-        const headerResponse = await fetch('http://127.0.0.1:5500/front-end/templates/layout/header.html');
+        const headerResponse = await fetch('/src/main/resources/templates/layout/header.html');
         const headerHtml = await headerResponse.text();
         document.getElementById('header').innerHTML = headerHtml;
 
-        const footerResponse = await fetch('http://127.0.0.1:5500/front-end/templates/layout/footer.html');
+        const footerResponse = await fetch('/src/main/resources/templates/layout/footer.html');
         const footerHtml = await footerResponse.text();
         document.getElementById('footer').innerHTML = footerHtml;
     } catch (error) {
@@ -77,5 +108,4 @@ async function includeHTML() {
 document.addEventListener('DOMContentLoaded', () => {
     includeHTML();
     loadProjects();
-    loadPagination(1, 5, 1); // 예시로 1~5페이지와 현재 페이지를 설정
 });
