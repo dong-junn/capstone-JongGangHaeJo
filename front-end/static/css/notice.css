@@ -21,7 +21,7 @@ main {
     max-width: 1000px;
     margin: auto;
     padding: 20px;
-    margin-bottom: auto; /* 하단 여백 */
+    margin-bottom: 40px; /* 메인과 푸터 사이 간격 추가 */
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -47,6 +47,7 @@ main {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
+    margin-bottom: 20px; /* 테이블과 페이지네이션 간의 간격 추가 */
 }
 
 .notice-list th, .notice-list td {
