@@ -1,6 +1,9 @@
 package jeiu.capstone.jongGangHaejo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jeiu.capstone.jongGangHaejo.config.SecurityTestConfig;
+import jeiu.capstone.jongGangHaejo.domain.user.Role;
+import jeiu.capstone.jongGangHaejo.domain.user.User;
 import jeiu.capstone.jongGangHaejo.dto.request.PostCreateDto;
 import jeiu.capstone.jongGangHaejo.dto.request.PostUpdateDto;
 import jeiu.capstone.jongGangHaejo.dto.response.PagedResponseDto;
@@ -9,32 +12,43 @@ import jeiu.capstone.jongGangHaejo.exception.InvalidFileNameException;
 import jeiu.capstone.jongGangHaejo.exception.ResourceNotFoundException;
 import jeiu.capstone.jongGangHaejo.exception.UnauthorizedException;
 import jeiu.capstone.jongGangHaejo.exception.common.CommonErrorCode;
+import jeiu.capstone.jongGangHaejo.security.config.UserConfig;
+import jeiu.capstone.jongGangHaejo.security.jwt.JwtUtil;
 import jeiu.capstone.jongGangHaejo.service.FileService;
 import jeiu.capstone.jongGangHaejo.service.PostService;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(PostController.class)
+@Import(SecurityTestConfig.class)
 class PostControllerTest {
 
     @Autowired
@@ -46,11 +60,37 @@ class PostControllerTest {
     @MockBean
     private FileService fileService;
 
+    @MockBean
+    private JwtUtil jwtUtil;
+
     @Autowired
     private ObjectMapper objectMapper;
 
+    @BeforeEach
+    void setUp() {
+        Set<Role> roles = new HashSet<>();
+        roles.add(Role.ROLE_USER);
+
+        User user = User.builder()
+                .name("testUser")
+                .password("password")
+                .roles(roles)
+                .build();
+
+        UserConfig userConfig = new UserConfig(user);
+
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
+        Authentication auth = new UsernamePasswordAuthenticationToken(
+                userConfig,
+                null,
+                userConfig.getAuthorities()
+        );
+        context.setAuthentication(auth);
+        SecurityContextHolder.setContext(context);
+    }
+
+
     @Test
-    @WithMockUser
     void 게시물_생성_테스트() throws Exception {
         // given
         PostCreateDto dto = new PostCreateDto();
@@ -101,7 +141,6 @@ class PostControllerTest {
     }
 
     @Test
-    @WithMockUser
     void 게시물_생성_유효하지_않은_파일명() throws Exception {
         // given
         PostCreateDto dto = new PostCreateDto();
@@ -430,7 +469,7 @@ class PostControllerTest {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), sortBy));
 
-        Mockito.when(postService.getPagedPosts(any(Pageable.class))).thenReturn(pagedResponseDto);
+        when(postService.getPagedPosts(any(Pageable.class))).thenReturn(pagedResponseDto);
 
         // when & then
         mockMvc.perform(get("/posts")

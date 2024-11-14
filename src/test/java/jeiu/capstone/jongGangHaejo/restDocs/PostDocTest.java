@@ -1,17 +1,29 @@
 package jeiu.capstone.jongGangHaejo.restDocs;
 
+import jeiu.capstone.jongGangHaejo.domain.user.Role;
+import jeiu.capstone.jongGangHaejo.domain.user.User;
+import jeiu.capstone.jongGangHaejo.security.config.SecurityConfig;
+import jeiu.capstone.jongGangHaejo.security.config.UserConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.multipart;
@@ -26,8 +38,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @ExtendWith(RestDocumentationExtension.class)
+@Import(SecurityConfig.class)
 public class PostDocTest {
-
 
     private MockMvc mockMvc;
 
@@ -36,6 +48,29 @@ public class PostDocTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .apply(documentationConfiguration(restDocumentation))
                 .build();
+    }
+
+    @BeforeEach
+    void settingSecurity() {
+        Set<Role> roles = new HashSet<>();
+        roles.add(Role.ROLE_USER);
+
+        User user = User.builder()
+                .name("testUser")
+                .password("password")
+                .roles(roles)
+                .build();
+
+        UserConfig userConfig = new UserConfig(user);
+
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
+        Authentication auth = new UsernamePasswordAuthenticationToken(
+                userConfig,
+                null,
+                userConfig.getAuthorities()
+        );
+        context.setAuthentication(auth);
+        SecurityContextHolder.setContext(context);
     }
 
     @Test
