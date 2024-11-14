@@ -1,4 +1,4 @@
-package jeiu.capstone.jongGangHaejo.controller;
+package jeiu.capstone.jongGangHaejo.restDocs;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
