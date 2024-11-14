@@ -44,6 +44,11 @@ public class Comment {
         this.parentCommentId = parentCommentId;
     }
 
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
+
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
