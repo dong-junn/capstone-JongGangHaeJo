@@ -88,3 +88,18 @@ main {
 .submit-button:hover {
     background-color: #555555;
 }
+.thumbnail-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.thumbnail {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    object-fit: cover;
+    background-color: #f4f4f4;
+}

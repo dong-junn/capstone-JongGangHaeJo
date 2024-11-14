@@ -47,6 +47,24 @@ document.addEventListener("DOMContentLoaded", () => {
     includeHTML();
     displayEditButton();
 });
+function showThumbnails(input) {
+    const container = document.getElementById("thumbnail-container");
+    container.innerHTML = ""; // 초기화
+
+    if (input.files) {
+        Array.from(input.files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.createElement("img");
+                img.src = e.target.result;
+                img.className = "thumbnail";
+                container.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+}
+
 
  // 헤더와 푸터를 동적으로 로드하는 함수
 async function includeHTML() {
