@@ -1,16 +1,14 @@
-// login.js
-
 // REST API를 이용한 로그인 기능
 async function loginUser() {
     const loginForm = document.getElementById('LoginForm');
     const formData = new FormData(loginForm);
     const json = {
-        username: formData.get('username'),
+        id: formData.get('username'),
         password: formData.get('password')
     };
 
     try {
-        const response = await fetch('http://127.0.0.1:8080/api/login', {
+        const response = await fetch('http://3.147.12.27:8080/sign-in', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -19,8 +17,14 @@ async function loginUser() {
         });
 
         if (response.ok) {
-            alert('로그인 성공');
-            window.location.href = '/'; // 로그인 성공 후 메인 페이지로 리다이렉트
+            const token = response.headers.get('Authorization');
+            if (token) {
+                localStorage.setItem('authToken', token);
+                alert('로그인 성공');
+                window.location.href = '/'; // 로그인 성공 후 메인 페이지로 리다이렉트
+            } else {
+                alert('로그인에 성공했으나 토큰을 받지 못했습니다. 다시 시도해주세요.');
+            }
         } else {
             const errorData = await response.json();
             alert(`로그인 실패: ${errorData.message}`);
