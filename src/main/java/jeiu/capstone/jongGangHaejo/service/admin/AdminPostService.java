@@ -1,7 +1,7 @@
 package jeiu.capstone.jongGangHaejo.service.admin;
 
 import jeiu.capstone.jongGangHaejo.dto.admin.AdminPostResponse;
-import jeiu.capstone.jongGangHaejo.dto.admin.AdminPostSearch;
+import jeiu.capstone.jongGangHaejo.dto.admin.AdminPagingDto;
 import jeiu.capstone.jongGangHaejo.repository.admin.post.AdminPostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ public class AdminPostService {
 
     private final AdminPostRepository adminPostRepository;
 
-    public List<AdminPostResponse> getList(AdminPostSearch postSearch) {
+    public List<AdminPostResponse> getList(AdminPagingDto postSearch) {
         return adminPostRepository.getList(postSearch).stream()
                 .map(AdminPostResponse::new)
                 .collect(Collectors.toList());
