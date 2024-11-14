@@ -3,13 +3,13 @@ package jeiu.capstone.jongGangHaejo.security.service;
 import jeiu.capstone.jongGangHaejo.domain.user.Role;
 import jeiu.capstone.jongGangHaejo.domain.user.User;
 import jeiu.capstone.jongGangHaejo.dto.form.user.SignUpDto;
+import jeiu.capstone.jongGangHaejo.exception.common.CommonErrorCode;
+import jeiu.capstone.jongGangHaejo.exception.UnauthorizedException;
 import jeiu.capstone.jongGangHaejo.repository.UserRepository;
 import jeiu.capstone.jongGangHaejo.security.dto.LoginDto;
 import jeiu.capstone.jongGangHaejo.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,11 +43,11 @@ public class SecurityService {
     public String login(LoginDto loginDto) {
         //사용자 찾기
         User user = userRepository.findById(loginDto.getId())
-                .orElseThrow(() -> new UsernameNotFoundException(loginDto.getId() + "로 가입된 회원이 없습니다"));
+                .orElseThrow(() -> new UnauthorizedException("존재하지 않는 아이디입니다.", CommonErrorCode.LOGIN_ID_NOT_FOUND));
 
         //비밀번호 검증
         if (!passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
-            throw new BadCredentialsException("아이디 혹은 비밀번호가 틀렸습니다!");
+            throw new UnauthorizedException("비밀번호가 일치하지 않습니다.", CommonErrorCode.LOGIN_PASSWORD_INVALID);
         }
 
         //토큰 생성
