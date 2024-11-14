@@ -2,8 +2,6 @@ body {
     font-family: 'Arial', sans-serif;
 }
 
-
-
 .header-container,
 .footer-container {
     display: block;
@@ -53,9 +51,8 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    }
-
+    margin-bottom: 20px; /* 프로젝트와 pagination 간의 간격 추가 */
+}
 
 .project-info:hover {
     transform: translateY(-5px);
@@ -77,74 +74,23 @@ main {
     background-color: #f4f4f4;
 }
 
-/* 프로젝트 상세 내용 스타일 */
-.project-details {
-    text-align: center; /* 중앙 정렬 */
-    flex-grow: 1;
+
+/* Projects Container 스타일 */
+.projects-container {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+    margin-bottom: 20px; /* pagination과의 간격 */
 }
-
-
-
-.project-details h2 {
-    font-size: 18px;
-    color: #003366;
-    margin-bottom: 10px;
-}
-
-.project-details p {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 5px;
-}
-
-/* 상세보기 버튼 스타일 */
-.detail-button {
-    display: inline-block;
-    margin-top: 10px; /* 위쪽 간격 추가 */
-    padding: 10px 20px;
-    background-color: #ffa500; /* 옅은 주황색 */
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.detail-button:hover {
-    background-color: #ff8c00; /* 버튼에 호버 시 더 진한 주황색 */
-}
-
-
-/* 상세보기 버튼 */
-.detail-button {
-    display: block;
-    width: 100%; /* 칸에 맞도록 너비를 100%로 설정 */
-    text-align: center;
-    padding: 10px;
-    background-color: #ffa500; /* 옅은 주황색 */
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-    border-top: 1px solid #ddd;
-    transition: background-color 0.3s;
-    border-bottom-left-radius: 8px; /* 버튼과 카드의 아래 모서리가 매끄럽게 연결되도록 설정 */
-    border-bottom-right-radius: 8px;
-}
-
-.detail-button:hover {
-    background-color: #ff8c00; /* 조금 더 진한 주황색으로 변경 */
-}
-
 
 /* Pagination 스타일 */
 .pagination {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
-    gap: 5px;
+    width: 100%;
+    margin-top: 20px; /* 리스트와 간격 */
+    gap: 8px;
 }
 
 .pagination-link {
@@ -160,7 +106,8 @@ main {
     background-color: #bbb;
 }
 
-.pagination-link strong {
+.pagination-link.active {
     background-color: #00509e;
     color: white;
+    border-radius: 4px;
 }
