@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <title>로그인 페이지</title>
     <link rel="stylesheet" href="/front-end/static/css/log.css">
+    <script src="/front-end/static/js/api.js" defer></script> 
+    <script src="/front-end/static/js/includeHtml.js" defer></script> 
     <script src="/front-end/static/js/login.js" defer></script> 
-    <script src="/front-end/static/js/includeHTML.js" defer></script>
 </head>
 <body>
     <!-- 헤더 추가 -->
@@ -19,11 +20,11 @@
                     <h2>로그인</h2>
                     <form id="LoginForm" name="LoginForm" method="post" action="/login"> 
                         <div class="loginArea">
-                                <label for="username">아이디</label>
-                                <input type="text" id="username" name="username" required>
-                                <label for="password">비밀번호</label>
-                                <input type="password" id="password" name="password" required>
-                                <button type="submit" class="loginbtn">로그인</button>
+                            <label for="username">아이디</label>
+                            <input type="text" id="username" name="username" required>
+                            <label for="password">비밀번호</label>
+                            <input type="password" id="password" name="password" required>
+                            <button type="submit" class="loginbtn">로그인</button>
                         </div>
                     </form>
                     <div class="additional-links">
@@ -31,7 +32,6 @@
                         <a href="findId.html">아이디 찾기</a> |
                         <a href="loginR.html">회원가입</a>
                     </div>
-                    
                 </div>
             </div>
         </div>
