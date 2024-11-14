@@ -1,7 +1,10 @@
 package jeiu.capstone.jongGangHaejo.security.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jeiu.capstone.jongGangHaejo.domain.user.User;
 import jeiu.capstone.jongGangHaejo.repository.UserRepository;
+import jeiu.capstone.jongGangHaejo.security.handler.Http401Handler;
+import jeiu.capstone.jongGangHaejo.security.handler.Http403Handler;
 import jeiu.capstone.jongGangHaejo.security.jwt.JwtAuthenticationFilter;
 import jeiu.capstone.jongGangHaejo.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -30,22 +33,24 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final ObjectMapper objectMapper;
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        JwtAuthenticationFilter jwtAuthFilter = new JwtAuthenticationFilter(jwtUtil, userDetailsService());
 
         http
                 //권한이 없어도 아래 사항에 대하여서는 허용한다
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() //CORS를 위해 http method options 허용
                         .requestMatchers("/", "/error", "/favicon.ico").permitAll() //기본적으로 필요
-                        .requestMatchers(HttpMethod.POST, "/member/sign-up").permitAll() //회원가입
-                        .requestMatchers(HttpMethod.POST, "/member/sign-in").permitAll() //로그인
+                        .requestMatchers("/sign-up").permitAll() //회원가입
+                        .requestMatchers("/sign-in").permitAll() //로그인
                         .requestMatchers("/user").hasRole("USER")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
 
@@ -68,10 +73,16 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(e -> {
+                    e.authenticationEntryPoint(new Http401Handler(objectMapper));
+                    e.accessDeniedHandler(new Http403Handler(objectMapper));
+                });
 
         return http.build();
     }
+
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
