@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JEIU 캡스톤 프로젝트 - 작품 등록</title>
-    <link rel="stylesheet" href="../../../static/css/uploadPro.css">
-    <script src="/front-end/static/js/api.js" defer></script> 
-    <script src="/front-end/static/js/includeHtml.js" defer></script> 
+    <link rel="stylesheet" href="/front-end/static/css/uploadPro.css">
+    <script src="/front-end/static/js/api.js" defer></script>
+    <script src="/front-end/static/js/includeHtml.js" defer></script>
     <script src="/front-end/static/js/projectRegister.js" defer></script>
 </head>
+
 <body>
     <div class="header-container" id="header"></div>
 
@@ -19,10 +21,6 @@
                 <div class="form-group">
                     <label for="projectName">작품 이름</label>
                     <input type="text" id="projectName" name="title" required>
-                </div>
-                <div class="form-group">
-                    <label for="authorName">작성자</label>
-                    <input type="text" id="authorName" name="writer" required>
                 </div>
                 <div class="form-group">
                     <label for="teamMem">팀 명</label>
@@ -37,12 +35,13 @@
                     <input type="text" id="yt_url" name="yt_url">
                 </div>
                 <div class="form-group">
-                    <label for="poster">발표자료</label>
-                    <input type="file" id="poster" name="files" multiple>
+                    <label for="projectFiles">발표자료</label>
+                    <input type="file" id="projectFiles" name="files" multiple>
                 </div>
                 <div class="form-group">
                     <label for="poster">썸네일</label>
-                    <input type="file" id="poster" name="files" multiple accept="image/*" onchange="showThumbnails(this)">
+                    <input type="file" id="poster" name="files" multiple accept="image/*"
+                        onchange="showThumbnails(this)">
                 </div>
                 <div id="thumbnail-container" class="thumbnail-container"></div>
                 <button type="button" class="submit-button" onclick="submitProject()">등록하기</button>
@@ -52,4 +51,5 @@
 
     <div class="footer-container" id="footer"></div>
 </body>
+
 </html>
