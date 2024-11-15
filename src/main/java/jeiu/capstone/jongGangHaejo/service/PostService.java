@@ -166,8 +166,8 @@ public class PostService {
     }
 
     public List<PostResponseDto> getTop3Posts() {
-        // 최신 게시물 3개를 조회
-        Pageable pageable = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "createdAt"));
+        // 조회수 순 인기 게시물 3개를 조회
+        Pageable pageable = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "ViewCount"));
         return postRepository.findAll(pageable).stream()
                 .map(post -> new PostResponseDto(
                         post.getPostid(),
