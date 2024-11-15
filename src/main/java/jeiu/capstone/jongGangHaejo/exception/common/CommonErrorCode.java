@@ -31,8 +31,9 @@ public enum CommonErrorCode implements ErrorCode {
     THIRD_PARTY_SERVICE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 5005, "외부 서비스와의 통신 오류가 발생했습니다."),
 
     //Admin 관련에러
-    ADMIN_USERNAME_NOT_FOUND_ERROR(HttpStatus.BAD_REQUEST, 6000, "존재하지 않는 회원입니다")
-    ;
+    ADMIN_USERNAME_NOT_FOUND_ERROR(HttpStatus.BAD_REQUEST, 6000, "존재하지 않는 회원입니다"),
+    EMAIL_SEND_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 6100, "이메일 발송 중 오류가 발생했습니다."),
+    VERIFICATION_ERROR(HttpStatus.BAD_REQUEST, 6101, "이메일 인증 처리 중 오류가 발생했습니다.");
 
     private final HttpStatus httpStatus;
     private final int code;

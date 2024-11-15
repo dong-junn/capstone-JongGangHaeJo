@@ -172,4 +172,24 @@ public class ExceptionHandlingController {
         ErrorResponseDto errorResponseDto = new ErrorResponseDto(errorCode.getCode(), e.getMessage());
         return new ResponseEntity<>(errorResponseDto, errorCode.getHttpStatus());
     }
+
+    /**
+     * 이메일 서비스 관련 예외 처리
+     */
+    @ExceptionHandler({EmailSendException.class, VerificationException.class})
+    public ResponseEntity<ErrorResponseDto> handleEmailServiceException(FileServiceException e) {
+        ErrorCode errorCode = e.getErrorCode();
+        log.error("EmailServiceException: {}", e.getMessage(), e);
+        
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(errorCode.getCode(), e.getMessage());
+        
+        // 추가 정보가 있다면 포함
+        if (e instanceof VerificationException) {
+            Map<String, String> details = new HashMap<>();
+            details.put("verificationStatus", "failed");
+            errorResponseDto.setValidation(details);
+        }
+        
+        return new ResponseEntity<>(errorResponseDto, errorCode.getHttpStatus());
+    }
 }
