@@ -1,7 +1,12 @@
 // REST API를 이용해 프로젝트 리스트를 불러오는 함수
 async function loadProjects(currentPage = 1) {
     try {
-        const response = await fetchWithoutAuth(`/post?page=${currentPage}&size=10&sort=createdAt,desc`);
+        const response = await fetchWithoutAuth(`/post?page=${currentPage}&size=12&sort=createdAt,desc`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
         if (response.ok) {
             const projectsData = await response.json();
             const projects = projectsData.content; // 'content' 배열로 접근
@@ -28,6 +33,9 @@ async function loadProjects(currentPage = 1) {
 
             // 페이지네이션 로드
             loadPagination(projectsData.totalPages, currentPage);
+            
+            // project-detail 섹션으로 스크롤
+            scrollToTop();
         } else {
             const errorData = await response.json();
             alert(`프로젝트 목록을 불러오지 못했습니다: ${errorData.message}`);
@@ -38,57 +46,81 @@ async function loadProjects(currentPage = 1) {
     }
 }
 
-// 페이지네이션을 동적으로 로드하는 함수
-async function loadPagination(totalPages, currentPage) {
-    const paginationContainer = document.querySelector('.pagination');
-    paginationContainer.innerHTML = ''; // 기존 페이지네이션 초기화
-
-    // 이전 페이지 링크
-    const prevLink = document.createElement('a');
-    prevLink.href = '#';
-    prevLink.textContent = '«';
-    prevLink.classList.toggle('disabled', currentPage === 1);
-    prevLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (currentPage > 1) {
-            loadProjects(currentPage - 1); // 이전 페이지 로드
-        }
+// 최상단으로 스크롤하는 함수
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth' // 부드러운 스크롤 효과
     });
-    paginationContainer.appendChild(prevLink);
-
-    // 페이지 번호 링크
-    for (let i = 1; i <= totalPages; i++) {
-        const pageLink = document.createElement(i === currentPage ? 'strong' : 'a');
-        pageLink.textContent = i;
-        if (i !== currentPage) {
-            pageLink.href = '#';
-            pageLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                loadProjects(i);
-            });
-        }
-        pageLink.classList.add('pagination-link'); // CSS 클래스 적용
-        paginationContainer.appendChild(pageLink);
-    }
-
-    // 다음 페이지 링크
-    const nextLink = document.createElement('a');
-    nextLink.href = '#';
-    nextLink.textContent = '»';
-    nextLink.classList.toggle('disabled', currentPage === totalPages);
-    nextLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (currentPage < totalPages) {
-            loadProjects(currentPage + 1); // 다음 페이지 로드
-        }
-    });
-    paginationContainer.appendChild(nextLink);
 }
 
-// 페이지 로드 시 프로젝트 리스트 및 페이지네이션 로드
+// 페이지네이션을 동적으로 로드하는 함수
+function loadPagination(totalPages, currentPage) {
+    const paginationContainer = document.querySelector('.pagination');
+    paginationContainer.innerHTML = '';
+
+    // 페이지 그룹 계산 (한 번에 5개의 페이지 번호만 표시)
+    const pageGroupSize = 5;
+    const currentGroup = Math.floor((currentPage - 1) / pageGroupSize);
+    const startPage = currentGroup * pageGroupSize + 1;
+    const endPage = Math.min(startPage + pageGroupSize - 1, totalPages);
+
+    // 처음 페이지로 이동
+    if (currentPage > pageGroupSize) {
+        const firstPage = createPageLink('처음', 1);
+        paginationContainer.appendChild(firstPage);
+    }
+
+    // 이전 페이지 그룹으로 이동
+    if (currentGroup > 0) {
+        const prevGroup = createPageLink('이전', (currentGroup - 1) * pageGroupSize + 1);
+        paginationContainer.appendChild(prevGroup);
+    }
+
+    // 페이지 번호 링크
+    for (let i = startPage; i <= endPage; i++) {
+        const pageItem = document.createElement('span');
+        pageItem.className = 'page-item';
+        
+        if (i === currentPage) {
+            // 현재 페이지는 강조 표시
+            pageItem.innerHTML = `<strong class="current-page">${i}</strong>`;
+        } else {
+            // 다른 페이지는 클릭 가능한 링크
+            const pageLink = createPageLink(i, i);
+            pageItem.appendChild(pageLink);
+        }
+        
+        paginationContainer.appendChild(pageItem);
+    }
+
+    // 다음 페이지 그룹으로 이동
+    if (endPage < totalPages) {
+        const nextGroup = createPageLink('다음', Math.min(endPage + 1, totalPages));
+        paginationContainer.appendChild(nextGroup);
+    }
+
+    // 마지막 페이지로 이동
+    if (endPage < totalPages) {
+        const lastPage = createPageLink('끝', totalPages);
+        paginationContainer.appendChild(lastPage);
+    }
+}
+
+// 페이지 링크 생성 함수
+function createPageLink(text, pageNumber) {
+    const link = document.createElement('a');
+    link.href = '#';
+    link.textContent = text;
+    link.className = 'page-link';
+    link.addEventListener('click', async (e) => {
+        e.preventDefault();
+        await loadProjects(pageNumber);
+    });
+    return link;
+}
+
+// 페이지 로드 시 프로젝트 리스트 로드
 document.addEventListener('DOMContentLoaded', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const currentPage = parseInt(urlParams.get('page')) || 1;
-    loadProjects(currentPage);
-    loadPagination(currentPage);
+    loadProjects(1);
 });
