@@ -1,4 +1,4 @@
-package jeiu.capstone.jongGangHaejo.dto.admin;
+package jeiu.capstone.jongGangHaejo.security.dto.admin;
 
 import jeiu.capstone.jongGangHaejo.domain.Post;
 import lombok.Builder;
