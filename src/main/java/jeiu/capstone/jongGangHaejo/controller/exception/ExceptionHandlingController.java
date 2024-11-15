@@ -1,5 +1,6 @@
 package jeiu.capstone.jongGangHaejo.controller.exception;
 
+import jakarta.persistence.EntityNotFoundException;
 import jeiu.capstone.jongGangHaejo.dto.response.ErrorResponseDto;
 import jeiu.capstone.jongGangHaejo.exception.common.CommonErrorCode;
 import jeiu.capstone.jongGangHaejo.exception.*;
@@ -152,6 +153,23 @@ public class ExceptionHandlingController {
 
         ErrorResponseDto errorResponseDto = new ErrorResponseDto(errorCode.getCode(), message);
 
+        return new ResponseEntity<>(errorResponseDto, errorCode.getHttpStatus());
+    }
+
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ErrorResponseDto> handleIllegalStateException(IllegalStateException e) {
+        CommonErrorCode errorCode = CommonErrorCode.INVALID_ARGUMENT_ERROR;
+        log.error("IllegalStateException: {}", e.getMessage(), e);
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(errorCode.getCode(), e.getMessage());
+        return new ResponseEntity<>(errorResponseDto, errorCode.getHttpStatus());
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> handleEntityNotFoundException(EntityNotFoundException e) {
+        CommonErrorCode errorCode = CommonErrorCode.ADMIN_USERNAME_NOT_FOUND_ERROR;
+        log.error("EntityNotFoundException: {}", e.getMessage(), e);
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(errorCode.getCode(), e.getMessage());
         return new ResponseEntity<>(errorResponseDto, errorCode.getHttpStatus());
     }
 }

@@ -1,4 +1,4 @@
-package jeiu.capstone.jongGangHaejo.controller;
+package jeiu.capstone.jongGangHaejo.controller.admin;
 
 import jeiu.capstone.jongGangHaejo.security.dto.admin.AdminPostResponse;
 import jeiu.capstone.jongGangHaejo.dto.paging.PagingDto;
@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin")
 @RequiredArgsConstructor
-public class AdminController {
+public class AdminPostController {
 
     private final AdminPostService adminPostService;
 
