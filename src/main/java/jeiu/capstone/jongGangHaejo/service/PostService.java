@@ -39,7 +39,7 @@ public class PostService {
     @Transactional
     public void createPost(PostCreateDto postCreateDto, List<MultipartFile> files) {
         // 파일 업로드 및 파일 ID 목록 획득
-        List<Long> fileIds = fileService.uploadFiles(files);
+        List<Long> fileIds = fileService.uploadFiles(files, "posts");
 
         // DTO에서 엔티티로 변환
         Post post = postCreateDto.toEntity();
@@ -78,7 +78,7 @@ public class PostService {
             fileService.deleteFiles(exFileIds);
 
             // 새로운 파일 업로드
-            List<Long> newFileIds = fileService.uploadFiles(files);
+            List<Long> newFileIds = fileService.uploadFiles(files, "posts");
             exPost.setFileIds(newFileIds);
         }
 
