@@ -1,7 +1,7 @@
 // REST API를 이용해 공지사항 리스트를 불러오는 함수
 async function loadNotices(currentPage = 1) {
     try {
-        const response = await fetchWithAuth(`/api/notices?page=${currentPage}`);
+        const response = await fetchWithoutAuth(`/notice?page=${currentPage}`);
         if (response.ok) {
             const noticesData = await response.json();
             const notices = noticesData.content; // 공지사항 데이터 배열
@@ -81,6 +81,7 @@ async function loadPagination(totalPages, currentPage) {
     paginationContainer.appendChild(nextLink);
 }
 
+// 페이지 로드 시 공지사항과 페이지네이션을 초기화할 피룡가 있을때 이 코드 활성화
 // 페이지 로드 시 공지사항 리스트와 페이지네이션 로드
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -90,4 +91,4 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// 페이지 로드 시 공지사항과 페이지네이션을 초기화할 피룡가 있을때 이 코드 활성화
+
