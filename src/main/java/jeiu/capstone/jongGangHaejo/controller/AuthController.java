@@ -23,14 +23,14 @@ public class AuthController {
 
     @PostMapping("/sign-up")
     public ResponseEntity<SignUpResponse> signUp(@RequestBody @Valid SignUpDto signUpDto) {
-        User user = securityService.createUser(signUpDto);
+        securityService.createUser(signUpDto);
         return ResponseEntity.ok(new SignUpResponse("회원가입이 완료되었습니다."));
     }
 
     @PostMapping("/sign-in")
     public ResponseEntity<SignInResponse> signIn(@RequestBody @Valid LoginDto loginDto) {
         String token = securityService.login(loginDto);
-        return ResponseEntity.ok(new SignInResponse(token));
+        return ResponseEntity.ok(new SignInResponse(token, "로그인이 완료되었습니다"));
     }
 
 }
