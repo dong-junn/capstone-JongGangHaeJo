@@ -35,6 +35,18 @@ spring:
       max-file-size: 10MB  # 업로드할 수 있는 파일의 최대 크기 설정
       max-request-size: 10MB
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}  # Gmail 계정
+    password: ${MAIL_APP_PASSWORD}  # Gmail 앱 비밀번호
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 logging:
   level:
     org.apache.coyote.http11: trace
