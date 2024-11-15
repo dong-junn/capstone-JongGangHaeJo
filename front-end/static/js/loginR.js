@@ -1,16 +1,11 @@
-// loginR.js
-
 // REST API를 이용해 회원가입 기능을 처리하는 함수
 async function registerUser() {
     const form = document.querySelector('form');
     const formData = new FormData(form);
     const json = {
-        email: formData.get('email'),
-        name: formData.get('name'),
+        id: formData.get('id'),
         password: formData.get('password'),
-        phone: `${formData.get('phone-code')}-${formData.get('phone')}`,
-        emailConsent: formData.get('email-consent') ? true : false,
-        smsConsent: formData.get('sms-consent') ? true : false
+        username: formData.get('name')
     };
 
     if (formData.get('password') !== formData.get('confirm-password')) {
@@ -19,7 +14,7 @@ async function registerUser() {
     }
 
     try {
-        const response = await fetch('http://127.0.0.1:8080/api/register', {
+        const response = await fetchWithoutAuth('/sign-up', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -27,12 +22,20 @@ async function registerUser() {
             body: JSON.stringify(json)
         });
 
-        if (response.ok) {
+        const result = await response.json();
+        
+        // '회원가입이 완료되었습니다.' 메시지를 확인하여 성공 여부 판단
+        if (result.message === "회원가입이 완료되었습니다.") {
             alert('회원가입이 성공적으로 완료되었습니다.');
             form.reset();
         } else {
-            const errorData = await response.json();
-            alert(`회원가입 실패: ${errorData.message}`);
+            alert(`회원가입 실패: ${result.message}`);
+            // validation 에러가 있을 경우 상세 메시지 출력
+            if (result.validation) {
+                for (const [key, message] of Object.entries(result.validation)) {
+                    alert(`${key}: ${message}`);
+                }
+            }
         }
     } catch (error) {
         console.error('회원가입 중 오류가 발생했습니다:', error);
@@ -49,7 +52,7 @@ async function verifyEmail() {
     }
 
     try {
-        const response = await fetch(`http://127.0.0.1:8080/api/verify-email?email=${email}`, {
+        const response = await fetchWithoutAuth(`/api/verify-email?email=${email}`, {
             method: 'GET'
         });
 
@@ -77,4 +80,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
     includeHTML();
 });
-
