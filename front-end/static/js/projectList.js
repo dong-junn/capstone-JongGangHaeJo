@@ -1,13 +1,14 @@
 // REST API를 이용해 프로젝트 리스트를 불러오는 함수
 async function loadProjects(currentPage = 1) {
     try {
-        const response = await fetch(`http://18.118.128.174:8080/api/projects?page=${currentPage}`);
+        const response = await fetchWithAuth(`/api/projects?page=${currentPage}`);
         if (response.ok) {
             const projectsData = await response.json();
             const projects = projectsData.projects;
             const projectsContainer = document.querySelector('.projects-container');
-            projectsContainer.innerHTML = '';
+            projectsContainer.innerHTML = ''; // 기존 내용을 초기화
 
+            // 프로젝트 리스트 동적 생성
             projects.forEach(project => {
                 const projectElement = document.createElement('div');
                 projectElement.className = 'project-info';
@@ -17,17 +18,19 @@ async function loadProjects(currentPage = 1) {
                         <div class="project-details">
                             <h2>${project.title}</h2>
                             <p>작성자: <span>${project.writer}</span></p>
-                            <p>프로젝트 설명: <span>${project.content}</span></p>
                             <p>완성 날짜: <span>${project.createdDate}</span></p>
                             <p>조회수: <span>${project.view}</span></p>
                         </div>
-                        <div class="detail-button">상세보기</div>
                     </a>
                 `;
                 projectsContainer.appendChild(projectElement);
             });
 
-            loadPagination(projectsData.totalPages, currentPage); // 페이지네이션 로드
+            // 페이지네이션 로드
+            loadPagination(projectsData.totalPages, currentPage);
+
+            // CSS 재적용 (동적 요소에도 확실히 적용 보장)
+            applyStyles();
         } else {
             const errorData = await response.json();
             alert(`프로젝트 목록을 불러오지 못했습니다: ${errorData.message}`);
@@ -42,7 +45,7 @@ async function loadProjects(currentPage = 1) {
 async function loadPagination(totalPages, currentPage) {
     try {
         const paginationContainer = document.querySelector('.pagination');
-        paginationContainer.innerHTML = '';
+        paginationContainer.innerHTML = ''; // 기존 내용을 초기화
 
         // 이전 페이지 링크
         const prevLink = document.createElement('a');
@@ -84,28 +87,23 @@ async function loadPagination(totalPages, currentPage) {
             }
         });
         paginationContainer.appendChild(nextLink);
+
+        // CSS 재적용 (동적 요소에도 확실히 적용 보장)
+        applyStyles();
     } catch (error) {
         console.error('Error loading pagination:', error);
     }
 }
 
-// 헤더와 푸터를 동적으로 로드하는 함수
-async function includeHTML() {
-    try {
-        const headerResponse = await fetch('http://127.0.0.1:5500/front-end/templates/layout/header.html');
-        const headerHtml = await headerResponse.text();
-        document.getElementById('header').innerHTML = headerHtml;
-
-        const footerResponse = await fetch('http://127.0.0.1:5500/front-end/templates/layout/footer.html');
-        const footerHtml = await footerResponse.text();
-        document.getElementById('footer').innerHTML = footerHtml;
-    } catch (error) {
-        console.error('Error loading modules:', error);
-    }
+// CSS가 동적으로 생성된 요소에 확실히 적용되도록 보장
+function applyStyles() {
+    // 필요한 경우, 동적으로 생성된 요소에 특정 스타일을 강제로 다시 적용
+    document.querySelectorAll('.project-info').forEach(element => {
+        element.style.transition = 'all 0.3s ease'; // 예시: 부드러운 전환 효과 추가
+    });
 }
 
-// 페이지 로드 시 헤더, 푸터, 프로젝트 리스트 및 페이지네이션 로드
+// 페이지 로드 시 프로젝트 리스트 및 페이지네이션 로드
 document.addEventListener('DOMContentLoaded', () => {
-    includeHTML();
     loadProjects();
 });
