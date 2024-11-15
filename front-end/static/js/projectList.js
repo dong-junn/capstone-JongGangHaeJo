@@ -1,7 +1,7 @@
 // REST API를 이용해 프로젝트 리스트를 불러오는 함수
 async function loadProjects(currentPage = 1) {
     try {
-        const response = await fetchWithoutAuth(`/api/post?page=${currentPage}`);
+        const response = await fetchWithoutAuth(`/post?page=${currentPage}&size=10&sort=createdAt,desc`);
         if (response.ok) {
             const projectsData = await response.json();
             const projects = projectsData.content; // 'content' 배열로 접근
@@ -17,8 +17,8 @@ async function loadProjects(currentPage = 1) {
                         <img src="${project.imageUrl || 'default-image-url'}" alt="프로젝트 이미지">
                         <div class="project-details">
                             <h2>${project.title}</h2>
-                            <p>작성자: <span>${project.team}</span></p>
-                            <p>완성 날짜: <span>${project.createdAt}</span></p>
+                            <p>팀 명: <span>${project.team}</span></p>
+                            <p>업로드 날짜: <span>${project.createdAt}</span></p>
                             <p>조회수: <span>${project.viewCount}</span></p>
                         </div>
                     </a>

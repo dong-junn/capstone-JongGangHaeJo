@@ -19,7 +19,8 @@ body {
 .footer-container {
     display: block;
     width: 100%;
-    padding: 10px 0; /* 헤더와 푸터에 약간의 여백 추가 */
+    padding: 10px 0;
+    /* 헤더와 푸터에 약간의 여백 추가 */
 }
 
 
@@ -116,3 +117,49 @@ form {
     background: #e55330;
 }
 
+/* 기존 CSS 유지하고 아래 내용 추가 */
+
+.email-group,
+.verification-input-group {
+    display: flex;
+    gap: 10px;
+}
+
+.verification-group {
+    margin-top: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+.timer {
+    color: #ff6347;
+    font-size: 14px;
+    line-height: 40px;
+    margin-left: 10px;
+}
+
+.verification-message {
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.verification-message.success {
+    color: #4CAF50;
+}
+
+.verification-message.error {
+    color: #ff6347;
+}
+
+.submit-button:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+}
+
+.email-check,
+.verify-code {
+    white-space: nowrap;
+    min-width: 100px;
+}
