@@ -1,7 +1,7 @@
 // REST API를 이용해 프로젝트 리스트를 불러오는 함수
 async function loadProjects(currentPage = 1) {
     try {
-        const response = await fetchWithAuth(`/api/projects?page=${currentPage}`);
+        const response = await fetchWithoutAuth(`/api/post?page=${currentPage}`);
         if (response.ok) {
             const projectsData = await response.json();
             const projects = projectsData.content; // 'content' 배열로 접근
