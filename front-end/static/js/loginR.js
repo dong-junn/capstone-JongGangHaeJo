@@ -96,6 +96,7 @@ async function registerUser() {
         id: formData.get('id'),
         password: formData.get('password'),
         username: formData.get('name')
+        username: formData.get('name')
     };
 
     if (formData.get('password') !== formData.get('confirm-password')) {
@@ -105,6 +106,7 @@ async function registerUser() {
 
     try {
         const response = await fetchWithoutAuth('/sign-up', {
+        const response = await fetchWithoutAuth('/sign-up', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -112,7 +114,10 @@ async function registerUser() {
             body: JSON.stringify(json)
         });
 
-        if (response.ok) {
+        const result = await response.json();
+        
+        // '회원가입이 완료되었습니다.' 메시지를 확인하여 성공 여부 판단
+        if (result.message === "회원가입이 완료되었습니다.") {
             alert('회원가입이 성공적으로 완료되었습니다.');
             form.reset();
             window.location.href = '/front-end/templates/user/login/login.html';
@@ -147,4 +152,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
     includeHTML();
 });
-
