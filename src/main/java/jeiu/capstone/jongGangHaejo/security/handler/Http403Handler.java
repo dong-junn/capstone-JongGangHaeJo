@@ -47,6 +47,8 @@ public class Http403Handler implements AccessDeniedHandler {
         response.setCharacterEncoding(UTF_8.name()); //인코딩 - utf8로 설정
         response.setContentType(APPLICATION_JSON_VALUE);  // contentType - json으로 설정
 
-        objectMapper.writeValue(response.getWriter(), CommonErrorCode.AUTHORIZATION_FAILED); //errorResponse의 값으로 json세팅
+        ErrorResponseDto errorResponse = new ErrorResponseDto(CommonErrorCode.AUTHORIZATION_FAILED.getCode(), CommonErrorCode.AUTHORIZATION_FAILED.getMessage());
+
+        objectMapper.writeValue(response.getWriter(), errorResponse); //errorResponse의 값으로 json세팅
     }
 }

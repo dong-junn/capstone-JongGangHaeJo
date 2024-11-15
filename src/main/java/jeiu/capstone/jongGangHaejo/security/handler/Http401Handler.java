@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jeiu.capstone.jongGangHaejo.dto.response.ErrorResponseDto;
 import jeiu.capstone.jongGangHaejo.exception.common.CommonErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,8 @@ public class Http401Handler implements AuthenticationEntryPoint {
         response.setCharacterEncoding(UTF_8.name()); //인코딩 - utf8로 설정
         response.setContentType(APPLICATION_JSON_VALUE);  // contentType - json으로 설정
 
-        objectMapper.writeValue(response.getWriter(), CommonErrorCode.LOGIN_ID_NOT_FOUND); //errorResponse의 값으로 json세팅
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(CommonErrorCode.UNAUTHORIZED_ERROR.getCode(), CommonErrorCode.UNAUTHORIZED_ERROR.getMessage());
+
+        objectMapper.writeValue(response.getWriter(), errorResponseDto); //errorResponse의 값으로 json세팅
     }
 }
