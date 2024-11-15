@@ -37,6 +37,7 @@ public class PostCreateDto { //PostController에 params를 넘기기 위한 DTO
                 .content(this.content)
                 .team(this.team)
                 .youtubelink(this.youtubelink)
+                .username(this.username)
                 .build();
     }
 }
