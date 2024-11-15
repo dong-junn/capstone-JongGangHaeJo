@@ -29,6 +29,9 @@ public enum CommonErrorCode implements ErrorCode {
     FILE_DOWNLOAD_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 5003, "파일 다운로드 중 오류가 발생했습니다."),
     DATABASE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 5004, "데이터베이스 오류가 발생했습니다."),
     THIRD_PARTY_SERVICE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 5005, "외부 서비스와의 통신 오류가 발생했습니다."),
+
+    //Admin 관련에러
+    ADMIN_USERNAME_NOT_FOUND_ERROR(HttpStatus.BAD_REQUEST, 6000, "존재하지 않는 회원입니다")
     ;
 
     private final HttpStatus httpStatus;
