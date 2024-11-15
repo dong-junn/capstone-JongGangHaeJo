@@ -15,6 +15,7 @@ public class User {
     private String id;
     private String password;
     private String name;
+    private String email;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
@@ -25,10 +26,11 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     @Builder
-    public User(String id, String password, String name, Set<Role> roles) {
+    public User(String id, String password, String name, String email, Set<Role> roles) {
         this.id = id;
         this.password = password;
         this.name = name;
+        this.email = email;
         this.roles = roles;
     }
 }
