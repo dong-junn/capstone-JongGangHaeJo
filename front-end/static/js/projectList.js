@@ -1,10 +1,10 @@
 // REST API를 이용해 프로젝트 리스트를 불러오는 함수
 async function loadProjects(currentPage = 1) {
     try {
-        const response = await fetchWithAuth(`/api/projects?page=${currentPage}`);
+        const response = await fetchWithAuth(`/api/posts?page=${currentPage}`);
         if (response.ok) {
             const projectsData = await response.json();
-            const projects = projectsData.projects;
+            const projects = projectsData.content; // 'content' 배열로 접근
             const projectsContainer = document.querySelector('.projects-container');
             projectsContainer.innerHTML = ''; // 기존 내용을 초기화
 
@@ -14,12 +14,12 @@ async function loadProjects(currentPage = 1) {
                 projectElement.className = 'project-info';
                 projectElement.innerHTML = `
                     <a href="../../board/project/detail.html?id=${project.id}">
-                        <img src="${project.imageUrl}" alt="프로젝트 이미지">
+                        <img src="${project.imageUrl || 'default-image-url'}" alt="프로젝트 이미지">
                         <div class="project-details">
                             <h2>${project.title}</h2>
-                            <p>작성자: <span>${project.writer}</span></p>
-                            <p>완성 날짜: <span>${project.createdDate}</span></p>
-                            <p>조회수: <span>${project.view}</span></p>
+                            <p>작성자: <span>${project.team}</span></p>
+                            <p>완성 날짜: <span>${project.createdAt}</span></p>
+                            <p>조회수: <span>${project.viewCount}</span></p>
                         </div>
                     </a>
                 `;
@@ -28,9 +28,6 @@ async function loadProjects(currentPage = 1) {
 
             // 페이지네이션 로드
             loadPagination(projectsData.totalPages, currentPage);
-
-            // CSS 재적용 (동적 요소에도 확실히 적용 보장)
-            applyStyles();
         } else {
             const errorData = await response.json();
             alert(`프로젝트 목록을 불러오지 못했습니다: ${errorData.message}`);
@@ -40,6 +37,7 @@ async function loadProjects(currentPage = 1) {
         alert(`오류가 발생했습니다: ${error.message}`);
     }
 }
+
 
 // 페이지네이션을 동적으로 로드하는 함수
 async function loadPagination(totalPages, currentPage) {

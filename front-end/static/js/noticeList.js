@@ -1,7 +1,7 @@
 // REST API를 이용해 공지사항 리스트를 불러오는 함수
 async function loadNotices() {
     try {
-        const response = await fetch('http://18.118.128.174:8080/api/notices');
+        const response = await fetchWithAuth('/api/notices');
         if (response.ok) {
             const notices = await response.json();
             const noticeList = document.querySelector('#notice-list tbody');
@@ -31,12 +31,12 @@ async function loadNotices() {
 // 페이지네이션을 동적으로 로드하는 함수
 async function loadPagination(currentPage) {
     try {
-        const response = await fetch(`http://18.118.128.174:8080/api/notices/pages?page=${currentPage}`);
+        const response = await fetchWithAuth(`/api/notices/pages?page=${currentPage}`);
         if (response.ok) {
             const paginationData = await response.json();
             const totalPages = paginationData.totalPages;
             const paginationContainer = document.querySelector('.pagination');
-            paginationContainer.innerHTML = '';
+            paginationContainer.innerHTML = ''; // 기존 페이지네이션 초기화
 
             // 이전 페이지 링크
             const prevLink = document.createElement('a');
@@ -71,5 +71,10 @@ async function loadPagination(currentPage) {
     }
 }
 
-
-
+// 페이지 로드 시 공지사항 리스트와 페이지네이션 로드
+document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentPage = parseInt(urlParams.get('page')) || 1;
+    loadNotices();
+    loadPagination(currentPage);
+});
