@@ -78,17 +78,3 @@ document.addEventListener('DOMContentLoaded', () => {
     includeHTML();
 });
 
-// 헤더와 푸터를 동적으로 로드하는 함수
-async function includeHTML() {
-    try {
-        const headerResponse = await fetch('/front-end/templates/layout/header.html');
-        const headerHtml = await headerResponse.text();
-        document.querySelector('.header-container').innerHTML = headerHtml;
-
-        const footerResponse = await fetch('/front-end/templates/layout/footer.html');
-        const footerHtml = await footerResponse.text();
-        document.querySelector('.footer-container').innerHTML = footerHtml;
-    } catch (error) {
-        console.error('헤더와 푸터를 로드하는 중 오류 발생:', error);
-    }
-}

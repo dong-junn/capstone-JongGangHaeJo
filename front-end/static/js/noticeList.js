@@ -71,24 +71,5 @@ async function loadPagination(currentPage) {
     }
 }
 
-// 헤더와 푸터를 동적으로 로드하는 함수
-async function includeHTML() {
-    try {
-        const headerResponse = await fetch('http://127.0.0.1:5500/front-end/templates/layout/header.html');
-        document.getElementById('header').innerHTML = await headerResponse.text();
-
-        const footerResponse = await fetch('http://127.0.0.1:5500/front-end/templates/layout/footer.html');
-        document.getElementById('footer').innerHTML = await footerResponse.text();
-    } catch (error) {
-        console.error('헤더와 푸터를 로드하는 중 오류 발생:', error);
-    }
-}
-
-// 페이지 로드 시 공지사항 리스트, 페이지네이션, 헤더, 푸터를 로드
-document.addEventListener('DOMContentLoaded', () => {
-    includeHTML();
-    loadNotices();
-    loadPagination(1); // 초기 페이지 로드
-});
 
 
