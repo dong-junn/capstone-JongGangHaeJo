@@ -1,4 +1,4 @@
-package jeiu.capstone.jongGangHaejo.dto.admin;
+package jeiu.capstone.jongGangHaejo.dto.paging;
 
 import lombok.Builder;
 import lombok.Getter;

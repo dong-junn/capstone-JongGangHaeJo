@@ -1,7 +1,7 @@
 package jeiu.capstone.jongGangHaejo.service.admin;
 
 import jeiu.capstone.jongGangHaejo.dto.admin.AdminPostResponse;
-import jeiu.capstone.jongGangHaejo.dto.admin.PagingDto;
+import jeiu.capstone.jongGangHaejo.dto.paging.PagingDto;
 import jeiu.capstone.jongGangHaejo.repository.admin.post.AdminPostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
