@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jeiu.capstone.jongGangHaejo.dto.response.ErrorResponseDto;
+import jeiu.capstone.jongGangHaejo.exception.common.CommonErrorCode;
 import jeiu.capstone.jongGangHaejo.security.config.UserConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,16 +41,12 @@ public class Http403Handler implements AccessDeniedHandler {
                 .map(Authentication::getName)
                 .orElse("");
 
-        ErrorResponseDto errorResponse = new ErrorResponseDto(403, "요청 거부");
-        errorResponse.setValidation(Map.of(
-                "원인", "권한이 없습니다.",
-                "요청 사용자: ", logginedUser
-        ));
+        log.error("요청 사용자 : {}", logginedUser);
 
         response.setStatus(SC_FORBIDDEN); //403 status 설정
         response.setCharacterEncoding(UTF_8.name()); //인코딩 - utf8로 설정
         response.setContentType(APPLICATION_JSON_VALUE);  // contentType - json으로 설정
 
-        objectMapper.writeValue(response.getWriter(), errorResponse); //errorResponse의 값으로 json세팅
+        objectMapper.writeValue(response.getWriter(), CommonErrorCode.AUTHORIZATION_FAILED); //errorResponse의 값으로 json세팅
     }
 }
