@@ -1,13 +1,11 @@
 package jeiu.capstone.jongGangHaejo.security.dto.response.member;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SignInResponse {
-    private String token;
+
+    private final String token;
+    private final String message;
 }
