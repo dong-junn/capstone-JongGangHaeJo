@@ -10,14 +10,12 @@ async function loginUser() {
     try {
         const response = await fetchWithoutAuth('/sign-in', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(json),
-            credentials: 'include'
+            body: JSON.stringify(json)
         });
 
         if (response.ok) {
+            const data = await response.json();
+            setAuthToken(data.token); // 토큰 저장
             alert('로그인 성공');
             window.location.href = '/';
         } else {
