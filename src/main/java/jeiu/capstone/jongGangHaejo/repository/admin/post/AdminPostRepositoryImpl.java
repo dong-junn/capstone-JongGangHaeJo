@@ -2,7 +2,7 @@ package jeiu.capstone.jongGangHaejo.repository.admin.post;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jeiu.capstone.jongGangHaejo.domain.Post;
-import jeiu.capstone.jongGangHaejo.dto.admin.AdminPagingDto;
+import jeiu.capstone.jongGangHaejo.dto.admin.PagingDto;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class AdminPostRepositoryImpl implements AdminPostRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<Post> getList(AdminPagingDto postSearch) {
+    public List<Post> getList(PagingDto postSearch) {
         return jpaQueryFactory.selectFrom(post)
                 .limit(postSearch.getSize())
                 .offset(postSearch.getOffset())

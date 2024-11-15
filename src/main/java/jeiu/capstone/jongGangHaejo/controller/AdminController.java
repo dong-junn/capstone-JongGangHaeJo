@@ -1,7 +1,7 @@
 package jeiu.capstone.jongGangHaejo.controller;
 
 import jeiu.capstone.jongGangHaejo.dto.admin.AdminPostResponse;
-import jeiu.capstone.jongGangHaejo.dto.admin.AdminPagingDto;
+import jeiu.capstone.jongGangHaejo.dto.admin.PagingDto;
 import jeiu.capstone.jongGangHaejo.service.admin.AdminPostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +19,7 @@ public class AdminController {
     private final AdminPostService adminPostService;
 
     @GetMapping("/posts")
-    public List<AdminPostResponse> getList(@ModelAttribute AdminPagingDto postSearch) {
+    public List<AdminPostResponse> getList(@ModelAttribute PagingDto postSearch) {
         return adminPostService.getList(postSearch);
     }
 

@@ -10,7 +10,7 @@ import static java.lang.Math.min;
 @Getter
 @Setter
 @Builder
-public class AdminPagingDto {
+public class PagingDto {
 
     private static final int MAX_SIZE = 2000;
 
