@@ -5,6 +5,11 @@ spring:
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true #페이징 1부터 시작하도록 설정
+
   jpa:
     defer-datasource-initialization: true
     show-sql: true
