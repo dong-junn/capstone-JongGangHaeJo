@@ -8,7 +8,7 @@ async function loginUser() {
     };
 
     try {
-        const response = await fetchWithoutAuth('http://3.147.12.27:8080/sign-in', {
+        const response = await fetchWithoutAuth('/sign-in', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -25,7 +25,7 @@ async function loginUser() {
             alert(`로그인 실패: ${errorData.message}`);
         }
     } catch (error) {
-        console.error('Error during login:', error);
+        console.error('로그인 중 오류 발생:', error);
         alert('로그인 중 오류가 발생했습니다. 나중에 다시 시도해주세요.');
     }
 }
@@ -38,4 +38,3 @@ document.addEventListener('DOMContentLoaded', () => {
         loginUser(); // 로그인 함수 호출
     });
 });
-
