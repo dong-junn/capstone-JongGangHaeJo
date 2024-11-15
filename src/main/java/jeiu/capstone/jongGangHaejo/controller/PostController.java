@@ -114,7 +114,7 @@ public class PostController {
      * @param sort 정렬 기준 (예: createdAt,desc)
      * @return 페이징된 게시물 응답 DTO
      */
-    @GetMapping("/posts")
+    @GetMapping("/post")
     public ResponseEntity<PagedResponseDto<PostResponseDto>> getPagedPosts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
