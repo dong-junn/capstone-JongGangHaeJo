@@ -3,6 +3,7 @@ package jeiu.capstone.jongGangHaejo.controller.admin;
 import jakarta.persistence.EntityNotFoundException;
 import jeiu.capstone.jongGangHaejo.domain.user.User;
 import jeiu.capstone.jongGangHaejo.dto.admin.user.*;
+import jeiu.capstone.jongGangHaejo.dto.response.PagedResponseDto;
 import jeiu.capstone.jongGangHaejo.exception.ResourceNotFoundException;
 import jeiu.capstone.jongGangHaejo.exception.common.CommonErrorCode;
 import jeiu.capstone.jongGangHaejo.service.admin.AdminUserService;
