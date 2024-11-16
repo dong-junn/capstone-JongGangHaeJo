@@ -16,7 +16,16 @@ java {
 }
 
 // querydsl Q class 설정
-def generated='src/main/generated'
+def generated = 'src/main/generated'
+
+tasks.register('createGeneratedDir') {
+    doLast {
+        file(generated).mkdirs()
+    }
+}
+
+compileJava.dependsOn createGeneratedDir
+
 sourceSets {
     main.java.srcDirs += [ generated ]
 }
