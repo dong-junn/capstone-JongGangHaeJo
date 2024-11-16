@@ -53,6 +53,7 @@ public class PostController {
     public ResponseEntity<Map<String, String>> createPost(
             @Valid @RequestPart("post") PostCreateDto postCreateDto, // 게시물 데이터
             @RequestPart("files") List<MultipartFile> files,
+            @RequestPart("thumbnail") MultipartFile thumbnail,
             @AuthenticationPrincipal UserConfig userConfig // 현재 인증된 사용자 정보
     ) {
         // 게시물 데이터 로깅
@@ -60,11 +61,13 @@ public class PostController {
         // 각 파일의 이름과 크기 로깅
         files.forEach(file -> log.info("제공된 파일 명: {}, 크기: {} bytes", file.getOriginalFilename(), file.getSize()));
 
+        log.info("제공된 썸네일 파일 명: {}, 크기: {} bytes", thumbnail.getOriginalFilename(), thumbnail.getSize());
+
         // 사용자 이름 설정
         postCreateDto.setUsername(userConfig.getUsername());
 
         // 서비스 계층으로 게시물 생성 요청 위임
-        postService.createPost(postCreateDto, files);
+        postService.createPost(postCreateDto, files, thumbnail);
 
         // 성공 메시지 반환
         return ResponseEntity.ok(Map.of("message", "게시물이 성공적으로 생성되었습니다."));

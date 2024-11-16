@@ -31,6 +31,8 @@ public class QFile extends EntityPathBase<File> {
 
     public final StringPath s3Path = createString("s3Path");
 
+    public final StringPath thumbnailPath = createString("thumbnailPath");
+
     public QFile(String variable) {
         super(File.class, forVariable(variable));
     }

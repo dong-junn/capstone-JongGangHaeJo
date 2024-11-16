@@ -1,5 +1,6 @@
 package jeiu.capstone.jongGangHaejo.service;
 
+import jeiu.capstone.jongGangHaejo.domain.File;
 import jeiu.capstone.jongGangHaejo.domain.Post;
 import jeiu.capstone.jongGangHaejo.dto.request.PostCreateDto;
 import jeiu.capstone.jongGangHaejo.dto.request.PostUpdateDto;
@@ -37,9 +38,16 @@ public class PostService {
      * @param files         업로드할 파일 목록
      */
     @Transactional
-    public void createPost(PostCreateDto postCreateDto, List<MultipartFile> files) {
-        // 파일 업로드 및 파일 ID 목록 획득
-        List<Long> fileIds = fileService.uploadFiles(files, "posts");
+    public void createPost(PostCreateDto postCreateDto, List<MultipartFile> files, MultipartFile thumbnail) {
+        List<Long> fileIds = fileService.uploadFiles(files, "posts", false);  // 일반 파일
+
+        // 썸네일 업로드 (uploadFiles 메서드 활용)
+        if (thumbnail != null && !thumbnail.isEmpty()) {
+            List<Long> thumbnailId = fileService.uploadFiles(List.of(thumbnail), "thumbnails", true);  // 썸네일임을 표시
+            if (!thumbnailId.isEmpty()) {
+                fileIds.addAll(thumbnailId);
+            }
+        }
 
         // DTO에서 엔티티로 변환
         Post post = postCreateDto.toEntity();
@@ -50,7 +58,6 @@ public class PostService {
         // 게시물 저장
         postRepository.save(post);
     }
-
 
     @Transactional
     public void updatePost(Long postId, PostUpdateDto postUpdateDto, List<MultipartFile> files) {

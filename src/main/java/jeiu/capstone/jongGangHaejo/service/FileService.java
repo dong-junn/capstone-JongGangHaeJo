@@ -67,7 +67,7 @@ public class FileService {
             now.getYear(),
             now.getMonthValue(),
             UUID.randomUUID(),
-            encodedFilename
+            filename
         );
     }
 
@@ -121,7 +121,7 @@ public class FileService {
      */
 
     //다중 파일을 업로드하는 메서드, 이를 주로 사용함
-    public List<Long> uploadFiles(List<MultipartFile> files, String directory) {
+    public List<Long> uploadFiles(List<MultipartFile> files, String directory, boolean isThumbnail) {
         if (files == null || files.isEmpty()) {
             return Collections.emptyList();
         }
@@ -136,6 +136,7 @@ public class FileService {
                             .s3Path(fileUrl)
                             .fileType(file.getContentType())
                             .fileSize(file.getSize())
+                            .thumbnailPath(isThumbnail ? fileUrl : null)  // 썸네일인 경우에만 thumbnailPath 설정
                             .build();
 
                     // 파일을 DB에 저장하고 파일 ID 반환
@@ -144,6 +145,11 @@ public class FileService {
                 })
                 .filter(fileId -> fileId != null) // Null ID는 제외
                 .collect(Collectors.toList());
+    }
+
+    // 기존 메서드와의 호환성을 위해 오버로딩
+    public List<Long> uploadFiles(List<MultipartFile> files, String directory) {
+        return uploadFiles(files, directory, false);
     }
 
     /**
