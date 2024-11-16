@@ -63,7 +63,7 @@ class FileServiceTest {
         );
 
         // when
-        String fileUrl = fileService.uploadFile(mockFile);
+        String fileUrl = fileService.uploadFile(mockFile, "posts");
 
         // then
         ArgumentCaptor<PutObjectRequest> requestCaptor = ArgumentCaptor.forClass(PutObjectRequest.class);
@@ -88,7 +88,7 @@ class FileServiceTest {
 
         // when & then
         InvalidFileNameException exception = assertThrows(InvalidFileNameException.class, () -> {
-            fileService.uploadFile(mockFile);
+            fileService.uploadFile(mockFile, "posts");
         });
 
         assertEquals("파일 이름이 유효하지 않습니다.", exception.getMessage());
@@ -109,7 +109,7 @@ class FileServiceTest {
 
         // when & then
         S3UploadException exception = assertThrows(S3UploadException.class, () -> {
-            fileService.uploadFile(mockFile);
+            fileService.uploadFile(mockFile, "posts");
         });
 
         assertEquals("S3에서 파일 업로드 중 오류가 발생했습니다.", exception.getMessage());
@@ -130,7 +130,7 @@ class FileServiceTest {
 
         // when & then
         AwsSdkException exception = assertThrows(AwsSdkException.class, () -> {
-            fileService.uploadFile(mockFile);
+            fileService.uploadFile(mockFile, "posts");
         });
 
         assertEquals("AWS SDK 오류가 발생했습니다.", exception.getMessage());
@@ -151,7 +151,7 @@ class FileServiceTest {
 
         // when & then
         FileUploadException exception = assertThrows(FileUploadException.class, () -> {
-            fileService.uploadFile(mockFile);
+            fileService.uploadFile(mockFile, "posts");
         });
 
         assertEquals("파일 업로드 중 알 수 없는 오류가 발생했습니다.", exception.getMessage());
@@ -175,7 +175,7 @@ class FileServiceTest {
         });
 
         // when
-        List<Long> fileIds = fileService.uploadFiles(Arrays.asList(mockFile));
+        List<Long> fileIds = fileService.uploadFiles(Arrays.asList(mockFile), "posts");
 
         // then
         assertEquals(1, fileIds.size());
@@ -198,7 +198,7 @@ class FileServiceTest {
         );
 
         // when
-        List<Long> fileIds = fileService.uploadFiles(files);
+        List<Long> fileIds = fileService.uploadFiles(files, "posts");
 
         // then
         assertTrue(fileIds.isEmpty());
