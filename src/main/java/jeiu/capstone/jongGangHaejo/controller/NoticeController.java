@@ -1,10 +1,7 @@
 package jeiu.capstone.jongGangHaejo.controller;
 
 import jeiu.capstone.jongGangHaejo.domain.Notice;
-import jeiu.capstone.jongGangHaejo.domain.user.User;
 import jeiu.capstone.jongGangHaejo.dto.admin.user.PageResponse;
-import jeiu.capstone.jongGangHaejo.dto.admin.user.UserResponse;
-import jeiu.capstone.jongGangHaejo.dto.admin.user.UserSearchCondition;
 import jeiu.capstone.jongGangHaejo.dto.notice.NoticeResponse;
 import jeiu.capstone.jongGangHaejo.dto.request.notice.NoticeCreateDto;
 import jeiu.capstone.jongGangHaejo.service.NoticeService;
@@ -16,6 +13,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 public class NoticeController {
@@ -24,7 +23,7 @@ public class NoticeController {
 
     @GetMapping("/notice")
     public ResponseEntity<PageResponse<NoticeResponse>> getNotices(
-            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable
+            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable
     ) {
         Page<Notice> noticePage = noticeService.getNotices(pageable);
         Page<NoticeResponse> responsePage = noticePage.map(NoticeResponse::from);
@@ -39,7 +38,8 @@ public class NoticeController {
     }
 
     @PostMapping("/admin/notice")
-    public void CreateNotice(@RequestBody NoticeCreateDto dto) {
+    public ResponseEntity<Map<String, String>> CreateNotice(@RequestBody NoticeCreateDto dto) {
         noticeService.save(dto);
+        return ResponseEntity.ok(Map.of("message", "공지사항이 등록되었습니다"));
     }
 }

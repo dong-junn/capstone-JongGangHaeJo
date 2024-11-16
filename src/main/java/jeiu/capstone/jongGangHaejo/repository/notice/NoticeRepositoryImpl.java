@@ -21,7 +21,7 @@ public class NoticeRepositoryImpl implements NoticeRepositoryCustom {
 
         List<Notice> content = queryFactory
                 .selectFrom(notice)
-                .orderBy(notice.id.desc())  // id 기준 내림차순 정렬
+                .orderBy(notice.id.asc())  // id 기준 내림차순 정렬
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
