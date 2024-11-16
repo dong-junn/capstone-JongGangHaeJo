@@ -4,8 +4,11 @@ pipeline {
     environment {
         JAVA_HOME = '/usr/lib/jvm/java-17-amazon-corretto.x86_64'
         PATH = "$JAVA_HOME/bin:$PATH"
-        AWS_DEFAULT_REGION = 'us-east-2'
-        ECR_REGISTRY = "${ECR_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
+
+        AWS_DEFAULT_REGION = credentials('AWS_DEFAULT_REGION')
+        ECR_ACCOUNT_ID = credentials('AWS_ACCOUNT_ID')
+        ECR_REPOSITORY = credentials('ECR_REPOSITORY')
+        ECR_REGISTRY = "${ECR_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_REPOSITORY}"
     }
 
     stages {
@@ -95,7 +98,6 @@ pipeline {
             steps {
                 echo 'Building Docker image...'
                 script {
-                    ECR_REGISTRY = "${ECR_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
                     dockerImage = docker.build("${ECR_REGISTRY}/${ECR_REPOSITORY}:latest")
                 }
             }
@@ -107,7 +109,7 @@ pipeline {
                 script {
                     sh "aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}"
 
-                    sh "docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}"
+                    sh "docker push ${ECR_REGISTRY}"
                 }
             }
         }
