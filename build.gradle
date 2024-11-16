@@ -99,6 +99,12 @@ dependencies {
     //JPA
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
+    // JPA 로깅시 ? 내용을 표시하기 위한 p6spy 라이브라리
+    implementation 'p6spy:p6spy:3.9.1'
+    implementation 'com.github.gavlyukovskiy:datasource-decorator-spring-boot-autoconfigure:1.9.0'
+
+
+
     // queryDSL
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
     annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
