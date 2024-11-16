@@ -1,5 +1,6 @@
 package jeiu.capstone.jongGangHaejo.restDocs;
 
+import jeiu.capstone.jongGangHaejo.annotation.WithMockCustomUser;
 import jeiu.capstone.jongGangHaejo.domain.user.Role;
 import jeiu.capstone.jongGangHaejo.domain.user.User;
 import jeiu.capstone.jongGangHaejo.security.config.SecurityConfig;
@@ -39,39 +40,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @ExtendWith(RestDocumentationExtension.class)
 @Import(SecurityConfig.class)
+@WithMockCustomUser
 public class PostDocTest {
 
     private MockMvc mockMvc;
-
-    @BeforeEach
-    void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-                .apply(documentationConfiguration(restDocumentation))
-                .build();
-    }
-
-    @BeforeEach
-    void settingSecurity() {
-        Set<Role> roles = new HashSet<>();
-        roles.add(Role.ROLE_USER);
-
-        User user = User.builder()
-                .name("testUser")
-                .password("password")
-                .roles(roles)
-                .build();
-
-        UserConfig userConfig = new UserConfig(user);
-
-        SecurityContext context = SecurityContextHolder.createEmptyContext();
-        Authentication auth = new UsernamePasswordAuthenticationToken(
-                userConfig,
-                null,
-                userConfig.getAuthorities()
-        );
-        context.setAuthentication(auth);
-        SecurityContextHolder.setContext(context);
-    }
 
     @Test
     @DisplayName("게시물 스니펫 생성")

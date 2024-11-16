@@ -1,5 +1,6 @@
 package jeiu.capstone.jongGangHaejo.controller.exception;
 
+import jeiu.capstone.jongGangHaejo.annotation.WithMockCustomUser;
 import jeiu.capstone.jongGangHaejo.config.SecurityTestConfig;
 import jeiu.capstone.jongGangHaejo.controller.PostController;
 import jeiu.capstone.jongGangHaejo.domain.user.Role;
@@ -40,6 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(PostController.class)
 @Import(SecurityTestConfig.class)
+@WithMockCustomUser
 class ExceptionHandlingControllerTest {
 
     @Autowired
@@ -53,29 +55,6 @@ class ExceptionHandlingControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @BeforeEach
-    void setUp() {
-        Set<Role> roles = new HashSet<>();
-        roles.add(Role.ROLE_USER);
-
-        User user = User.builder()
-                .name("testUser")
-                .password("password")
-                .roles(roles)
-                .build();
-
-        UserConfig userConfig = new UserConfig(user);
-
-        SecurityContext context = SecurityContextHolder.createEmptyContext();
-        Authentication auth = new UsernamePasswordAuthenticationToken(
-                userConfig,
-                null,
-                userConfig.getAuthorities()
-        );
-        context.setAuthentication(auth);
-        SecurityContextHolder.setContext(context);
-    }
 
     @Test
     void createPost_Success() throws Exception {

@@ -1,5 +1,6 @@
 package jeiu.capstone.jongGangHaejo.service;
 
+import jeiu.capstone.jongGangHaejo.annotation.WithMockCustomUser;
 import jeiu.capstone.jongGangHaejo.domain.Like;
 import jeiu.capstone.jongGangHaejo.exception.ResourceNotFoundException;
 import jeiu.capstone.jongGangHaejo.repository.LikeRepository;
@@ -15,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
+@WithMockCustomUser
 class LikeServiceTest {
 
     @Mock
@@ -31,18 +33,6 @@ class LikeServiceTest {
 
     @Mock
     private Authentication authentication;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-
-        // SecurityContext 설정
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        SecurityContextHolder.setContext(securityContext);
-
-        // Authentication 설정
-        when(authentication.getName()).thenReturn("testUser");
-    }
 
     @Test
     void 좋아요_토글_성공() {

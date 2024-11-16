@@ -1,6 +1,7 @@
 package jeiu.capstone.jongGangHaejo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jeiu.capstone.jongGangHaejo.annotation.WithMockCustomUser;
 import jeiu.capstone.jongGangHaejo.config.SecurityTestConfig;
 import jeiu.capstone.jongGangHaejo.domain.user.Role;
 import jeiu.capstone.jongGangHaejo.domain.user.User;
@@ -49,6 +50,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(PostController.class)
 @Import(SecurityTestConfig.class)
+@WithMockCustomUser
 class PostControllerTest {
 
     @Autowired
@@ -65,30 +67,6 @@ class PostControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @BeforeEach
-    void setUp() {
-        Set<Role> roles = new HashSet<>();
-        roles.add(Role.ROLE_USER);
-
-        User user = User.builder()
-                .name("testUser")
-                .password("password")
-                .roles(roles)
-                .build();
-
-        UserConfig userConfig = new UserConfig(user);
-
-        SecurityContext context = SecurityContextHolder.createEmptyContext();
-        Authentication auth = new UsernamePasswordAuthenticationToken(
-                userConfig,
-                null,
-                userConfig.getAuthorities()
-        );
-        context.setAuthentication(auth);
-        SecurityContextHolder.setContext(context);
-    }
-
 
     @Test
     void 게시물_생성_테스트() throws Exception {
