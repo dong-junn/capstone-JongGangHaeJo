@@ -93,9 +93,12 @@ public class PostController {
         //게시물 정보 설정
         PostUploadExceptionDto dto = new PostUploadExceptionDto();
         dto.setTitle(post.getTitle());
+        dto.setUsername(post.getUsername());
         dto.setContent(post.getContent());
         dto.setTeam(post.getTeam());
         dto.setYoutubelink(post.getYoutubelink());
+        dto.setCreatedAt(post.getCreatedAt());
+        dto.setViewcount(post.getViewCount());
 
         //첨부파일 설정
         List<PostUploadExceptionDto.FileDTO> fileDTOList = files.stream()
