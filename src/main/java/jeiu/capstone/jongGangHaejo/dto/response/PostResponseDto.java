@@ -1,10 +1,12 @@
 package jeiu.capstone.jongGangHaejo.dto.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class PostResponseDto {
     private Long id;
     private String title;
@@ -15,10 +17,10 @@ public class PostResponseDto {
     private String createdAt;
     private String updatedAt;
     private Long viewCount;
+    private Long likeCount; // 좋아요 수 필드 추가
+    private boolean isLiked;  // 추가
 
-    // 필요에 따라 파일 정보도 포함할 수 있습니다.
-
-    public PostResponseDto(Long id, String title, String content, String team, String youtubelink, String username, String createdAt, String updatedAt, Long viewCount) {
+    public PostResponseDto(Long id, String title, String content, String team, String youtubelink, String username, String createdAt, String updatedAt, Long viewCount, Long likeCount) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -28,5 +30,6 @@ public class PostResponseDto {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.viewCount = viewCount;
+        this.likeCount = likeCount;
     }
 }

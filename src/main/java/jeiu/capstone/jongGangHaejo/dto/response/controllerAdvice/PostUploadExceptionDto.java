@@ -17,6 +17,7 @@ public class PostUploadExceptionDto {
     private String youtubelink; // 유튜브 링크
     private LocalDateTime createdAt;
     private Long viewcount;
+    private Long likecount;
 
     //여러 첨부파일 가져오기
     private List<FileDTO> files;

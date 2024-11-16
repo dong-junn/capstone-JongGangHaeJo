@@ -8,6 +8,7 @@ import jeiu.capstone.jongGangHaejo.dto.response.PostResponseDto;
 import jeiu.capstone.jongGangHaejo.exception.ResourceNotFoundException;
 import jeiu.capstone.jongGangHaejo.exception.UnauthorizedException;
 import jeiu.capstone.jongGangHaejo.exception.common.CommonErrorCode;
+import jeiu.capstone.jongGangHaejo.repository.LikeRepository;
 import jeiu.capstone.jongGangHaejo.repository.PostRepository;
 import jeiu.capstone.jongGangHaejo.service.FileService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 public class AdminPostService {
 
     private final PostRepository postRepository;
+    private final LikeRepository likeRepository;
     private final FileService fileService;
 
     /**
@@ -127,7 +129,8 @@ public class AdminPostService {
                         post.getUsername(),
                         post.getCreatedAt().toString(),
                         post.getUpdatedAt().toString(),
-                        post.getViewCount()
+                        post.getViewCount(),
+                        likeRepository.countByPostId(post.getPostid())
                 ))
                 .collect(Collectors.toList());
 
@@ -172,7 +175,9 @@ public class AdminPostService {
                         post.getUsername(),
                         post.getCreatedAt().toString(),
                         post.getUpdatedAt().toString(),
-                        post.getViewCount() // 조회수 포함
+                        post.getViewCount(), // 조회수 포함
+                        likeRepository.countByPostId(post.getPostid())
+
                 ))
                 .collect(Collectors.toList());
     }

@@ -10,6 +10,7 @@ import jeiu.capstone.jongGangHaejo.exception.ResourceNotFoundException;
 import jeiu.capstone.jongGangHaejo.exception.UnauthorizedException;
 import jeiu.capstone.jongGangHaejo.exception.common.CommonErrorCode;
 import jeiu.capstone.jongGangHaejo.repository.PostRepository;
+import jeiu.capstone.jongGangHaejo.repository.LikeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final LikeRepository likeRepository;
     private final FileService fileService;
 
     /**
@@ -105,15 +107,31 @@ public class PostService {
     }
 
     @Transactional
-    public Post getSinglePost(Long id) {
+    public PostResponseDto getSinglePost(Long id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("게시물을 찾을 수 없습니다. 게시물 번호: " + id, CommonErrorCode.RESOURCE_NOT_FOUND));
+
+        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
 
         // 조회수 증가
         postRepository.incrementViewCount(id);
 
-        // 조회된 게시물 반환
-        return post;
+        boolean isLiked = likeRepository.existsByPostIdAndUsername(id, currentUsername);
+
+        // PostResponseDto로 변환하면서 좋아요 수 포함
+        return new PostResponseDto(
+                post.getPostid(),
+                post.getTitle(),
+                post.getContent(),
+                post.getTeam(),
+                post.getYoutubelink(),
+                post.getUsername(),
+                post.getCreatedAt().toString(),
+                post.getUpdatedAt().toString(),
+                post.getViewCount(),
+                likeRepository.countByPostId(post.getPostid()), // 좋아요 수 조회
+                isLiked
+        );
     }
 
     /**
@@ -136,7 +154,8 @@ public class PostService {
                         post.getUsername(),
                         post.getCreatedAt().toString(),
                         post.getUpdatedAt().toString(),
-                        post.getViewCount()
+                        post.getViewCount(),
+                        likeRepository.countByPostId(post.getPostid())
                 ))
                 .collect(Collectors.toList());
 
@@ -185,7 +204,8 @@ public class PostService {
                         post.getUsername(),
                         post.getCreatedAt().toString(),
                         post.getUpdatedAt().toString(),
-                        post.getViewCount() // 조회수 포함
+                        post.getViewCount(), // 조회수 포함
+                        likeRepository.countByPostId(post.getPostid())
                 ))
                 .collect(Collectors.toList());
     }
