@@ -13,17 +13,18 @@ async function loadProjects(currentPage = 1) {
             const projectsContainer = document.querySelector('.projects-container');
             projectsContainer.innerHTML = ''; // 기존 내용을 초기화
 
-            // 프로젝트 리스트 동적 생성
-            projects.forEach((project, index) => {
+            projects.forEach((project) => {
+                const thumbnailImage = project.files?.find(file => file.thumbnailUrl)?.thumbnailUrl || '/front-end/static/img/default-thumbnail.jpg';
+                
                 const projectElement = document.createElement('div');
                 projectElement.className = 'project-info';
                 projectElement.innerHTML = `
                     <a href="../../board/project/detail.html?id=${project.id}">
-                        <img src="${project.imageUrl || 'default-image-url'}" alt="프로젝트 이미지">
+                        <img src="${thumbnailImage}" alt="프로젝트 이미지">
                         <div class="project-details">
                             <h2>${project.title}</h2>
                             <p>팀 명: <span>${project.team}</span></p>
-                            <p>업로드 날짜: <span>${project.createdAt}</span></p>
+                            <p>업로드 날짜: <span>${new Date(project.createdAt).toLocaleDateString('ko-KR')}</span></p>
                             <p>조회수: <span>${project.viewCount}</span></p>
                         </div>
                     </a>
@@ -45,7 +46,6 @@ async function loadProjects(currentPage = 1) {
         alert(`오류가 발생했습니다: ${error.message}`);
     }
 }
-
 // 최상단으로 스크롤하는 함수
 function scrollToTop() {
     window.scrollTo({
@@ -124,3 +124,4 @@ function createPageLink(text, pageNumber) {
 document.addEventListener('DOMContentLoaded', () => {
     loadProjects(1);
 });
+
