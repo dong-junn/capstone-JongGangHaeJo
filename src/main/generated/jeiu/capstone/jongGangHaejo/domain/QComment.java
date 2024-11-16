@@ -25,6 +25,8 @@ public class QComment extends EntityPathBase<Comment> {
 
     public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
 
+    public final BooleanPath isDeleted = createBoolean("isDeleted");
+
     public final NumberPath<Long> parentCommentId = createNumber("parentCommentId", Long.class);
 
     public final NumberPath<Long> postId = createNumber("postId", Long.class);

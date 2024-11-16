@@ -110,14 +110,13 @@ public class PostService {
     }
 
     @Transactional
-    public void updatePost(Long postId, PostUpdateDto postUpdateDto, List<MultipartFile> files) {
-        // 게시물 조회
+    public void updatePost(Long postId, PostUpdateDto postUpdateDto, List<MultipartFile> files, MultipartFile thumbnail) {
         Post exPost = postRepository.findById(postId)
                 .orElseThrow(() -> new ResourceNotFoundException("게시물을 찾을 수 없습니다. 게시물 번호: " + postId, CommonErrorCode.RESOURCE_NOT_FOUND));
 
+        // 권한 검사
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUsername = authentication.getName();
-
         if (!exPost.getUsername().equals(currentUsername)) {
             throw new UnauthorizedException("게시물을 수정할 권한이 없습니다.", CommonErrorCode.UNAUTHORIZED_ERROR);
         }
@@ -128,18 +127,38 @@ public class PostService {
         exPost.setTeam(postUpdateDto.getTeam());
         exPost.setYoutubelink(YoutubeUrlValidator.convertToEmbedUrl(postUpdateDto.getYoutubelink()));
 
-        // 파일 관리
-        if (files != null && !files.isEmpty()) {
-            // 기존 파일 삭제 (필요 시)
-            List<Long> exFileIds = exPost.getFileIds();
-            fileService.deleteFiles(exFileIds);
+        List<Long> newFileIds = new ArrayList<>();
 
-            // 새로운 파일 업로드
-            List<Long> newFileIds = fileService.uploadFiles(files, "posts");
+        // 새로운 썸네일이 있는 경우
+        if (thumbnail != null && !thumbnail.isEmpty()) {
+            log.info("새로운 썸네일 업로드 시작");
+            List<Long> thumbnailId = fileService.uploadFiles(
+                Collections.singletonList(thumbnail), 
+                "posts/thumbnails",
+                true
+            );
+            newFileIds.addAll(thumbnailId);
+            log.info("새로운 썸네일 업로드 완료");
+        }
+
+        // 새로운 일반 파일이 있는 경우
+        if (files != null && !files.isEmpty()) {
+            log.info("새로운 일반 파일 업로드 시작");
+            List<Long> regularFileIds = fileService.uploadFiles(files, "posts", false);
+            newFileIds.addAll(regularFileIds);
+            log.info("새로운 일반 파일 업로드 완료");
+        }
+
+        // 새로운 파일이 있는 경우에만 기존 파일 삭제 및 교체
+        if (!newFileIds.isEmpty()) {
+            // 기존 파일이 있다면 삭제
+            if (exPost.getFileIds() != null && !exPost.getFileIds().isEmpty()) {
+                log.info("기존 파일 삭제");
+                fileService.deleteFiles(exPost.getFileIds());
+            }
             exPost.setFileIds(newFileIds);
         }
 
-        // 게시물 저장
         postRepository.save(exPost);
     }
 
@@ -273,19 +292,37 @@ public class PostService {
     public List<PostResponseDto> getTop3Posts() {
         // 조회수 순 인기 게시물 3개를 조회
         Pageable pageable = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "ViewCount"));
+        
         return postRepository.findAll(pageable).stream()
-                .map(post -> new PostResponseDto(
-                        post.getPostid(),
-                        post.getTitle(),
-                        post.getContent(),
-                        post.getTeam(),
-                        post.getYoutubelink(),
-                        post.getUsername(),
-                        post.getCreatedAt().toString(),
-                        post.getUpdatedAt().toString(),
-                        post.getViewCount(), // 조회수 포함
-                        likeRepository.countByPostId(post.getPostid())
-                ))
+                .map(post -> {
+                    // 파일 정보 조회 및 변환
+                    List<PostResponseDto.FileInfo> fileInfos = new ArrayList<>();
+                    if (post.getFileIds() != null && !post.getFileIds().isEmpty()) {
+                        List<File> files = fileService.getFilesByIds(post.getFileIds());
+                        fileInfos = files.stream()
+                                .map(file -> new PostResponseDto.FileInfo(
+                                        file.getFileName(),
+                                        file.getS3Path(),
+                                        file.getThumbnailPath()  // 썸네일 URL 포함
+                                ))
+                                .collect(Collectors.toList());
+                    }
+
+                    return new PostResponseDto(
+                            post.getPostid(),
+                            post.getTitle(),
+                            post.getContent(),
+                            post.getTeam(),
+                            post.getYoutubelink(),
+                            post.getUsername(),
+                            post.getCreatedAt().toString(),
+                            post.getUpdatedAt().toString(),
+                            post.getViewCount(),
+                            likeRepository.countByPostId(post.getPostid()),
+                            false,  // isLiked는 목록에서는 false로 기본 설정
+                            fileInfos  // 파일 정보 포함
+                    );
+                })
                 .collect(Collectors.toList());
     }
 }

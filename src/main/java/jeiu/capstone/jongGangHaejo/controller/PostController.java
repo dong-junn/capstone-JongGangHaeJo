@@ -77,14 +77,18 @@ public class PostController {
     public ResponseEntity<Map<String, String>> updatePost(
             @PathVariable Long postId,
             @Validated @RequestPart("post") PostUpdateDto postUpdateDto,
-            @RequestPart(value = "files", required = false) List<MultipartFile> files
+            @RequestPart(value = "files", required = false) List<MultipartFile> files,
+            @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail
     ) {
         log.info("게시물 수정 요청 / 게시물 ID: {}, 제목: {}, 팀: {}", postId, postUpdateDto.getTitle(), postUpdateDto.getTeam());
         if (files != null) {
             files.forEach(file -> log.info("제공된 파일 명: {}, 크기: {} bytes", file.getOriginalFilename(), file.getSize()));
         }
-        postService.updatePost(postId, postUpdateDto, files);
-
+        if (thumbnail != null) {
+            log.info("제공된 썸네일 파일 명: {}, 크기: {} bytes", thumbnail.getOriginalFilename(), thumbnail.getSize());
+        }
+        
+        postService.updatePost(postId, postUpdateDto, files, thumbnail);
         return ResponseEntity.ok(Map.of("message", "게시물이 성공적으로 수정되었습니다."));
     }
 
