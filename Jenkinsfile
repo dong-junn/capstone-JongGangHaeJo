@@ -4,11 +4,8 @@ pipeline {
     environment {
         JAVA_HOME = '/usr/lib/jvm/java-17-amazon-corretto.x86_64'
         PATH = "$JAVA_HOME/bin:$PATH"
-
-        AWS_DEFAULT_REGION = 'ap-northeast-2'
-        ECR_ACCOUNT_ID = '842676009106'
+        AWS_DEFAULT_REGION = 'us-east-2'
         ECR_REGISTRY = "${ECR_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
-        ECR_REPOSITORY = 'ecr'
     }
 
     stages {
