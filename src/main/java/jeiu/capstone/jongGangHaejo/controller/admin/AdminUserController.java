@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Slf4j
 @RestController
 @RequestMapping("/admin/user")
@@ -57,8 +59,8 @@ public class AdminUserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable String id) {
+    public ResponseEntity<Map<String, String>> deleteUser(@PathVariable String id) {
         adminUserService.deleteUser(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(Map.of("message", "회원이 삭제되었습니다"));
     }
 }
