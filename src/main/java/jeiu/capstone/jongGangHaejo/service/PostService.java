@@ -97,7 +97,7 @@ public class PostService {
         postRepository.save(post);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Post getSinglePost(Long id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("게시물을 찾을 수 없습니다. 게시물 번호: " + id, CommonErrorCode.RESOURCE_NOT_FOUND));
