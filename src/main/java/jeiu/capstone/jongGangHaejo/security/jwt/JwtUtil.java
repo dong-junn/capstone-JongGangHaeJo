@@ -27,12 +27,13 @@ public class JwtUtil {
     }
 
     // 토큰 생성
-    public String generateToken(String userId, String authorities) {
+    public String generateToken(String userId, String username, String authorities) {
         Date now = new Date();
         Date validity = new Date(now.getTime() + tokenValidityInSeconds * 1000);
 
         return Jwts.builder()
                 .subject(userId)
+                .claim("username", username)
                 .claim("auth", authorities)
                 .issuedAt(now)
                 .expiration(validity)
@@ -50,6 +51,12 @@ public class JwtUtil {
     public String getAuthoritiesFromToken(String token) {
         return getClaims(token)
                 .get("auth", String.class);
+    }
+
+    // 토큰에서 username 추출
+    public String getUsernameFromToken(String token) {
+        return getClaims(token)
+                .get("username", String.class);
     }
 
     // Claims 추출

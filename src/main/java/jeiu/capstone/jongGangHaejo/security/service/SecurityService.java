@@ -55,6 +55,10 @@ public class SecurityService {
                 .map(Role::getValue)
                 .collect(Collectors.joining(","));
 
-        return jwtUtil.generateToken(user.getId(), authorities);
+        return jwtUtil.generateToken(
+            user.getId(), 
+            user.getName(), 
+            authorities
+        );
     }
 }
