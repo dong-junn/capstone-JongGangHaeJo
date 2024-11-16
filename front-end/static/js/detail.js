@@ -1,4 +1,5 @@
 // REST API를 이용해 프로젝트 세부 정보를 로드하는 함수
+let projectId;
 // URL에서 프로젝트 ID를 가져오는 함수
 function getProjectIdFromUrl() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -6,6 +7,8 @@ function getProjectIdFromUrl() {
 }
 
 async function loadProjectDetails() {
+    projectId = getProjectIdFromUrl();
+    
     if (!projectId) {
         alert('유효하지 않은 게시물 번호입니다.');
         window.location.href = '/front-end/templates/board/project/projectList.html';
@@ -18,29 +21,49 @@ async function loadProjectDetails() {
         });
 
         if (response.ok) {
-        const project = await response.json();
+            const project = await response.json();
 
-        // 프로젝트 세부 정보를 DOM에 업데이트
-            document.getElementById('projectOverview').innerText = project.content;
-            document.getElementById('projectPoster').src = project.posterUrl;
-            document.getElementById('projectVideo').children[0].src = project.videoUrl;
+            // 프로젝트 세부 정보를 DOM에 업데이트
+            document.querySelector('.project-header h1').innerText = project.title;
+            
+            // 메타 정보 업데이트
+            const metaInfo = document.querySelector('.project-meta');
+            metaInfo.innerHTML = `
+                <span><i class="fas fa-users"></i> 팀명: ${project.team || '팀 이름'}</span>
+                <span><i class="fas fa-user"></i> 작성자: ${project.username}</span>
+                <span><i class="fas fa-calendar"></i> 등록일: ${new Date(project.createdAt).toLocaleDateString('ko-KR')}</span>
+                <span><i class="fas fa-eye"></i> 조회수: ${project.viewcount}</span>
+            `;
+
+            // 작품 개요 업데이트
+            document.querySelector('.project-extra-info p').innerText = project.content;
+
+            // 포스터 이미지 업데이트
+            if (project.posterUrl) {
+                document.getElementById('projectPoster').src = project.posterUrl;
+            }
+
+            // 유튜브 동영상 업데이트
             if (project.youtubelink) {
-                const videoId = getYoutubeVideoId(project.youtubelink);
                 document.getElementById('youtubeVideo').src = project.youtubelink;
             }
+
+            // 좋아요 수와 댓글 수 업데이트
             document.getElementById('likeNum').innerText = project.likes;
             document.getElementById('commentNum').innerText = project.comments.length;
 
-        // 댓글 목록을 로드
-        loadComments(project.comments);
-        }else{
-            
+            // 댓글 목록 로드
+            loadComments(project.comments);
+        } else {
+            const errorData = await response.json();
+            alert(errorData.message || '게시물을 불러오는데 실패했습니다.');
+            window.location.href = '/front-end/templates/board/project/projectList.html';
         }
     } catch (error) {
         console.error('프로젝트 정보를 불러오는 중 오류 발생:', error);
+        alert('프로젝트 정보를 불러오는데 실패했습니다.');
     }
 }
-
 // 댓글 목록을 로드하는 함수
 function loadComments(comments) {
     const commentsList = document.getElementById('commentsList');
@@ -275,3 +298,4 @@ function increaseLike() {
 // }
 // HTML 페이지가 로드될 때 프로젝트를 불러옴
 document.addEventListener('DOMContentLoaded', loadProjectDetails);
+
