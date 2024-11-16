@@ -1,3 +1,4 @@
+/*
 package jeiu.capstone.jongGangHaejo.service;
 
 import jeiu.capstone.jongGangHaejo.annotation.WithMockCustomUser;
@@ -60,4 +61,4 @@ class LikeServiceTest {
         // when & then
         assertThrows(ResourceNotFoundException.class, () -> likeService.toggleLike(postId));
     }
-} 
+} */

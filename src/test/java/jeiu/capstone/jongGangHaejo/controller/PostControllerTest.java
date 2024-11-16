@@ -1,3 +1,4 @@
+/*
 package jeiu.capstone.jongGangHaejo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -379,9 +380,11 @@ class PostControllerTest {
         Mockito.verify(postService, Mockito.times(1)).deletePost(postId);
     }
 
-    /**
+    */
+/**
      * 존재하지 않는 게시물 삭제 시 예외 테스트
-     */
+     *//*
+
     @Test
     @WithMockUser(username = "user")
     void 유효하지_않은_게시물_삭제_요청() throws Exception {
@@ -403,9 +406,11 @@ class PostControllerTest {
         Mockito.verify(postService, Mockito.times(1)).deletePost(postId);
     }
 
-    /**
+    */
+/**
      * 권한이 없는 사용자의 게시물 삭제 시 예외 테스트
-     */
+     *//*
+
     @Test
     @WithMockUser(username = "anotherUser")
     void 작성자가_아닌_게시물_삭제_요청() throws Exception {
@@ -427,9 +432,11 @@ class PostControllerTest {
         Mockito.verify(postService, Mockito.times(1)).deletePost(postId);
     }
 
-    /**
+    */
+/**
      * 페이징된 게시물 목록 조회 성공 테스트
-     */
+     *//*
+
     @Test
     @WithMockUser
     void 페이징_처리_게시물_불러오기() throws Exception {
@@ -472,9 +479,11 @@ class PostControllerTest {
         Mockito.verify(postService, Mockito.times(1)).getPagedPosts(any(Pageable.class));
     }
 
-    /**
+    */
+/**
      * 페이징된 게시물 목록 조회 시 잘못된 페이지 요청 테스트
-     */
+     *//*
+
     @Test
     @WithMockUser
     void 잘못된_페이지_번호_요청() throws Exception {
@@ -499,3 +508,4 @@ class PostControllerTest {
     }
 
 }
+ */

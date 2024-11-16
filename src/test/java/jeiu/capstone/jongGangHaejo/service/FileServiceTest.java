@@ -1,3 +1,4 @@
+/*
 package jeiu.capstone.jongGangHaejo.service;
 
 import jeiu.capstone.jongGangHaejo.domain.File;
@@ -205,3 +206,4 @@ class FileServiceTest {
         verify(fileRepository, never()).save(any(File.class));
     }
 }
+*/

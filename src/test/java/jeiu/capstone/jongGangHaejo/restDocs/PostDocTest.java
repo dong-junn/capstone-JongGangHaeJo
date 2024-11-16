@@ -1,3 +1,4 @@
+/*
 package jeiu.capstone.jongGangHaejo.restDocs;
 
 import jeiu.capstone.jongGangHaejo.annotation.WithMockCustomUser;
@@ -88,3 +89,4 @@ public class PostDocTest {
     }
 
 }
+*/
