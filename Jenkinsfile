@@ -4,11 +4,6 @@ pipeline {
     environment {
         JAVA_HOME = '/usr/lib/jvm/java-17-amazon-corretto.x86_64'
         PATH = "$JAVA_HOME/bin:$PATH"
-
-        AWS_DEFAULT_REGION = credentials('AWS_DEFAULT_REGION')
-        ECR_ACCOUNT_ID = credentials('AWS_ACCOUNT_ID')
-        ECR_REPOSITORY = credentials('ECR_REPOSITORY')
-        ECR_REGISTRY = "${ECR_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_REPOSITORY}"
     }
 
     stages {
@@ -43,36 +38,6 @@ pipeline {
             }
         }
 
-        stage('Load Environment Variables') {
-            steps {
-                withCredentials([file(credentialsId: 'env_file', variable: 'ENV_FILE')]) {
-                    script {
-                        // .env 파일 읽기
-                        def envContent = readFile(file: ENV_FILE)
-                        // 각 라인별로 처리
-                        envContent.split('\n').each { line ->
-                            line = line.trim()
-                            // 빈 줄이나 주석은 무시
-                            if (line && !line.startsWith('#')) {
-                                // export 키워드 제거
-                                line = line.replaceFirst(/^export\s+/, '')
-                                // 변수명과 값 분리
-                                def idx = line.indexOf('=')
-                                if (idx > 0) {
-                                    def key = line.substring(0, idx).trim()
-                                    def value = line.substring(idx + 1).trim()
-                                    // 따옴표 제거
-                                    value = value.replaceAll(/^['"]|['"]$/, '')
-                                    // 환경 변수 설정
-                                    env."${key}" = value
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         stage('Check Environment Variables') {
             steps {
                 script {
@@ -84,22 +49,49 @@ pipeline {
 
         stage('Build Application with Gradle') {
             steps {
-                echo 'Building the application using Gradle...'
-
+                echo 'Building the application...'
                 sh 'chmod +x ./gradlew'
                 sh '''
-                    ./gradlew --version
-                    ./gradlew clean build --info --stacktrace
+                    # 먼저 clean
+                    ./gradlew clean
+
+                    # bootJar 생성 (테스트 제외)
+                    ./gradlew bootJar -x test -x asciidoctor --info \
+                    --parallel \
+                    --build-cache
                 '''
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Docker Build') {
             steps {
-                echo 'Building Docker image...'
-                script {
-                    dockerImage = docker.build("${ECR_REGISTRY}/${ECR_REPOSITORY}:latest")
+                withCredentials([
+                    string(credentialsId: 'app-aws-access-key-id', variable: 'APP_AWS_ACCESS_KEY_ID'),
+                    string(credentialsId: 'app-aws-secret-access-key', variable: 'APP_AWS_SECRET_ACCESS_KEY')
+                ]) {
+                    sh '''
+                        docker build \
+                            --secret id=aws_access_key_id,env=APP_AWS_ACCESS_KEY_ID \
+                            --secret id=aws_secret_access_key,env=APP_AWS_SECRET_ACCESS_KEY \
+                            --build-arg DB_URL=${DB_URL} \
+                            --build-arg DB_PORT=${DB_PORT} \
+                            --build-arg DB_USERNAME=${DB_USERNAME} \
+                            --build-arg DB_PASSWORD=${DB_PASSWORD} \
+                            --build-arg AWS_ACCESS_KEY_ID=${APP_AWS_ACCESS_KEY_ID} \
+                            --build-arg AWS_SECRET_ACCESS_KEY=${APP_AWS_SECRET_ACCESS_KEY} \
+                            --build-arg S3_BUCKET_NAME=${S3_BUCKET_NAME} \
+                            --build-arg JWT_SECRET_KEY=${JWT_SECRET_KEY} \
+                            -t repo:latest .
+                    '''
                 }
+            }
+        }
+
+        stage('Login to ECR') {
+            steps {
+                sh '''
+                    aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 730335373015.dkr.ecr.us-east-2.amazonaws.com
+                '''
             }
         }
 
@@ -107,9 +99,9 @@ pipeline {
             steps {
                 echo 'Pushing Docker image to ECR...'
                 script {
-                    sh "aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}"
-
-                    sh "docker push ${ECR_REGISTRY}"
+                        sh '''
+                            docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-2.amazonaws.com/{ECR_REPO_NAME}:latest
+                        '''
                 }
             }
         }
