@@ -42,4 +42,10 @@ public class NoticeController {
         noticeService.save(dto);
         return ResponseEntity.ok(Map.of("message", "공지사항이 등록되었습니다"));
     }
-}
+
+    @PutMapping("/admin/notice/{id}")
+    public ResponseEntity<Map<String, String>> modifyNotice(@PathVariable Long id, @RequestBody NoticeCreateDto dto) {
+        noticeService.noticeUpdate(id, dto);
+        return ResponseEntity.ok(Map.of("message", "공지사항이 수정되었습니다"));
+    }
+ }
