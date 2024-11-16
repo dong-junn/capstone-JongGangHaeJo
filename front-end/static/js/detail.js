@@ -120,6 +120,33 @@ async function deleteComment(commentId) {
         console.error('댓글 삭제 중 오류 발생:', error);
     }
 }
+// 좋아요 증가 기능
+function increaseLike() {
+    const likeCount = document.getElementById('likeNum');
+    likeCount.textContent = parseInt(likeCount.textContent) + 1;
+}
 
+// 댓글 추가 및 갯수 증가 기능
+function submitComment() {
+    const commentInput = document.getElementById('commentInput');
+    const commentText = commentInput.value.trim();
+
+    if (commentText) {
+        const commentList = document.getElementById('commentsList');
+        const newComment = document.createElement('div');
+        newComment.className = 'comment';
+        newComment.innerHTML = `<p><strong>작성자:</strong> ${commentText}</p>`;
+        commentList.appendChild(newComment);
+
+        // 댓글 갯수 증가
+        const commentNum = document.getElementById('commentNum');
+        commentNum.textContent = parseInt(commentNum.textContent) + 1;
+
+        // 입력창 초기화
+        commentInput.value = '';
+    } else {
+        alert('댓글을 입력하세요!');
+    }
+}
 // HTML 페이지가 로드될 때 프로젝트를 불러옴
 document.addEventListener('DOMContentLoaded', loadProjectDetails);

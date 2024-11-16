@@ -6,139 +6,170 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
 }
-/* Header와 Footer 간격 조정 */
+
+/* Header와 Footer 스타일 */
+
 .header-container,
 .footer-container {
     width: 100%;
 }
-/* main 스타일 */
+
+/* Main 스타일 */
 main {
     flex: 1;
     width: 90%;
     max-width: 1200px;
-    margin: 40px auto;
-    padding: 30px 40px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* 중앙 배열 */
-}
-
-/* 중앙 배치 및 넓이 조정 */
-.view-section {
-    width: 100%;
-    max-width: 1100px;
-    text-align: left;
+    margin: 20px auto;
     padding: 30px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
     border-radius: 10px;
-    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-.project-poster,
-.project-youtube-video {
-    width: 100%;
-    max-width: 1100px;
-    text-align: left;
+
+/* 프로젝트 상세정보 섹션 */
+.project-detail {
     margin-bottom: 30px;
 }
 
-/* 발표 자료 제목 스타일 */
-.project-poster h2,
-.project-youtube-video h2 {
+.project-detail h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #e74c3c; /* 붉은색 계열 */
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e74c3c;
+    padding-bottom: 10px;
+}
+
+.project-extra-info {
+    background-color: #fdf2e9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.project-extra-info p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.project-poster {
+    width: 100%;
+    max-width: 1100px;
+    text-align: center; /* 중앙 정렬 */
+    margin: 0 auto 30px; /* 상단, 좌우 정렬 */
+    padding: 20px; /* 여백 추가 */
+}
+
+.project-poster h2 {
     font-size: 22px;
     color: #333;
     margin-bottom: 10px;
     font-weight: bold;
+    text-align: center; /* 제목도 중앙 정렬 */
 }
 
 /* 유튜브 동영상 스타일 */
 .project-youtube-video {
-    position: relative;
-    padding-bottom: 56.25%; /* 16:9 비율 */
-    height: 0;
-    overflow: hidden;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
 }
 
 .project-youtube-video iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: 100%;
-    border-radius: 5px;
+    max-width: 800px;
+    height: 450px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+/* 프로젝트 정보 스타일 */
+.project-info {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-size: 16px;
+    color: #555;
+}
+
+/* 좋아요 및 댓글 섹션 */
+.project-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: #ffe8cc;
+    border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.project-details,
-.comment-section,
-.project-actions {
-    width: 100%;
-    max-width: 1100px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.project-actions span {
+    font-size: 16px;
+    font-weight: bold;
+    color: #555;
+    cursor: pointer;
 }
 
-/* 제목 중앙 정렬 */
-.view-section h1 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 28px;
-    color: #333;
-    font-weight: bold;
-    border-bottom: 2px solid #f39e0c;
-    padding-bottom: 10px;
+.project-actions i {
+    margin-right: 5px;
 }
 
 /* 댓글 섹션 */
-.comment-section {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    margin-top: 15px;
-    width: 100%;
+#comment-section {
+    margin-top: 20px;
 }
 
 #commentInput {
-    width: 100%; /* 가로 너비를 전체로 설정 */
-    max-width: 800px; /* 최대 가로 너비 설정 (필요시) */
-    height: 200px; /* 댓글 입력창 높이 증가 */
-    padding: 15px; /* 패딩 조정 */
+    width: 100%;
+    padding: 10px;
     font-size: 16px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    box-sizing: border-box;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     resize: none;
 }
 
-
 #submitComment {
+    display: block;
+    width: 100%;
+    max-width: 200px;
+    margin: 10px auto;
     padding: 10px 20px;
     font-size: 16px;
     color: white;
-    background-color: #ff8c00;
+    background-color: #e67e22; /* 주황색 계열 */
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
 }
 
 #submitComment:hover {
-    background-color: #e67300;
+    background-color: #d35400; /* 더 진한 주황색 */
 }
 
 /* 댓글 스타일 */
 .comment {
+    position: relative; /* 삭제 버튼 위치 조정을 위한 상대 위치 */
+    display: flex; /* 플렉스 박스로 설정 */
+    align-items: center; /* 세로 중앙 정렬 */
     background-color: #f1f1f1;
     padding: 15px;
     margin-bottom: 10px;
@@ -150,25 +181,41 @@ main {
     overflow-y: auto;
 }
 
-.comment-author {
-    font-size: 14px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 5px;
-}
-
-.comment-content {
+/* 댓글 작성자 및 내용 */
+.comment p {
+    margin: 0; /* 기본 마진 제거 */
     font-size: 16px;
     color: #555;
-    line-height: 1.6;
+    word-break: break-word; /* 긴 단어가 줄 바꿈 되도록 설정 */
 }
 
-/* project-actions 스타일을 수평 배열로 조정 */
-.project-actions {
-    display: flex;
-    flex-direction: row; /* 수평 배열 */
-    align-items: center;
-    justify-content: flex-start; /* 왼쪽 정렬 */
-    gap: 15px; /* 요소 간 간격 추가 */
-    width: 100%;
+/* 삭제 버튼 스타일 */
+.delete-comment {
+    position: absolute; /* 댓글 컨테이너의 오른쪽 끝에 배치 */
+    top: 50%; /* 세로 중앙 정렬 */
+    right: 10px; /* 오른쪽 끝에서 간격 */
+    transform: translateY(-50%); /* 정확히 중앙 정렬 */
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.delete-comment:hover {
+    background-color: #e60000;
+}
+
+
+/* 반응형 처리 */
+@media (max-width: 768px) {
+    .project-youtube-video iframe {
+        height: 300px;
+    }
+
+    #submitComment {
+        max-width: 100%;
+    }
 }
