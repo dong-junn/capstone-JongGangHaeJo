@@ -2,10 +2,10 @@ package jeiu.capstone.jongGangHaejo.controller.admin;
 
 import jakarta.persistence.EntityNotFoundException;
 import jeiu.capstone.jongGangHaejo.domain.user.User;
-import jeiu.capstone.jongGangHaejo.dto.admin.user.*;
-import jeiu.capstone.jongGangHaejo.dto.response.PagedResponseDto;
-import jeiu.capstone.jongGangHaejo.exception.ResourceNotFoundException;
-import jeiu.capstone.jongGangHaejo.exception.common.CommonErrorCode;
+import jeiu.capstone.jongGangHaejo.dto.admin.user.PageResponse;
+import jeiu.capstone.jongGangHaejo.dto.admin.user.UserResponse;
+import jeiu.capstone.jongGangHaejo.dto.admin.user.UserSearchCondition;
+import jeiu.capstone.jongGangHaejo.dto.admin.user.UserUpdateDto;
 import jeiu.capstone.jongGangHaejo.service.admin.AdminUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
