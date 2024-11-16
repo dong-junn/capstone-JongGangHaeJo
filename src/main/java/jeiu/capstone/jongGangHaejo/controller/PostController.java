@@ -88,28 +88,10 @@ public class PostController {
         return ResponseEntity.ok(Map.of("message", "게시물이 성공적으로 수정되었습니다."));
     }
 
-    @GetMapping("/post/{postId}")
-    public PostUploadExceptionDto getPost(@PathVariable(name = "postId") Long id) {
-        Post post = postService.getSinglePost(id); //게시물 불러오기
-        List<File> files = fileService.getFilesByIds(post.getFileIds()); // 파일이 여러 개인 경우를 고려해서 리스트로 가져옴
-
-        //게시물 정보 설정
-        PostUploadExceptionDto dto = new PostUploadExceptionDto();
-        dto.setTitle(post.getTitle());
-        dto.setUsername(post.getUsername());
-        dto.setContent(post.getContent());
-        dto.setTeam(post.getTeam());
-        dto.setYoutubelink(post.getYoutubelink());
-        dto.setCreatedAt(post.getCreatedAt());
-        dto.setViewcount(post.getViewCount());
-
-        //첨부파일 설정
-        List<PostUploadExceptionDto.FileDTO> fileDTOList = files.stream()
-                .map(file -> new PostUploadExceptionDto.FileDTO(file.getS3Path(), file.getFileName()))
-                .collect(Collectors.toList());
-        dto.setFiles(fileDTOList);
-
-        return dto;
+    @GetMapping("/post/{id}")
+    public ResponseEntity<PostResponseDto> getPost(@PathVariable Long id) {
+        PostResponseDto post = postService.getSinglePost(id);
+        return ResponseEntity.ok(post);
     }
 
     /**
