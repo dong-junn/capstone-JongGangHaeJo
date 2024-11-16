@@ -215,11 +215,98 @@ main {
 
 /* 댓글 섹션 전체 스타일 */
 #comment-section {
+    margin-top: 20px;
+}
+
+.comment {
+    border-bottom: 1px solid #eee;
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #fff;
+}
+
+.reply {
+    margin-left: 30px;
+    padding: 15px;
+    border-left: 2px solid #f15a4a;
+    background-color: #fafafa;
+    margin-top: 10px;
+}
+
+.reply .reply {
+    margin-left: 20px;
+    border-left: 2px solid #999;
+}
+
+.reply::before {
+    content: "↳";
+    position: absolute;
+    left: -25px;
+    color: #f15a4a;
+    font-size: 18px;
+}
+
+.reply .reply::before {
+    color: #999;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.comment-author {
+    font-weight: bold;
+    color: #f15a4a;
+    margin-right: 10px;
+}
+
+.comment-date {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.reply-button {
+    color: #f15a4a;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9em;
+    padding: 0;
+    margin-right: 10px;
+}
+
+.reply-button:hover {
+    text-decoration: underline;
+}
+
+.reply-form {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.reply-form.hidden {
+    display: none;
+}
+
+.reply-input {
     width: 100%;
-    margin-top: 15px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-    padding-bottom: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+}
+
+.submit-reply {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.deleted {
+    color: #999;
+    font-style: italic;
 }
 
 /* 댓글 입력창 스타일 */
@@ -251,12 +338,33 @@ main {
 
 /* 개별 댓글 스타일 */
 .comment {
-    background-color: #f8f9fa;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
     position: relative;
-    border: 1px solid #e1e4e8;
+}
+
+.comment[data-depth="0"] {
+    margin-left: 0;
+}
+
+.comment[data-depth="1"] {
+    margin-left: 20px;
+    border-left: 2px solid #f0f0f0;
+    padding-left: 15px;
+}
+
+.comment[data-depth="2"] {
+    margin-left: 40px;
+    border-left: 2px solid #f0f0f0;
+    padding-left: 15px;
+}
+
+/* 답글 표시 아이콘 */
+.comment[data-depth]:not([data-depth="0"])::before {
+    content: "↳";
+    position: absolute;
+    left: -15px;
+    color: #999;
 }
 
 /* 댓글 헤더 (작성자 + 날짜) */

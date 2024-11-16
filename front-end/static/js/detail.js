@@ -88,26 +88,19 @@ async function loadProjectDetails() {
             // 첨부파일 목록 업데이트
             const attachmentsList = document.getElementById('attachmentsList');
             if (project.files && project.files.length > 0) {
-                // thumbnailUrl이 없는 파일만 필터링
-                const attachmentFiles = project.files.filter(file => !file.thumbnailUrl);
-                
-                if (attachmentFiles.length > 0) {
-                    attachmentsList.innerHTML = attachmentFiles.map(file => `
-                        <div class="attachment-item">
-                            <i class="fas fa-file attachment-icon"></i>
-                            <div class="attachment-info">
-                                <a href="${file.downloadUrl}" 
-                                   class="attachment-name" 
-                                   download
-                                   rel="noopener noreferrer">
-                                    ${file.fileName}
-                                </a>
-                            </div>
+                attachmentsList.innerHTML = project.files.map(file => `
+                    <div class="attachment-item">
+                        <i class="fas fa-file attachment-icon"></i>
+                        <div class="attachment-info">
+                            <a href="${file.downloadUrl}" 
+                               class="attachment-name" 
+                               download
+                               rel="noopener noreferrer">
+                                ${file.fileName}
+                            </a>
                         </div>
-                    `).join('');
-                } else {
-                    attachmentsList.innerHTML = '<div class="no-attachments">첨부된 파일이 없습니다.</div>';
-                }
+                    </div>
+                `).join('');
             } else {
                 attachmentsList.innerHTML = '<div class="no-attachments">첨부된 파일이 없습니다.</div>';
             }
@@ -180,23 +173,15 @@ function buildCommentTree(comments) {
         }
     });
 
-    // 각 댓글의 replies 배열을 시간순으로 정렬 (래된 순)
-    rootComments.forEach(comment => {
-        if (comment.replies.length > 0) {
-            comment.replies.sort((a, b) => 
-                new Date(a.createdAt) - new Date(b.createdAt)
-            );
-        }
-    });
-
     return rootComments;
 }
 
 // 댓글 요소를 생성하는 함수
-function createCommentElement(comment) {
+function createCommentElement(comment, depth = 0) {
     const commentElement = document.createElement('div');
-    commentElement.className = 'comment';
+    commentElement.className = depth === 0 ? 'comment' : 'reply';
     commentElement.dataset.commentId = comment.id;
+    commentElement.style.position = 'relative';
 
     const commentDate = new Date(comment.createdAt).toLocaleDateString('ko-KR', {
         year: 'numeric',
@@ -204,39 +189,47 @@ function createCommentElement(comment) {
         day: '2-digit',
         hour: '2-digit',
         minute: '2-digit'
-    }).replace(/\./g, '.');
+    });
 
-    // 대댓글인 경우 스타일 추가
-    const isReply = comment.parentCommentId !== null;
-    if (isReply) {
-        commentElement.classList.add('reply-comment');
+    if (comment.deleted) {
+        commentElement.innerHTML = `
+            <div class="comment-header deleted">
+                <span class="comment-author">삭제된 댓글입니다</span>
+                <span class="comment-date">${commentDate}</span>
+            </div>
+            <p class="comment-content deleted">삭제된 댓글입니다.</p>
+        `;
+    } else {
+        commentElement.innerHTML = `
+            <div class="comment-header">
+                <strong class="comment-author">${comment.username || '작성자'}</strong>
+                <span class="comment-date">${commentDate}</span>
+            </div>
+            <p class="comment-content">${comment.content}</p>
+            <div class="comment-actions">
+                ${depth < 2 ? `<button class="reply-button" onclick="showReplyForm(this)">답글</button>` : ''}
+                ${isAuthor(comment.username) ? 
+                    `<button class="delete-comment" onclick="deleteComment('${comment.id}')">삭제</button>` : 
+                    ''}
+            </div>
+            <div class="reply-form hidden">
+                <textarea class="reply-input" placeholder="답글을 입력하세요"></textarea>
+                <button class="submit-reply" onclick="submitReply(this)">답글 달기</button>
+            </div>
+        `;
     }
 
-    commentElement.innerHTML = `
-        <div class="comment-header">
-            <strong class="comment-author">${comment.username || '작성자'}</strong>
-            <span class="comment-date">${commentDate}</span>
-        </div>
-        <p class="comment-content">${comment.content}</p>
-        <div class="comment-actions">
-            <button class="reply-button" onclick="showReplyForm(this)">답글</button>
-            ${isAuthor(comment.username) ? 
-                `<button class="delete-comment" onclick="deleteComment(${comment.id})">삭제</button>` 
-                : ''
-            }
-        </div>
+    // 답글이 있는 경우 처리
+    if (comment.replies && comment.replies.length > 0) {
+        const repliesContainer = document.createElement('div');
+        repliesContainer.className = 'replies';
         
-        <!-- 답글 입력 폼 -->
-        <div class="reply-form hidden">
-            <textarea class="reply-input" placeholder="답글을 입력하세요"></textarea>
-            <button class="submit-reply" onclick="submitReply(this)">답글 달기</button>
-        </div>
+        comment.replies.forEach(reply => {
+            repliesContainer.appendChild(createCommentElement(reply, depth + 1));
+        });
         
-        <!-- 답글 목록 -->
-        <div class="replies">
-            ${comment.replies.map(reply => createCommentElement(reply).outerHTML).join('')}
-        </div>
-    `;
+        commentElement.appendChild(repliesContainer);
+    }
 
     return commentElement;
 }
@@ -246,8 +239,10 @@ async function submitReply(button) {
     const replyForm = button.closest('.reply-form');
     const replyInput = replyForm.querySelector('.reply-input');
     const replyContent = replyInput.value.trim();
-    const parentComment = button.closest('.comment');
-    const parentCommentId = parentComment.dataset.commentId;
+    const commentElement = button.closest('[data-comment-id]');
+    const parentCommentId = commentElement.dataset.commentId;
+
+    console.log('Parent Comment ID:', parentCommentId);
 
     if (!replyContent) {
         alert('답글을 입력하세요!');
@@ -262,16 +257,13 @@ async function submitReply(button) {
             },
             body: JSON.stringify({
                 content: replyContent,
-                parentCommentId: parseInt(parentCommentId)
+                parentCommentId: Number(parentCommentId)
             })
         });
 
         if (response.ok) {
-            // 입력창 초기화 및 숨기기
             replyInput.value = '';
             replyForm.classList.add('hidden');
-            
-            // 댓글 목록 새로고침
             await loadComments();
         } else {
             const errorData = await response.json();
@@ -360,24 +352,26 @@ async function submitComment() {
 
 // 프로젝트 삭제 함수
 async function deleteProject() {
-    const projectId = "YOUR_PROJECT_ID"; // 실제 프로젝트 ID가 동적으로 설정되어야 함
+    // 삭제 확인
+    if (!confirm('프로젝트를 삭제하시겠습니까?')) {
+        return;
+    }
+
     try {
-        const response = await fetch(`http://18.118.128.174:8080/post/${projectId}`, {
-            method: 'DELETE',
-            headers: {
-                'mode': 'cors'
-            }
+        const response = await fetchWithAuth(`/post/${projectId}`, {
+            method: 'DELETE'
         });
 
         if (response.ok) {
             alert('프로젝트가 성공적으로 삭제되었습니다.');
-            window.location.href = '/projectList.html'; // 메인 페이지로 리다이렉트
+            window.location.href = '/front-end/templates/board/project/projectList.html';
         } else {
             const errorData = await response.json();
-            alert(errorData.message);
+            alert(errorData.message || '프로젝트 삭제에 실패했습니다.');
         }
     } catch (error) {
         console.error('프로젝트 삭제 중 오류 발생:', error);
+        alert('프로젝트 삭제 중 오류가 발생했습니다.');
     }
 }
 
@@ -459,7 +453,7 @@ function showReplyForm(button) {
     // 현재 답글 폼 토글
     replyForm.classList.toggle('hidden');
     
-    // 답글 폼이 보이면 입력창에 포커스
+    // 답글 폼이 보면 입력창에 커스
     if (!replyForm.classList.contains('hidden')) {
         replyForm.querySelector('.reply-input').focus();
     }

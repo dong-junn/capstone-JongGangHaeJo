@@ -20,11 +20,11 @@ async function submitProject() {
         });
     }
 
-    // // 썸네일 이미지 추가
-    // const thumbnailInput = document.getElementById('poster');
-    // if (thumbnailInput.files.length > 0) {
-    //     formData.append('files', thumbnailInput.files[0]);
-    // }
+    // 썸네일 이미지 추가
+    const thumbnailInput = document.getElementById('poster');
+    if (thumbnailInput.files.length > 0) {
+        formData.append('thumbnail', thumbnailInput.files[0]);
+    }
 
     try {
         const response = await fetchWithAuth('/post', {
