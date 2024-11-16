@@ -1,25 +1,41 @@
 // REST API를 이용해 프로젝트 세부 정보를 로드하는 함수
+// URL에서 프로젝트 ID를 가져오는 함수
+function getProjectIdFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('id');
+}
+
 async function loadProjectDetails() {
-    const projectId = "YOUR_PROJECT_ID"; // 실제 프로젝트 ID가 동적으로 설정되어야 함
+    if (!projectId) {
+        alert('유효하지 않은 게시물 번호입니다.');
+        window.location.href = '/front-end/templates/board/project/projectList.html';
+        return;
+    }
+
     try {
-        const response = await fetch(`http://18.118.128.174:8080/post/${projectId}`, {
-            headers: {
-                'Content-Type': 'application/json',
-                'mode': 'cors' // CORS 문제 방지를 위한 추가 옵션
-            }
+        const response = await fetchWithoutAuth(`/post/${projectId}`, {
+            method: 'GET'
         });
+
+        if (response.ok) {
         const project = await response.json();
 
         // 프로젝트 세부 정보를 DOM에 업데이트
-        document.getElementById('projectOverview').innerText = project.content;
-        document.getElementById('projectPoster').src = project.posterUrl;
-        document.getElementById('projectVideo').children[0].src = project.videoUrl;
-        document.getElementById('youtubeVideo').src = `https://www.youtube.com/embed/${project.youtubeId}`;
-        document.getElementById('likeNum').innerText = project.likes;
-        document.getElementById('commentNum').innerText = project.comments.length;
+            document.getElementById('projectOverview').innerText = project.content;
+            document.getElementById('projectPoster').src = project.posterUrl;
+            document.getElementById('projectVideo').children[0].src = project.videoUrl;
+            if (project.youtubelink) {
+                const videoId = getYoutubeVideoId(project.youtubelink);
+                document.getElementById('youtubeVideo').src = project.youtubelink;
+            }
+            document.getElementById('likeNum').innerText = project.likes;
+            document.getElementById('commentNum').innerText = project.comments.length;
 
         // 댓글 목록을 로드
         loadComments(project.comments);
+        }else{
+            
+        }
     } catch (error) {
         console.error('프로젝트 정보를 불러오는 중 오류 발생:', error);
     }
@@ -33,45 +49,154 @@ function loadComments(comments) {
     // 각 댓글을 화면에 추가
     comments.forEach(comment => {
         const commentElement = document.createElement('div');
-        commentElement.className = 'comment-item';
-        commentElement.innerText = comment.content;
+        commentElement.className = 'comment';
+        
+        // 현재 날짜 포맷팅
+        const commentDate = new Date(comment.createdAt).toLocaleDateString('ko-KR', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+        }).replace(/\./g, '.');
 
-        // 댓글 삭제 버튼 추가
-        const deleteButton = document.createElement('button');
-        deleteButton.className = 'delete-comment-button';
-        deleteButton.innerText = '댓글 삭제';
-        deleteButton.onclick = () => deleteComment(comment.id);
+        commentElement.innerHTML = `
+            <div class="comment-header">
+                <strong class="comment-author">${comment.author || '작성자'}</strong>
+                <span class="comment-date">${commentDate}</span>
+            </div>
+            <p class="comment-content">${comment.content}</p>
+            <div class="comment-actions">
+                <button class="reply-button" onclick="showReplyForm(this)">답글</button>
+                <button class="delete-comment" onclick="deleteComment('${comment.id}')">삭제</button>
+            </div>
+            
+            <!-- 답글 입력 폼 -->
+            <div class="reply-form hidden">
+                <textarea class="reply-input" placeholder="답글을 입력하세요"></textarea>
+                <button class="submit-reply" onclick="submitReply(this)">답글 달기</button>
+            </div>
+            
+            <!-- 답글 목록 -->
+            <div class="replies">
+                ${loadReplies(comment.replies || [])}
+            </div>
+        `;
 
-        commentElement.appendChild(deleteButton);
         commentsList.appendChild(commentElement);
     });
 }
 
+// 답글 목록을 생성하는 함수
+function loadReplies(replies) {
+    return replies.map(reply => `
+        <div class="reply">
+            <div class="comment-header">
+                <strong class="comment-author">${reply.author || '작성자'}</strong>
+                <span class="comment-date">${new Date(reply.createdAt).toLocaleDateString('ko-KR', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }).replace(/\./g, '.')}</span>
+            </div>
+            <p class="comment-content">${reply.content}</p>
+            <div class="comment-actions">
+                <button class="reply-button" onclick="showReplyForm(this)">답글</button>
+                <button class="delete-comment" onclick="deleteReply('${reply.id}')">삭제</button>
+            </div>
+            
+            <!-- 답글의 답글 입력 폼 -->
+            <div class="reply-form hidden">
+                <textarea class="reply-input" placeholder="답글을 입력하세요"></textarea>
+                <button class="submit-reply" onclick="submitReply(this)">답글 달기</button>
+            </div>
+            
+            <!-- 중첩된 답글 목록 -->
+            <div class="replies nested-replies">
+                ${loadReplies(reply.replies || [])}
+            </div>
+        </div>
+    `).join('');
+}
+
+// 답글 폼 표시/숨김 토글 함수
+function showReplyForm(button) {
+    const replyForm = button.closest('.comment, .reply').querySelector('.reply-form');
+    replyForm.classList.toggle('hidden');
+}
+
+// 답글 제출 함수
+async function submitReply(button) {
+    const replyForm = button.closest('.reply-form');
+    const replyInput = replyForm.querySelector('.reply-input');
+    const replyText = replyInput.value.trim();
+    const parentComment = button.closest('.comment, .reply');
+    const parentId = parentComment.dataset.id;
+
+    if (replyText) {
+        try {
+            const response = await fetchWithoutAuth(`/post/${projectId}/comments/${parentId}/replies`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ content: replyText })
+            });
+
+            if (response.ok) {
+                replyInput.value = '';
+                replyForm.classList.add('hidden');
+                loadProjectDetails(); // 전체 댓글 목록 새로고침
+            } else {
+                const errorData = await response.json();
+                alert(errorData.message);
+            }
+        } catch (error) {
+            console.error('답글 등록 중 오류 발생:', error);
+        }
+    } else {
+        alert('답글을 입력하세요!');
+    }
+}
+
 // 댓글을 추가하는 함수
 async function submitComment() {
-    const projectId = "YOUR_PROJECT_ID"; // 실제 프로젝트 ID가 동적으로 설정되어야 함
-    const commentContent = document.getElementById('commentInput').value;
+    const commentInput = document.getElementById('commentInput');
+    const commentContent = commentInput.value.trim();
+
+    if (!commentContent) {
+        alert('댓글을 입력하세요!');
+        return;
+    }
+
     try {
-        // 댓글을 서버에 POST 요청으로 추가
-        const response = await fetch(`http://18.118.128.174:8080/post/${projectId}/comments`, {
+        const response = await fetchWithoutAuth(`/post/${projectId}/comments`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'mode': 'cors'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ content: commentContent })
         });
 
         if (response.ok) {
-            alert('댓글이 성공적으로 등록되었습니다.');
-            document.getElementById('commentInput').value = ''; // 댓글 입력창 초기화
-            loadProjectDetails(); // 댓글을 다시 로드하여 갱신
+            // 입력창 초기화
+            commentInput.value = '';
+            
+            // 댓글 목록 새로고침
+            loadProjectDetails();
+            
+            // 댓글 수 업데이트
+            const commentNum = document.getElementById('commentNum');
+            commentNum.textContent = parseInt(commentNum.textContent) + 1;
         } else {
             const errorData = await response.json();
-            alert(errorData.message);
+            alert(errorData.message || '댓글 등록에 실패했습니다.');
         }
     } catch (error) {
         console.error('댓글 등록 중 오류 발생:', error);
+        alert('댓글 등록 중 오류가 발생했습니다.');
     }
 }
 
@@ -127,26 +252,26 @@ function increaseLike() {
 }
 
 // 댓글 추가 및 갯수 증가 기능
-function submitComment() {
-    const commentInput = document.getElementById('commentInput');
-    const commentText = commentInput.value.trim();
+// function submitComment() {
+//     const commentInput = document.getElementById('commentInput');
+//     const commentText = commentInput.value.trim();
 
-    if (commentText) {
-        const commentList = document.getElementById('commentsList');
-        const newComment = document.createElement('div');
-        newComment.className = 'comment';
-        newComment.innerHTML = `<p><strong>작성자:</strong> ${commentText}</p>`;
-        commentList.appendChild(newComment);
+//     if (commentText) {
+//         const commentList = document.getElementById('commentsList');
+//         const newComment = document.createElement('div');
+//         newComment.className = 'comment';
+//         newComment.innerHTML = `<p><strong>작성자:</strong> ${commentText}</p>`;
+//         commentList.appendChild(newComment);
 
-        // 댓글 갯수 증가
-        const commentNum = document.getElementById('commentNum');
-        commentNum.textContent = parseInt(commentNum.textContent) + 1;
+//         // 댓글 갯수 증가
+//         const commentNum = document.getElementById('commentNum');
+//         commentNum.textContent = parseInt(commentNum.textContent) + 1;
 
-        // 입력창 초기화
-        commentInput.value = '';
-    } else {
-        alert('댓글을 입력하세요!');
-    }
-}
+//         // 입력창 초기화
+//         commentInput.value = '';
+//     } else {
+//         alert('댓글을 입력하세요!');
+//     }
+// }
 // HTML 페이지가 로드될 때 프로젝트를 불러옴
 document.addEventListener('DOMContentLoaded', loadProjectDetails);

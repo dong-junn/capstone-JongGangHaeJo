@@ -17,11 +17,19 @@
     <main>
         <!-- 프로젝트 상세정보 -->
         <section class="project-detail">
-            <h1>프로젝트 제목</h1>
+            <div class="project-header">
+                <h1>제목이 입력됩니다.</h1>
+                <div class="project-meta">
+                    <span><i class="fas fa-user"></i> 작성자: 작성자 이름</span>
+                    <span><i class="fas fa-calendar"></i> 등록일: 2024-06-01</span>
+                    <span><i class="fas fa-eye"></i> 조회수: 150</span>
+                </div>
+            </div>
 
             <!-- 작품 개요, 팀명, 발표 자료 -->
             <div class="project-extra-info">
-                <p><strong>작품 개요:</strong> 이곳에 작품 개요가 들어갑니다.</p>
+                <h2>작품 개요</h2>
+                <p>이곳에 작품 개요가 들어갑니다.</p>
             </div>
             <div class="project-poster">
                 <h2>발표 자료</h2>
@@ -30,45 +38,76 @@
             <!-- 유튜브 동영상 -->
             <div class="project-youtube-video">
                 <iframe id="youtubeVideo" src="https://www.youtube.com/embed/B0e1zkQe4SM" title="YouTube video player"
-                    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen></iframe>
             </div>
 
-            <!-- 프로젝트 추가 정보 -->
-            <div class="project-info">
-                <p>작성자: 작성자 이름</p>
-                <p>완성 날짜: 2024-06-01</p>
-                <p>조회수: 150</p>
+            <!-- 좋아요 및 댓글 아이콘 섹션 -->
+            <div class="project-actions">
+                <span>
+                    <i class="fas fa-comment" style="color: #007bff;"></i> <span id="commentNum">0</span>개
+                </span>
+                <span id="likeCount" onclick="increaseLike()">
+                    <i class="fas fa-heart" style="color: #ff6b6b;"></i> <span id="likeNum">0</span>개
+                </span>
             </div>
-        </section>
 
-        <!-- 좋아요 및 댓글 섹션 -->
-        <div class="project-actions">
-            <span id="likeCount" onclick="increaseLike()">
-                <i class="fas fa-heart" style="color: #ff6b6b;"></i> <span id="likeNum">0</span>개
-            </span>
-            <span>
-                <i class="fas fa-comment" style="color: #007bff;"></i> <span id="commentNum">0</span>개
-            </span>
-        </div>
+            <!-- 댓글 섹션 -->
+            <div id="comment-section">
+                <textarea id="commentInput" placeholder="댓글을 입력하세요"></textarea>
+                <button id="submitComment" onclick="submitComment()">댓글 달기</button>
+                <div id="commentsList">
+                    <!-- 댓글 목록 -->
+                    <div class="comment">
+                        <div class="comment-header">
+                            <strong class="comment-author">작성자</strong>
+                            <span class="comment-date">2024.03.21 14:30</span>
+                        </div>
+                        <p class="comment-content">댓글 내용</p>
+                        <div class="comment-actions">
+                            <button class="reply-button" onclick="showReplyForm(this)">답글</button>
+                            <button class="delete-comment" onclick="deleteComment(this)">삭제</button>
+                        </div>
 
-        <!-- 댓글 입력 및 목록 -->
-        <section id="comment-section">
-            <textarea id="commentInput" placeholder="댓글을 입력하세요"></textarea>
-            <button id="submitComment" onclick="submitComment()">댓글 달기</button>
-            <div id="commentsList">
-                <!-- 댓글 목록 -->
-                <div class="comment">
-                    <p><strong>작성자:</strong> 댓글 내용</p>
-                    <button class="delete-comment" onclick="deleteComment(this)">삭제</button>
+                        <!-- 답글 입력 폼 -->
+                        <div class="reply-form hidden">
+                            <textarea class="reply-input" placeholder="답글을 입력하세요"></textarea>
+                            <button class="submit-reply" onclick="submitReply(this)">답글 달기</button>
+                        </div>
+
+                        <!-- 답글 목록 -->
+                        <div class="replies">
+                            <div class="reply">
+                                <div class="comment-header">
+                                    <strong class="comment-author">답글 작성자</strong>
+                                    <span class="comment-date">2024.03.21 14:35</span>
+                                </div>
+                                <p class="comment-content">답글 내용</p>
+                                <div class="comment-actions">
+                                    <button class="reply-button" onclick="showReplyForm(this)">답글</button>
+                                    <button class="delete-comment" onclick="deleteReply(this)">삭제</button>
+                                </div>
+
+                                <!-- 답글의 답글 입력 폼 -->
+                                <div class="reply-form hidden">
+                                    <textarea class="reply-input" placeholder="답글을 입력하세요"></textarea>
+                                    <button class="submit-reply" onclick="submitReply(this)">답글 달기</button>
+                                </div>
+
+                                <!-- 답글의 답글 목록 -->
+                                <div class="replies nested-replies">
+                                    <!-- 중첩된 답글들이 여기에 추가됨 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
     <div class="footer-container" id="footer"></div>
-
-
 </body>
 
 </html>
