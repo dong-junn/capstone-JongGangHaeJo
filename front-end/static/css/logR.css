@@ -163,3 +163,21 @@ form {
     white-space: nowrap;
     min-width: 100px;
 }
+.verify-btn {
+    background-color: #007bff; /* 버튼 배경색: 파란색 */
+    color: white; /* 버튼 글자색: 흰색 */
+    border: none; /* 테두리 제거 */
+    border-radius: 5px; /* 둥근 모서리 */
+    padding: 10px 15px; /* 내부 여백 */
+    cursor: pointer; /* 마우스 커서를 포인터로 변경 */
+    transition: background-color 0.3s; /* 배경색 전환 효과 */
+}
+
+.verify-btn:hover {
+    background-color: #0056b3; /* 호버 시 어두운 파란색 */
+}
+
+.verify-btn:disabled {
+    background-color: #cccccc; /* 비활성화 시 회색 */
+    cursor: not-allowed; /* 커서를 '사용 불가'로 변경 */
+}
