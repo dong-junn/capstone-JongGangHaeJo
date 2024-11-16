@@ -1,5 +1,9 @@
 package jeiu.capstone.jongGangHaejo.repository.notice;
 
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.PathBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jeiu.capstone.jongGangHaejo.domain.Notice;
 import jeiu.capstone.jongGangHaejo.domain.QNotice;
@@ -19,9 +23,17 @@ public class NoticeRepositoryImpl implements NoticeRepositoryCustom {
     public Page<Notice> findAllWithPaging(Pageable pageable) {
         QNotice notice = QNotice.notice;
 
-        List<Notice> content = queryFactory
-                .selectFrom(notice)
-                .orderBy(notice.id.asc())  // id 기준 내림차순 정렬
+        JPAQuery<Notice> query = queryFactory
+                .selectFrom(notice);
+
+        // Pageable의 정렬 조건 적용
+        pageable.getSort().forEach(order -> {
+            Order direction = order.isAscending() ? Order.ASC : Order.DESC;
+            PathBuilder orderByExpression = new PathBuilder(Notice.class, "notice");
+            query.orderBy(new OrderSpecifier(direction, orderByExpression.get(order.getProperty())));
+        });
+
+        List<Notice> content = query
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
