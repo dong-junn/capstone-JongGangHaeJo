@@ -24,40 +24,51 @@ async function loadProjectDetails() {
             const project = await response.json();
 
             // 프로젝트 세부 정보를 DOM에 업데이트
-            document.querySelector('.project-header h1').innerText = project.title;
+            document.querySelector('h1').innerText = project.title;
             
             // 메타 정보 업데이트
             const metaInfo = document.querySelector('.project-meta');
-            metaInfo.innerHTML = `
-                <span><i class="fas fa-users"></i> 팀명: ${project.team || '팀 이름'}</span>
-                <span><i class="fas fa-user"></i> 작성자: ${project.username}</span>
-                <span><i class="fas fa-calendar"></i> 등록일: ${new Date(project.createdAt).toLocaleDateString('ko-KR')}</span>
-                <span><i class="fas fa-eye"></i> 조회수: ${project.viewcount}</span>
-            `;
+            if (metaInfo) {
+                metaInfo.innerHTML = `
+                    <span><i class="fas fa-users"></i> 팀명: ${project.team || '팀 이름'}</span>
+                    <span><i class="fas fa-user"></i> 작성자: ${project.username}</span>
+                    <span><i class="fas fa-calendar"></i> 등록일: ${new Date(project.createdAt).toLocaleDateString('ko-KR')}</span>
+                    <span><i class="fas fa-eye"></i> 조회수: ${project.viewcount}</span>
+                `;
+            }
 
             // 작품 개요 업데이트
-            document.querySelector('.project-extra-info p').innerText = project.content;
+            const contentElement = document.querySelector('.project-extra-info p');
+            if (contentElement) {
+                contentElement.innerText = project.content;
+            }
 
             // 포스터 이미지 업데이트
-            if (project.posterUrl) {
-                document.getElementById('projectPoster').src = project.posterUrl;
+            const posterElement = document.getElementById('projectPoster');
+            if (posterElement && project.posterUrl) {
+                posterElement.src = project.posterUrl;
             }
 
             // 유튜브 동영상 업데이트
-            if (project.youtubelink) {
-                document.getElementById('youtubeVideo').src = project.youtubelink;
+            const videoElement = document.getElementById('youtubeVideo');
+            if (videoElement && project.youtubelink) {
+                videoElement.src = project.youtubelink;
             }
 
             // 좋아요 수와 댓글 수 업데이트
-            document.getElementById('likeNum').innerText = project.likes;
-            document.getElementById('commentNum').innerText = project.comments.length;
+            const likeElement = document.getElementById('likeNum');
+            const commentElement = document.getElementById('commentNum');
+            
+            if (likeElement) likeElement.innerText = project.likes || 0;
+            if (commentElement) commentElement.innerText = project.comments?.length || 0;
 
             // 댓글 목록 로드
-            loadComments(project.comments);
+            if (project.comments) {
+                loadComments(project.comments);
+            }
         } else {
             const errorData = await response.json();
             alert(errorData.message || '게시물을 불러오는데 실패했습니다.');
-            window.location.href = '/front-end/templates/board/project/projectList.html';
         }
     } catch (error) {
         console.error('프로젝트 정보를 불러오는 중 오류 발생:', error);
@@ -195,7 +206,7 @@ async function submitComment() {
     }
 
     try {
-        const response = await fetchWithoutAuth(`/post/${projectId}/comments`, {
+        const response = await fetchWithAuth(`/post/${projectId}/comments`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
