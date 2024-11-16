@@ -6,7 +6,7 @@ function getProjectIdFromUrl() {
 
 // 프로젝트 데이터를 불러와 폼에 채워넣는 함수
 async function loadProjectDetails() {
-    const projectId = getProjectIdFromUrl();
+    projectId = getProjectIdFromUrl();
     
     if (!projectId) {
         alert('유효하지 않은 프로젝트 ID입니다.');
@@ -15,7 +15,7 @@ async function loadProjectDetails() {
     }
 
     try {
-        const response = await fetchWithoutAuth(`/post/${projectId}`, {
+        const response = await fetchWithAuth(`/post/${projectId}`, {
             method: 'GET'
         });
 
@@ -46,6 +46,7 @@ async function loadProjectDetails() {
         alert('프로젝트 정보를 불러오는데 실패했습니다.');
     }
 }
+
 
 // 프로젝트 수정 요청
 async function submitProject() {
@@ -80,22 +81,31 @@ async function submitProject() {
     }
 }
 
-// 썸네일 미리보기
+// 썸네일 미리보기를 표시하는 함수
 function showThumbnails(input) {
     const container = document.getElementById('thumbnail-container');
     container.innerHTML = ''; // 기존 썸네일 초기화
 
-    Array.from(input.files).forEach(file => {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            const img = document.createElement('img');
-            img.src = e.target.result;
-            img.alt = '업로드된 썸네일';
-            container.appendChild(img);
-        };
-        reader.readAsDataURL(file);
-    });
+    if (input.files) {
+        Array.from(input.files).forEach(file => {
+            // 파일 타입 확인
+            if (!file.type.startsWith('image/')) {
+                alert('이미지 파일만 업로드 가능합니다.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const img = document.createElement('img');
+                img.src = e.target.result; // 업로드한 이미지의 데이터 URL
+                img.alt = '업로드된 썸네일';
+                container.appendChild(img);
+            };
+            reader.readAsDataURL(file); // 파일을 읽어 데이터 URL 생성
+        });
+    }
 }
+
 
 // 페이지 로드 시 프로젝트 데이터를 불러옴
 document.addEventListener('DOMContentLoaded', () => {
