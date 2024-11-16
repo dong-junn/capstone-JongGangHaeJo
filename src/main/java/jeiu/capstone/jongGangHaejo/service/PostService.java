@@ -10,8 +10,11 @@ import jeiu.capstone.jongGangHaejo.exception.ResourceNotFoundException;
 import jeiu.capstone.jongGangHaejo.exception.UnauthorizedException;
 import jeiu.capstone.jongGangHaejo.exception.common.CommonErrorCode;
 import jeiu.capstone.jongGangHaejo.repository.PostRepository;
+import jeiu.capstone.jongGangHaejo.validation.YoutubeUrlValidator;
 import jeiu.capstone.jongGangHaejo.repository.LikeRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
@@ -22,9 +25,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PostService {
@@ -41,15 +49,55 @@ public class PostService {
      */
     @Transactional
     public void createPost(PostCreateDto postCreateDto, List<MultipartFile> files, MultipartFile thumbnail) {
-        List<Long> fileIds = fileService.uploadFiles(files, "posts", false);  // 일반 파일
-
-        // 썸네일 업로드 (uploadFiles 메서드 활용)
+        List<Long> fileIds = new ArrayList<>();
+        
+        // 디버깅을 위한 로깅 추가
+        log.info("전체 파일 목록:");
+        files.forEach(file -> log.info("파일명: {}", file.getOriginalFilename()));
+        log.info("썸네일 파일명: {}", thumbnail.getOriginalFilename());
+        
+        // 썸네일 파일 먼저 업로드
         if (thumbnail != null && !thumbnail.isEmpty()) {
-            List<Long> thumbnailId = fileService.uploadFiles(List.of(thumbnail), "thumbnails", true);  // 썸네일임을 표시
-            if (!thumbnailId.isEmpty()) {
-                fileIds.addAll(thumbnailId);
+            List<Long> thumbnailId = fileService.uploadFiles(
+                Collections.singletonList(thumbnail), 
+                "posts/thumbnails",
+                true
+            );
+            fileIds.addAll(thumbnailId);
+            log.info("썸네일 업로드 완료: {}", thumbnail.getOriginalFilename());
+        }
+
+        // 일반 파일 업로드 (썸네일과 중복된 파일 제외)
+        if (files != null && !files.isEmpty()) {
+            String thumbnailFilename = thumbnail != null ? thumbnail.getOriginalFilename() : null;
+            
+            // 중복 제거를 위해 Set 사용
+            Set<String> processedFilenames = new HashSet<>();
+            if (thumbnailFilename != null) {
+                processedFilenames.add(thumbnailFilename);
+            }
+            
+            List<MultipartFile> nonDuplicateFiles = files.stream()
+                .filter(file -> {
+                    String filename = file.getOriginalFilename();
+                    if (filename != null && !processedFilenames.contains(filename)) {
+                        processedFilenames.add(filename);
+                        return true;
+                    }
+                    return false;
+                })
+                .collect(Collectors.toList());
+                
+            if (!nonDuplicateFiles.isEmpty()) {
+                List<Long> regularFileIds = fileService.uploadFiles(nonDuplicateFiles, "posts", false);
+                fileIds.addAll(regularFileIds);
+                log.info("일반 파일 업로드 완료. 업로드된 파일 수: {}", nonDuplicateFiles.size());
             }
         }
+
+        // YouTube URL 변환
+        String embedUrl = YoutubeUrlValidator.convertToEmbedUrl(postCreateDto.getYoutubelink());
+        postCreateDto.setYoutubelink(embedUrl);
 
         // DTO에서 엔티티로 변환
         Post post = postCreateDto.toEntity();
@@ -78,7 +126,7 @@ public class PostService {
         exPost.setTitle(postUpdateDto.getTitle());
         exPost.setContent(postUpdateDto.getContent());
         exPost.setTeam(postUpdateDto.getTeam());
-        exPost.setYoutubelink(postUpdateDto.getYoutubelink());
+        exPost.setYoutubelink(YoutubeUrlValidator.convertToEmbedUrl(postUpdateDto.getYoutubelink()));
 
         // 파일 관리
         if (files != null && !files.isEmpty()) {
@@ -112,9 +160,22 @@ public class PostService {
                 .orElseThrow(() -> new ResourceNotFoundException("게시물을 찾을 수 없습니다. 게시물 번호: " + id, CommonErrorCode.RESOURCE_NOT_FOUND));
 
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-
+        
         // 조회수 증가
         postRepository.incrementViewCount(id);
+
+        // 파일 정보 조회 및 변환
+        List<PostResponseDto.FileInfo> fileInfos = new ArrayList<>();
+        if (post.getFileIds() != null && !post.getFileIds().isEmpty()) {
+            List<File> files = fileService.getFilesByIds(post.getFileIds());
+            fileInfos = files.stream()
+                    .map(file -> new PostResponseDto.FileInfo(
+                            file.getFileName(),
+                            file.getS3Path(),
+                            file.getThumbnailPath()  // null이면 null 반환
+                    ))
+                    .collect(Collectors.toList());
+        }
 
         boolean isLiked = likeRepository.existsByPostIdAndUsername(id, currentUsername);
 
@@ -130,7 +191,8 @@ public class PostService {
                 post.getUpdatedAt().toString(),
                 post.getViewCount(),
                 likeRepository.countByPostId(post.getPostid()), // 좋아요 수 조회
-                isLiked
+                isLiked,
+                fileInfos
         );
     }
 
@@ -145,18 +207,35 @@ public class PostService {
         Page<Post> postPage = postRepository.findAll(pageable);
 
         List<PostResponseDto> content = postPage.getContent().stream()
-                .map(post -> new PostResponseDto(
-                        post.getPostid(),
-                        post.getTitle(),
-                        post.getContent(),
-                        post.getTeam(),
-                        post.getYoutubelink(),
-                        post.getUsername(),
-                        post.getCreatedAt().toString(),
-                        post.getUpdatedAt().toString(),
-                        post.getViewCount(),
-                        likeRepository.countByPostId(post.getPostid())
-                ))
+                .map(post -> {
+                    // 파일 정보 조회 및 변환
+                    List<PostResponseDto.FileInfo> fileInfos = new ArrayList<>();
+                    if (post.getFileIds() != null && !post.getFileIds().isEmpty()) {
+                        List<File> files = fileService.getFilesByIds(post.getFileIds());
+                        fileInfos = files.stream()
+                                .map(file -> new PostResponseDto.FileInfo(
+                                        file.getFileName(),
+                                        file.getS3Path(),
+                                        file.getThumbnailPath()  // 썸네일 URL 포함
+                                ))
+                                .collect(Collectors.toList());
+                    }
+
+                    return new PostResponseDto(
+                            post.getPostid(),
+                            post.getTitle(),
+                            post.getContent(),
+                            post.getTeam(),
+                            post.getYoutubelink(),
+                            post.getUsername(),
+                            post.getCreatedAt().toString(),
+                            post.getUpdatedAt().toString(),
+                            post.getViewCount(),
+                            likeRepository.countByPostId(post.getPostid()),
+                            false,  // isLiked는 목록에서는 false로 기본 설정
+                            fileInfos  // 파일 정보 포함
+                    );
+                })
                 .collect(Collectors.toList());
 
         return new PagedResponseDto<>(
