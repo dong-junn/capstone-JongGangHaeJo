@@ -96,7 +96,6 @@ async function registerUser() {
         id: formData.get('id'),
         password: formData.get('password'),
         username: formData.get('name')
-        username: formData.get('name')
     };
 
     if (formData.get('password') !== formData.get('confirm-password')) {
@@ -106,45 +105,43 @@ async function registerUser() {
 
     try {
         const response = await fetchWithoutAuth('/sign-up', {
-            const response = await fetchWithoutAuth('/sign-up', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(json)
-            });
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(json)
+        });
 
-            const result = await response.json();
+        if (response.ok) {
+            alert('회원가입이 성공적으로 완료되었습니다.');
+            form.reset();
+            window.location.href = '/front-end/templates/user/login/login.html';
+        } else {
+            const errorData = await response.json();
+            // validation 객체의 모든 에러 메시지를 추출
+            const validationMessages = errorData.validation
+                ? Object.values(errorData.validation).join('\n')
+                : errorData.message;
 
-            // '회원가입이 완료되었습니다.' 메시지를 확인하여 성공 여부 판단
-            if(result.message === "회원가입이 완료되었습니다.") {
-                alert('회원가입이 성공적으로 완료되었습니다.');
-        form.reset();
-        window.location.href = '/front-end/templates/user/login/login.html';
-    } else {
-        const errorData = await response.json();
-        // validation 객체의 모든 에러 메시지를 추출
-        const validationMessages = errorData.validation
-            ? Object.values(errorData.validation).join('\n')
-            : errorData.message;
-
-        alert(`${validationMessages}`);
+            alert(`${validationMessages}`);
+        }
+    } catch (error) {
+        console.error('회원가입 중 오류가 발생했습니다:', error);
+        alert('회원가입 처리 중 오류가 발생했습니다. 나중에 다시 시도해주세요.');
     }
-} catch (error) {
-    console.error('회원가입 중 오류가 발생했습니다:', error);
-    alert('회원가입 처리 중 오류가 발생했습니다. 나중에 다시 시도해주세요.');
 }
-}
-
-
-
-
-
 
 // 페이지 로드 시 이벤트 리스너 추가
 document.addEventListener('DOMContentLoaded', () => {
+    // 이메일 인증 버튼
     const emailCheckButton = document.querySelector('.email-check');
     emailCheckButton.addEventListener('click', requestVerificationCode);
+
+    // 인증코드 확인 버튼
+    const verifyButton = document.querySelector('.verify-btn');
+    verifyButton.addEventListener('click', verifyCode);
+
+    // 폼 제출
     const form = document.querySelector('form');
     form.addEventListener('submit', (event) => {
         event.preventDefault();
