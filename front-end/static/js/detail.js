@@ -173,6 +173,16 @@ function buildCommentTree(comments) {
         }
     });
 
+    // 루트 댓글과 각 답글들을 시간순으로 정렬
+    rootComments.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+    
+    // 각 댓글의 답글들도 시간순 정렬
+    rootComments.forEach(comment => {
+        if (comment.replies.length > 0) {
+            comment.replies.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+        }
+    });
+
     return rootComments;
 }
 
@@ -200,6 +210,8 @@ function createCommentElement(comment, depth = 0) {
             <p class="comment-content deleted">삭제된 댓글입니다.</p>
         `;
     } else {
+        const showReplyButton = depth < 2;
+        
         commentElement.innerHTML = `
             <div class="comment-header">
                 <strong class="comment-author">${comment.username || '작성자'}</strong>
@@ -207,15 +219,17 @@ function createCommentElement(comment, depth = 0) {
             </div>
             <p class="comment-content">${comment.content}</p>
             <div class="comment-actions">
-                ${depth < 2 ? `<button class="reply-button" onclick="showReplyForm(this)">답글</button>` : ''}
+                ${showReplyButton ? `<button class="reply-button" onclick="showReplyForm(this)">답글</button>` : ''}
                 ${isAuthor(comment.username) ? 
                     `<button class="delete-comment" onclick="deleteComment('${comment.id}')">삭제</button>` : 
                     ''}
             </div>
-            <div class="reply-form hidden">
+            ${showReplyButton ? `
+            <div class="reply-form hidden" data-parent-id="${comment.id}">
                 <textarea class="reply-input" placeholder="답글을 입력하세요"></textarea>
                 <button class="submit-reply" onclick="submitReply(this)">답글 달기</button>
             </div>
+            ` : ''}
         `;
     }
 
@@ -239,10 +253,7 @@ async function submitReply(button) {
     const replyForm = button.closest('.reply-form');
     const replyInput = replyForm.querySelector('.reply-input');
     const replyContent = replyInput.value.trim();
-    const commentElement = button.closest('[data-comment-id]');
-    const parentCommentId = commentElement.dataset.commentId;
-
-    console.log('Parent Comment ID:', parentCommentId);
+    const parentCommentId = replyForm.dataset.parentId;
 
     if (!replyContent) {
         alert('답글을 입력하세요!');
@@ -295,7 +306,7 @@ async function submitComment() {
         });
 
         if (response.ok) {
-            const newComment = await response.json();  // 서버에서 반환된 새 댓글 데이터
+            const newComment = await response.json();
             
             // 입력창 초기화
             commentInput.value = '';
@@ -304,6 +315,7 @@ async function submitComment() {
             const commentsList = document.getElementById('commentsList');
             const commentElement = document.createElement('div');
             commentElement.className = 'comment';
+            commentElement.dataset.commentId = newComment.id;
             
             const commentDate = new Date(newComment.createdAt).toLocaleDateString('ko-KR', {
                 year: 'numeric',
@@ -325,7 +337,7 @@ async function submitComment() {
                 </div>
                 
                 <!-- 답글 입력 폼 -->
-                <div class="reply-form hidden">
+                <div class="reply-form hidden" data-parent-id="${newComment.id}">
                     <textarea class="reply-input" placeholder="답글을 입력하세요"></textarea>
                     <button class="submit-reply" onclick="submitReply(this)">답글 달기</button>
                 </div>
@@ -441,7 +453,8 @@ document.addEventListener('DOMContentLoaded', loadProjectDetails);
 // 답글 입력 폼을 보여주는 함수
 function showReplyForm(button) {
     // 현재 댓글의 답글 입력 폼
-    const replyForm = button.closest('.comment').querySelector('.reply-form');
+    const currentElement = button.closest('[data-comment-id]');
+    const replyForm = currentElement.querySelector('.reply-form');
     
     // 다 든 답글 폼을 숨김
     document.querySelectorAll('.reply-form').forEach(form => {
