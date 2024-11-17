@@ -1,0 +1,118 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+/* Header와 Footer 간격 조정 */
+.header-container {
+    display: block;
+    width: 100%;
+}
+.footer-container{
+    display: block;
+    width: 100%;
+    position: fixed; /* 푸터를 고정 */
+    padding: 10px 0;
+}
+main {
+    width: 100%;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.notice-detail h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ff6347;
+    padding-bottom: 10px;
+}
+
+.notice-info {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.notice-info th {
+    background-color: #ff6347;
+    color: white;
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+    width: 150px;
+}
+
+.notice-info td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: #fff;
+}
+
+.notice-info .highlight {
+    background-color: #fffbe6;
+    font-weight: bold;
+    color: #333;
+}
+
+.file-link {
+    color: #0056b3;
+    text-decoration: none;
+}
+
+.file-link:hover {
+    text-decoration: underline;
+    color: #ff6b6b;
+}
+
+.notice-content {
+    margin-top: 20px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
+}
+
+.navigation-links {
+    width: 100%;
+    margin: 20px 0;
+}
+
+.navigation-links td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+.navigation-links .previous a,
+.navigation-links .next a {
+    color: #0056b3;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.navigation-links .previous:hover a,
+.navigation-links .next:hover a {
+    color: #ff6b6b;
+}
+
+.back-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.back-button:hover {
+    background-color: #ff6b6b;
+}
