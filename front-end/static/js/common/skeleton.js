@@ -3,14 +3,14 @@ class SkeletonUI {
         this.templates = {
             // 프로젝트 카드용 스켈레톤
             projectCard: `
-                <div class="skeleton-admin-card">
-                    <div class="skeleton skeleton-title"></div>
-                    <div class="skeleton-info">
-                        <div class="skeleton skeleton-text" style="width: 150px"></div>
-                        <div class="skeleton skeleton-text" style="width: 120px"></div>
-                        <div class="skeleton skeleton-text" style="width: 180px"></div>
+                <div class="skeleton-card">
+                    <div class="skeleton skeleton-thumbnail"></div>
+                    <div class="skeleton-content">
+                        <div class="skeleton skeleton-title"></div>
+                        <div class="skeleton skeleton-text" style="width: 60%"></div>
+                        <div class="skeleton skeleton-text" style="width: 40%"></div>
+                        <div class="skeleton skeleton-text" style="width: 30%"></div>
                     </div>
-                    <div class="skeleton skeleton-button"></div>
                 </div>
             `,
             
@@ -115,6 +115,33 @@ class SkeletonUI {
                     <div class="skeleton skeleton-text" style="width: 60%"></div>
                     <div class="skeleton skeleton-button"></div>
                 </div>
+            `,
+            // 프로젝트 관리 페이지용 스켈레톤 추가
+            adminProjectCard: `
+                <div class="skeleton-admin-project">
+                    <div class="skeleton skeleton-title" style="width: 70%; height: 24px; margin-bottom: 15px;"></div>
+                    <div class="skeleton skeleton-text" style="width: 40%; height: 16px; margin-bottom: 8px;"></div>
+                    <div class="skeleton skeleton-text" style="width: 30%; height: 16px; margin-bottom: 8px;"></div>
+                    <div class="skeleton skeleton-text" style="width: 35%; height: 16px; margin-bottom: 15px;"></div>
+                    <div class="skeleton-actions">
+                        <div class="skeleton skeleton-button" style="width: 60px; height: 32px; margin-right: 8px;"></div>
+                        <div class="skeleton skeleton-button" style="width: 60px; height: 32px;"></div>
+                    </div>
+                </div>
+            `,
+            // 공지사항 관리 페이지용 스켈레톤 추가
+            adminNoticeRow: `
+                <tr class="skeleton-notice-row">
+                    <td><div class="skeleton" style="width: 30px; height: 16px; margin: 0 auto;"></div></td>
+                    <td><div class="skeleton" style="width: 80%; height: 16px; margin: 0 auto;"></div></td>
+                    <td><div class="skeleton" style="width: 80px; height: 16px; margin: 0 auto;"></div></td>
+                    <td>
+                        <div style="display: flex; gap: 8px; justify-content: center;">
+                            <div class="skeleton" style="width: 40px; height: 24px;"></div>
+                            <div class="skeleton" style="width: 40px; height: 24px;"></div>
+                        </div>
+                    </td>
+                </tr>
             `
         };
     }

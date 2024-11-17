@@ -9,6 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // 공지사항 목록 불러오기
 async function loadNotices(page) {
+    // 스켈레톤 UI 표시
+    const tbody = document.querySelector('#notice-list tbody');
+    tbody.innerHTML = Array(pageSize).fill(skeletonUI.templates.adminNoticeRow).join('');
+
     try {
         const response = await fetchWithAuth(`/notice?page=${page-1}&size=${pageSize}`);
         if (!response.ok) {

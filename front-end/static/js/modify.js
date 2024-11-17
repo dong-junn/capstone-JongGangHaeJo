@@ -1,6 +1,6 @@
 // 프로젝트 목록을 불러오는 함수
 async function loadProjects(currentPage = 1) {
-    skeletonUI.show('.project-list', 'projectCard', 9);
+    skeletonUI.show('.project-list', 'adminProjectCard', 9);
     
     try {
         const response = await fetchWithAuth(`/admin/post?page=${currentPage}&size=9&sort=createdAt,desc`, {
