@@ -29,6 +29,7 @@ async function loadProjectDetails() {
 
         if (response.ok) {
             const project = await response.json();
+            console.log('Project data:', project); // 디버깅용
 
             // 스켈레톤 UI 제거하고 원본 HTML 구조 복원
             projectDetailSection.innerHTML = originalHTML;
@@ -42,17 +43,23 @@ async function loadProjectDetails() {
             // 작성자 권한 확인 및 버튼 표시/숨김 처리
             const actionButtons = document.querySelector('.project-actions-buttons');
             if (actionButtons) {
-                // 현재 사용자와 게시물 작성자 비교
-                if (isAuthor(project.username)) {
+                const currentUsername = getCurrentUsername();
+                console.log('Current username from token:', currentUsername); // 디버깅용
+                console.log('Project username:', project.username); // 디버깅용
+                
+                if (currentUsername === project.username) {
+                    console.log('User is author, showing buttons'); // 디버깅용
                     actionButtons.innerHTML = `
-                        <button class="edit-button" onclick="location.href='ProjectModify.html?id=${projectId}'">수정</button>
+                        <button class="edit-button" onclick="location.href='projectModify.html?id=${projectId}'">수정</button>
                         <button class="delete-button" onclick="deleteProject()">삭제</button>
                     `;
+                    actionButtons.style.display = 'flex';
                 } else {
+                    console.log('User is not author, hiding buttons'); // 디버깅용
                     actionButtons.style.display = 'none';
                 }
             }
-            
+
             // 메타 정보 업데이트
             const metaInfo = document.querySelector('.project-meta');
             if (metaInfo) {
@@ -213,7 +220,22 @@ function createCommentElement(comment, depth = 0) {
     const commentElement = document.createElement('div');
     commentElement.className = depth === 0 ? 'comment' : 'reply';
     commentElement.dataset.commentId = comment.id;
+    commentElement.dataset.depth = depth;
     commentElement.style.position = 'relative';
+
+    // 현재 로그인한 사용자의 username 가져오기
+    const currentUsername = getCurrentUsername();
+    
+    // 디버깅을 위한 로그
+    console.log('Creating comment element:');
+    console.log('Comment:', comment);
+    console.log('Current username from token:', currentUsername);
+    console.log('Comment username:', comment.username);
+
+    // 삭제 권한 확인 (작성자 본인인 경우)
+    const canDelete = currentUsername === comment.username;
+    
+    console.log('Can delete:', canDelete);
 
     const commentDate = new Date(comment.createdAt).toLocaleDateString('ko-KR', {
         year: 'numeric',
@@ -233,7 +255,7 @@ function createCommentElement(comment, depth = 0) {
         `;
     } else {
         const showReplyButton = depth < 2;
-        
+
         commentElement.innerHTML = `
             <div class="comment-header">
                 <strong class="comment-author">${comment.username || '작성자'}</strong>
@@ -242,9 +264,7 @@ function createCommentElement(comment, depth = 0) {
             <p class="comment-content">${comment.content}</p>
             <div class="comment-actions">
                 ${showReplyButton ? `<button class="reply-button" onclick="showReplyForm(this)">답글</button>` : ''}
-                ${isAuthor(comment.username) ? 
-                    `<button class="delete-comment" onclick="deleteComment('${comment.id}')">삭제</button>` : 
-                    ''}
+                ${canDelete ? `<button class="delete-comment" onclick="deleteComment('${comment.id}')">삭제</button>` : ''}
             </div>
             ${showReplyButton ? `
             <div class="reply-form hidden" data-parent-id="${comment.id}">
@@ -496,12 +516,30 @@ function showReplyForm(button) {
 
 // 현재 로그인한 사용자의 이름을 가져오는 함수
 function getCurrentUsername() {
-    const userInfo = localStorage.getItem('userInfo');
-    if (userInfo) {
-        const parsedInfo = JSON.parse(userInfo);
-        console.log('Parsed User Info:', parsedInfo); // 디버깅용
-        return parsedInfo.username;
+    try {
+        const token = localStorage.getItem('accessToken');
+        if (!token) return null;
+        
+        // Base64 디코딩 시 UTF-8 처리
+        const base64Payload = token.split('.')[1];
+        const payload = JSON.parse(decodeURIComponent(escape(atob(base64Payload))));
+        
+        console.log('Decoded token payload:', payload); // 디버깅용
+        return payload.username;
+    } catch (error) {
+        console.error('토큰 디코딩 중 오류 발생:', error);
+        return null;
     }
-    return null;
+}
+
+// 작성자 권한 확인 함수 수정
+function isAuthor(authorUsername) {
+    const currentUsername = getCurrentUsername();
+    console.log('isAuthor check:', {
+        currentUsername,
+        authorUsername,
+        isMatch: currentUsername === authorUsername
+    });
+    return currentUsername === authorUsername;
 }
 
