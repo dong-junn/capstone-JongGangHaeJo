@@ -630,3 +630,20 @@ main {
     color: #f15a4a;
     margin-right: 12px;
 }
+
+/* 프로젝트 포스터 이미지 스타일 */
+#projectPoster {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* 반응형 처리 */
+@media (max-width: 768px) {
+    #projectPoster {
+        margin: 10px auto;
+    }
+}

@@ -74,11 +74,8 @@ body {
 }
 
 .thumbnail h3 {
-<<<<<<< HEAD
     margin: 10px 0;
-    
-=======
->>>>>>> a66a6af37dc23a29bb781043b30f14280de43a8f
+
     font-size: 18px;
     margin-bottom: 8px;
     color: #333;
@@ -91,12 +88,8 @@ body {
 
 .more-button {
     display: inline-block;
-<<<<<<< HEAD
-    padding: 20px 150px; /* 버튼 크기 증가 */
-=======
     padding: 20px 150px;
     /* 버튼 크기 증가 */
->>>>>>> a66a6af37dc23a29bb781043b30f14280de43a8f
     background-color: #333;
     color: #fff;
     border: none;

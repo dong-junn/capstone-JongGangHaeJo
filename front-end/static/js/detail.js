@@ -71,16 +71,26 @@ async function loadProjectDetails() {
                 `;
             }
 
+            // 포스터 이미지 업데이트
+            const posterElement = document.getElementById('projectPoster');
+            if (posterElement) {
+                // files 배열에서 thumbnailUrl이 있는 파일 찾기
+                const thumbnailFile = project.files?.find(file => file.thumbnailUrl);
+                
+                if (thumbnailFile?.thumbnailUrl) {
+                    posterElement.src = thumbnailFile.thumbnailUrl;
+                    posterElement.alt = project.title || 'Project Thumbnail';
+                } else {
+                    // 썸네일이 없는 경우 기본 이미지 설정
+                    posterElement.src = '/front-end/static/img/ex.jpg';
+                    posterElement.alt = 'Default Thumbnail';
+                }
+            }
+
             // 작품 개요 업데이트
             const contentElement = document.querySelector('.project-extra-info p');
             if (contentElement) {
                 contentElement.innerText = project.content;
-            }
-
-            // 포스터 이미지 업데이트
-            const posterElement = document.getElementById('projectPoster');
-            if (posterElement && project.posterUrl) {
-                posterElement.src = project.posterUrl;
             }
 
             // 유튜브 동영상 업데이트
@@ -114,7 +124,7 @@ async function loadProjectDetails() {
                         <div class="attachment-info">
                             <a href="${file.downloadUrl}" 
                                class="attachment-name" 
-                               download
+                               download="${file.fileName}"
                                rel="noopener noreferrer">
                                 ${file.fileName}
                             </a>
