@@ -96,7 +96,7 @@ pipeline {
                             --build-arg S3_BUCKET_NAME=${S3_BUCKET_NAME} \
                             --build-arg JWT_SECRET_KEY=${JWT_SECRET_KEY} \
                             --build-arg MAIL_USERNAME=${MAIL_USERNAME} \
-                            --build-arg MAIL_APP_PASSWORD=${MAIL_APP_PASSWORD}
+                            --build-arg MAIL_PASSWORD=${MAIL_PASSWORD} \
                             -t ${ECR_URI}/${ECR_REPO_NAME}:latest .
                     '''
                 }
