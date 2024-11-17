@@ -15,6 +15,13 @@ async function loadProjectDetails() {
         return;
     }
 
+    const projectDetailSection = document.querySelector('.project-detail');
+    
+    // 원본 HTML 구조 저장
+    const originalHTML = projectDetailSection.innerHTML;
+
+    skeletonUI.show('.project-detail', 'projectDetail');
+
     try {
         const response = await fetchWithAuth(`/post/${projectId}`, {
             method: 'GET'
@@ -23,8 +30,14 @@ async function loadProjectDetails() {
         if (response.ok) {
             const project = await response.json();
 
+            // 스켈레톤 UI 제거하고 원본 HTML 구조 복원
+            projectDetailSection.innerHTML = originalHTML;
+
             // 프로젝트 세부 정보를 DOM에 업데이트
-            document.querySelector('h1').innerText = project.title;
+            const titleElement = document.querySelector('.project-detail h1');
+            if (titleElement) {
+                titleElement.innerText = project.title;
+            }
 
             // 작성자 권한 확인 및 버튼 표시/숨김 처리
             const actionButtons = document.querySelector('.project-actions-buttons');
@@ -105,16 +118,22 @@ async function loadProjectDetails() {
                 attachmentsList.innerHTML = '<div class="no-attachments">첨부된 파일이 없습니다.</div>';
             }
         } else {
+            skeletonUI.hide('.project-detail');
             const errorData = await response.json();
             alert(errorData.message || '게시물을 불러오는데 실패했습니다.');
         }
     } catch (error) {
+        skeletonUI.hide('.project-detail');
         console.error('프로젝트 정보를 불러오는 중 오류 발생:', error);
         alert('프로젝트 정보를 불러오는데 실패했습니다.');
     }
 }
 // 댓글 목록을 로드하는 함수
 async function loadComments() {
+    const commentsList = document.getElementById('commentsList');
+    
+    // 댓글 스켈레톤 UI 표시
+    skeletonUI.show('#commentsList', 'commentList', 3);
     try {
         const response = await fetchWithoutAuth(`/post/${projectId}/comments`, {
             method: 'GET'
@@ -122,6 +141,8 @@ async function loadComments() {
 
         if (response.ok) {
             const comments = await response.json();
+
+            skeletonUI.hide('#commentsList');
             const commentsList = document.getElementById('commentsList');
             commentsList.innerHTML = ''; // 기존 댓글 초기화
 
@@ -146,6 +167,7 @@ async function loadComments() {
             }
         }
     } catch (error) {
+        skeletonUI.hide('#commentsList');
         console.error('댓글 목록을 불러오는 중 오류 발생:', error);
     }
 }

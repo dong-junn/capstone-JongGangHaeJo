@@ -1,5 +1,6 @@
 // REST API를 이용해 프로젝트 리스트를 불러오는 함수
 async function loadProjects(currentPage = 1) {
+    skeletonUI.show('.projects-container', 'projectCard', 6);
     try {
         const response = await fetchWithoutAuth(`/post?page=${currentPage}&size=12&sort=createdAt,desc`, {
             method: 'GET',
@@ -8,6 +9,7 @@ async function loadProjects(currentPage = 1) {
             }
         });
         if (response.ok) {
+            skeletonUI.hide('.projects-container');
             const projectsData = await response.json();
             const projects = projectsData.content; // 'content' 배열로 접근
             const projectsContainer = document.querySelector('.projects-container');
@@ -44,6 +46,8 @@ async function loadProjects(currentPage = 1) {
     } catch (error) {
         console.error('Error loading projects:', error);
         alert(`오류가 발생했습니다: ${error.message}`);
+    } finally {
+        skeletonUI.hide('.projects-container');
     }
 }
 // 최상단으로 스크롤하는 함수
@@ -124,4 +128,3 @@ function createPageLink(text, pageNumber) {
 document.addEventListener('DOMContentLoaded', () => {
     loadProjects(1);
 });
-
