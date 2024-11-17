@@ -2,6 +2,7 @@ package jeiu.capstone.jongGangHaejo.domain;
 
 import jakarta.persistence.*;
 import jeiu.capstone.jongGangHaejo.domain.user.User;
+import jeiu.capstone.jongGangHaejo.validation.YoutubeUrlValidator;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -79,5 +80,9 @@ public class Post {
     // 파일 추가 메서드 (양방향 연관 관계 설정)
     public void addFile(Long fileId) {
         this.fileIds.add(fileId);  // 파일에 게시물(Post) 설정
+    }
+
+    public void setYoutubelink(String youtubelink) {
+        this.youtubelink = YoutubeUrlValidator.convertToEmbedUrl(youtubelink);
     }
 }

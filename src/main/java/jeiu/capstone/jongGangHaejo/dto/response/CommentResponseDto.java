@@ -15,6 +15,7 @@ public class CommentResponseDto {
     private String createdAt;  // 생성일시
     private String updatedAt;  // 수정일시
     private Long parentCommentId; // 부모 댓글 ID
+    private boolean isDeleted;
 
     // Comment 엔티티를 DTO로 변환하는 생성자
     public CommentResponseDto(Comment comment) {
@@ -24,5 +25,6 @@ public class CommentResponseDto {
         this.createdAt = comment.getCreatedAt().toString();
         this.updatedAt = comment.getUpdatedAt().toString();
         this.parentCommentId = comment.getParentCommentId(); // 부모 댓글 ID 설정
+        this.isDeleted = comment.isDeleted();
     }
 } 

@@ -49,7 +49,7 @@ class PostServiceTest {
         MultipartFile file2 = mock(MultipartFile.class);
         List<MultipartFile> files = Arrays.asList(file1, file2);
 
-        when(fileService.uploadFiles(files)).thenReturn(Arrays.asList(100L, 101L));
+        when(fileService.uploadFiles(files, "posts")).thenReturn(Arrays.asList(100L, 101L));
 
         Post savedPost = Post.builder()
                 .postid(1L)
@@ -68,7 +68,7 @@ class PostServiceTest {
         postService.createPost(dto, files);
 
         // then
-        verify(fileService, times(1)).uploadFiles(files);
+        verify(fileService, times(1)).uploadFiles(files, "posts");
         verify(postRepository, times(1)).save(postCaptor.capture());
 
         Post capturedPost = postCaptor.getValue();

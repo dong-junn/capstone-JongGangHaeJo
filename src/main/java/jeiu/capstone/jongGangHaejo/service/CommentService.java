@@ -66,7 +66,13 @@ public class CommentService {
     public List<CommentResponseDto> getComments(Long postId) {
         return commentRepository.findByPostIdOrderByCreatedAtDesc(postId)
                 .stream()
-                .map(CommentResponseDto::new)
+                .map(comment -> {
+                    CommentResponseDto dto = new CommentResponseDto(comment);
+                    if (comment.isDeleted()) {
+                        dto.setContent("삭제된 댓글입니다.");
+                    }
+                    return dto;
+                })
                 .collect(Collectors.toList());
     }
 
@@ -83,12 +89,14 @@ public class CommentService {
                     CommonErrorCode.RESOURCE_NOT_FOUND
                 ));
 
-        // 현재 사용자가 작성자인지 확인
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         if (!comment.getUsername().equals(currentUsername)) {
-            throw new UnauthorizedException(CommonErrorCode.AUTHORIZATION_FAILED.getMessage(), CommonErrorCode.AUTHORIZATION_FAILED);
+            throw new UnauthorizedException(CommonErrorCode.AUTHORIZATION_FAILED.getMessage(), 
+                    CommonErrorCode.AUTHORIZATION_FAILED);
         }
 
-        commentRepository.delete(comment);
+        // 물리적 삭제 대신 소프트 삭제 수행
+        comment.softDelete();
+        commentRepository.save(comment);
     }
 } 

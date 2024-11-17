@@ -1,10 +1,17 @@
 package jeiu.capstone.jongGangHaejo.dto.response;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.tomcat.jni.FileInfo;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class PostResponseDto {
     private Long id;
     private String title;
@@ -14,17 +21,20 @@ public class PostResponseDto {
     private String username; // 게시물 작성자
     private String createdAt;
     private String updatedAt;
+    private Long viewCount;
+    private Long likeCount; // 좋아요 수 필드 추가
+    private boolean isLiked;  // 추가
+    private List<FileInfo> files;
 
-    // 필요에 따라 파일 정보도 포함할 수 있습니다.
+    public PostResponseDto(Long id, String title, String content, String team, String youtubelink, String username, String createdAt, String updatedAt, Long viewCount, Long likeCount) {
+        this(id, title, content, team, youtubelink, username, createdAt, updatedAt, viewCount, likeCount, false, new ArrayList<>());
+    }
 
-    public PostResponseDto(Long id, String title, String content, String team, String youtubelink, String username, String createdAt, String updatedAt) {
-        this.id = id;
-        this.title = title;
-        this.content = content;
-        this.team = team;
-        this.youtubelink = youtubelink;
-        this.username = username;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+    @Getter
+    @AllArgsConstructor
+    public static class FileInfo {
+        private String fileName;
+        private String downloadUrl;
+        private String thumbnailUrl;
     }
 }

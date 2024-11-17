@@ -1,14 +1,23 @@
 package jeiu.capstone.jongGangHaejo.controller;
 
+import jeiu.capstone.jongGangHaejo.service.PostService;
+import jeiu.capstone.jongGangHaejo.dto.response.PostResponseDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
 
 @RestController
 public class IndexController {
 
-    @GetMapping("/")
-    public String index() {
-        return "종강해조 게시판 메인 페이지";
+    private final PostService postService;
+
+    public IndexController(PostService postService) {
+        this.postService = postService;
     }
 
+    @GetMapping("/")
+    public List<PostResponseDto> getTopPosts() {
+        // 대표 게시물 3개를 가져오는 로직
+        return postService.getTop3Posts();
+    }
 }

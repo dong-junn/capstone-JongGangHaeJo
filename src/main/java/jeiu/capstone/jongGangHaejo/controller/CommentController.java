@@ -18,7 +18,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/posts/{postId}/comments")
+@RequestMapping("/post/{postId}/comments")
 public class CommentController {
 
     private final CommentService commentService;
@@ -29,13 +29,13 @@ public class CommentController {
      * @param dto 댓글 생성 DTO
      * @return 생성된 댓글 응답 DTO
      */
-    @PostMapping
-    public ResponseEntity<CommentResponseDto> createComment(
-            @PathVariable Long postId,
-            @Valid @RequestBody CommentCreateDto dto) {
-        log.info("댓글 작성 요청 / 게시글 번호: {}, 내용: {}", postId, dto.getContent());
-        return ResponseEntity.ok(commentService.createComment(postId, dto));
-    }
+     @PostMapping
+     public ResponseEntity<CommentResponseDto> createComment(
+             @PathVariable Long postId,
+             @Valid @RequestBody CommentCreateDto dto) {
+         log.info("댓글 작성 요청 / 게시글 번호: {}, 내용: {}", postId, dto.getContent());
+         return ResponseEntity.ok(commentService.createComment(postId, dto));
+     }
 
     /**
      * 특정 게시글의 댓글 목록을 조회합니다.

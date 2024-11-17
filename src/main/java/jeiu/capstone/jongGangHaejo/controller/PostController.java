@@ -4,9 +4,10 @@ import jakarta.validation.Valid;
 import jeiu.capstone.jongGangHaejo.domain.File;
 import jeiu.capstone.jongGangHaejo.domain.Post;
 import jeiu.capstone.jongGangHaejo.dto.request.PostUpdateDto;
-import jeiu.capstone.jongGangHaejo.dto.response.PagedResponse;
+import jeiu.capstone.jongGangHaejo.dto.response.PagedResponseDto;
 import jeiu.capstone.jongGangHaejo.dto.response.PostResponseDto;
 import jeiu.capstone.jongGangHaejo.dto.response.controllerAdvice.PostUploadExceptionDto;
+import jeiu.capstone.jongGangHaejo.security.config.UserConfig;
 import jeiu.capstone.jongGangHaejo.service.FileService;
 import jeiu.capstone.jongGangHaejo.service.PostService;
 import jeiu.capstone.jongGangHaejo.dto.request.PostCreateDto;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,14 +52,22 @@ public class PostController {
     @PostMapping("/post")
     public ResponseEntity<Map<String, String>> createPost(
             @Valid @RequestPart("post") PostCreateDto postCreateDto, // 게시물 데이터
-            @RequestPart("files") List<MultipartFile> files // 첨부 파일들
+            @RequestPart("files") List<MultipartFile> files,
+            @RequestPart("thumbnail") MultipartFile thumbnail,
+            @AuthenticationPrincipal UserConfig userConfig // 현재 인증된 사용자 정보
     ) {
         // 게시물 데이터 로깅
         log.info("게시물 작성 요청 / 제목: {}, 팀: {}", postCreateDto.getTitle(), postCreateDto.getTeam());
         // 각 파일의 이름과 크기 로깅
         files.forEach(file -> log.info("제공된 파일 명: {}, 크기: {} bytes", file.getOriginalFilename(), file.getSize()));
+
+        log.info("제공된 썸네일 파일 명: {}, 크기: {} bytes", thumbnail.getOriginalFilename(), thumbnail.getSize());
+
+        // 사용자 이름 설정
+        postCreateDto.setUsername(userConfig.getUsername());
+
         // 서비스 계층으로 게시물 생성 요청 위임
-        postService.createPost(postCreateDto, files);
+        postService.createPost(postCreateDto, files, thumbnail);
 
         // 성공 메시지 반환
         return ResponseEntity.ok(Map.of("message", "게시물이 성공적으로 생성되었습니다."));
@@ -67,36 +77,25 @@ public class PostController {
     public ResponseEntity<Map<String, String>> updatePost(
             @PathVariable Long postId,
             @Validated @RequestPart("post") PostUpdateDto postUpdateDto,
-            @RequestPart(value = "files", required = false) List<MultipartFile> files
+            @RequestPart(value = "files", required = false) List<MultipartFile> files,
+            @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail
     ) {
         log.info("게시물 수정 요청 / 게시물 ID: {}, 제목: {}, 팀: {}", postId, postUpdateDto.getTitle(), postUpdateDto.getTeam());
         if (files != null) {
             files.forEach(file -> log.info("제공된 파일 명: {}, 크기: {} bytes", file.getOriginalFilename(), file.getSize()));
         }
-        postService.updatePost(postId, postUpdateDto, files);
-
+        if (thumbnail != null) {
+            log.info("제공된 썸네일 파일 명: {}, 크기: {} bytes", thumbnail.getOriginalFilename(), thumbnail.getSize());
+        }
+        
+        postService.updatePost(postId, postUpdateDto, files, thumbnail);
         return ResponseEntity.ok(Map.of("message", "게시물이 성공적으로 수정되었습니다."));
     }
 
-    @GetMapping("/post/{postId}")
-    public PostUploadExceptionDto getPost(@PathVariable(name = "postId") Long id) {
-        Post post = postService.getSinglePost(id); //게시물 불러오기
-        List<File> files = fileService.getFilesByIds(post.getFileIds()); // 파일이 여러 개인 경우를 고려해서 리스트로 가져옴
-
-        //게시물 정보 설정
-        PostUploadExceptionDto dto = new PostUploadExceptionDto();
-        dto.setTitle(post.getTitle());
-        dto.setContent(post.getContent());
-        dto.setTeam(post.getTeam());
-        dto.setYoutubelink(post.getYoutubelink());
-
-        //첨부파일 설정
-        List<PostUploadExceptionDto.FileDTO> fileDTOList = files.stream()
-                .map(file -> new PostUploadExceptionDto.FileDTO(file.getS3Path(), file.getFileName()))
-                .collect(Collectors.toList());
-        dto.setFiles(fileDTOList);
-
-        return dto;
+    @GetMapping("/post/{id}")
+    public ResponseEntity<PostResponseDto> getPost(@PathVariable Long id) {
+        PostResponseDto post = postService.getSinglePost(id);
+        return ResponseEntity.ok(post);
     }
 
     /**
@@ -107,14 +106,15 @@ public class PostController {
      * @param sort 정렬 기준 (예: createdAt,desc)
      * @return 페이징된 게시물 응답 DTO
      */
-    @GetMapping("/posts")
-    public ResponseEntity<PagedResponse<PostResponseDto>> getPagedPosts(
-            @RequestParam(defaultValue = "0") int page,
+    @GetMapping("/post")
+    public ResponseEntity<PagedResponseDto<PostResponseDto>> getPagedPosts(
+            @RequestParam(defaultValue = "1") int page,  // 1부터 시작하는 페이지
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "createdAt,desc") String[] sort
     ) {
 //        log.info("페이징된 게시물 조회 요청 / 페이지: {}, 크기: {}, 정렬: {}", page, size, sort);
 
+        int pageNumber = page - 1;
         // 정렬 설정
         Sort.Direction direction = Sort.Direction.DESC;
         String sortBy = "createdAt"; // 기본 정렬 기준 현재는 작성일
@@ -126,11 +126,18 @@ public class PostController {
             sortBy = sort[0];
         }
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+        Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(direction, sortBy));
 
-        PagedResponse<PostResponseDto> pagedPosts = postService.getPagedPosts(pageable);
+        PagedResponseDto<PostResponseDto> pagedPosts = postService.getPagedPosts(pageable);
 
-        return ResponseEntity.ok(pagedPosts);
+        return ResponseEntity.ok(new PagedResponseDto<>(
+        pagedPosts.getContent(),
+        pagedPosts.getPage() + 1,  // 0부터 시작하는 페이지를 1부터 시작하도록 변환
+        pagedPosts.getSize(),
+        pagedPosts.getTotalElements(),
+        pagedPosts.getTotalPages(),
+        pagedPosts.isLast()
+    ));
     }
 
     @DeleteMapping("/post/{postId}")

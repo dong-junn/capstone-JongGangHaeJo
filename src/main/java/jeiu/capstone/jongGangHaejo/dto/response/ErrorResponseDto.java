@@ -3,6 +3,7 @@
 package jeiu.capstone.jongGangHaejo.dto.response;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,12 +15,12 @@ import java.util.Map;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ErrorResponse {
+public class ErrorResponseDto {
     private int code;
     private String message;
     private Map<String, String> validation;
 
-    public ErrorResponse(int code, String message) {
+    public ErrorResponseDto(int code, String message) {
         this.code = code;
         this.message = message;
     }

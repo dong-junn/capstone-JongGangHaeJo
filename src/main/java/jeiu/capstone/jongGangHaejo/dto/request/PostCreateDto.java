@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import jeiu.capstone.jongGangHaejo.validation.ValidYoutubeUrl;
+import jeiu.capstone.jongGangHaejo.validation.YoutubeUrlValidator;
 
 @Getter @Setter //안열어 주면 Controller params에 null값이 들어감 -> params=PostCreate(title=null, content=null) [log결과]
 @ToString //toString 구현
@@ -24,6 +25,8 @@ public class PostCreateDto { //PostController에 params를 넘기기 위한 DTO
     @ValidYoutubeUrl //유튜브 링크임을 검증하는 어노테이션
     private String youtubelink;
 
+    private String username;
+
     /**
      * DTO를 엔티티로 변환하는 메서드
      *
@@ -34,7 +37,8 @@ public class PostCreateDto { //PostController에 params를 넘기기 위한 DTO
                 .title(this.title)
                 .content(this.content)
                 .team(this.team)
-                .youtubelink(this.youtubelink)
+                .youtubelink(YoutubeUrlValidator.convertToEmbedUrl(this.youtubelink))
+                .username(this.username)
                 .build();
     }
 }

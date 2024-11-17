@@ -3,6 +3,9 @@ package jeiu.capstone.jongGangHaejo.domain.user;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter @Setter
@@ -12,15 +15,22 @@ public class User {
     private String id;
     private String password;
     private String name;
+    private String email;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id")
+    )
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Set<Role> roles = new HashSet<>();
 
     @Builder
-    public User(String id, String password, String name, Role role) {
+    public User(String id, String password, String name, String email, Set<Role> roles) {
         this.id = id;
         this.password = password;
         this.name = name;
-        this.role = role;
+        this.email = email;
+        this.roles = roles;
     }
 }

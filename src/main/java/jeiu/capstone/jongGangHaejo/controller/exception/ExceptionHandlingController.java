@@ -1,6 +1,7 @@
 package jeiu.capstone.jongGangHaejo.controller.exception;
 
-import jeiu.capstone.jongGangHaejo.dto.response.ErrorResponse;
+import jakarta.persistence.EntityNotFoundException;
+import jeiu.capstone.jongGangHaejo.dto.response.ErrorResponseDto;
 import jeiu.capstone.jongGangHaejo.exception.common.CommonErrorCode;
 import jeiu.capstone.jongGangHaejo.exception.*;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +31,7 @@ public class ExceptionHandlingController {
      * @return ErrorResponse를 담은 ResponseEntity
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException e) {
+    public ResponseEntity<ErrorResponseDto> handleValidationExceptions(MethodArgumentNotValidException e) {
         CommonErrorCode errorCode = CommonErrorCode.INVALID_ARGUMENT_ERROR;
         Map<String, String> validationErrors = new HashMap<>();
 
@@ -42,10 +43,10 @@ public class ExceptionHandlingController {
         log.error("Validation error: {}", validationErrors);
 
         // ErrorResponse 객체 생성 및 validation 정보 추가
-        ErrorResponse errorResponse = new ErrorResponse(errorCode.getCode(), errorCode.getMessage());
-        errorResponse.setValidation(validationErrors);
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(errorCode.getCode(), errorCode.getMessage());
+        errorResponseDto.setValidation(validationErrors);
 
-        return new ResponseEntity<>(errorResponse, errorCode.getHttpStatus());
+        return new ResponseEntity<>(errorResponseDto, errorCode.getHttpStatus());
     }
 
     /**
@@ -55,7 +56,7 @@ public class ExceptionHandlingController {
      * @return ErrorResponse를 담은 ResponseEntity
      */
     @ExceptionHandler(FileServiceException.class)
-    public ResponseEntity<ErrorResponse> handleFileServiceException(FileServiceException e) {
+    public ResponseEntity<ErrorResponseDto> handleFileServiceException(FileServiceException e) {
         CommonErrorCode errorCode;
 
         // 예외 타입에 따라 적절한 오류 코드 선택
@@ -70,9 +71,9 @@ public class ExceptionHandlingController {
         log.error("FileServiceException: {}", e.getMessage(), e);
 
         // ErrorResponse 객체 생성
-        ErrorResponse errorResponse = new ErrorResponse(errorCode.getCode(), errorCode.getMessage());
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(errorCode.getCode(), errorCode.getMessage());
 
-        return new ResponseEntity<>(errorResponse, errorCode.getHttpStatus());
+        return new ResponseEntity<>(errorResponseDto, errorCode.getHttpStatus());
     }
 
     /**
@@ -82,14 +83,14 @@ public class ExceptionHandlingController {
      * @return ErrorResponse를 담은 ResponseEntity
      */
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException e) {
+    public ResponseEntity<ErrorResponseDto> handleResourceNotFoundException(ResourceNotFoundException e) {
         ErrorCode errorCode = e.getErrorCode();
         log.error("ResourceNotFoundException: {}", e.getMessage(), e);
 
         // ErrorResponse 객체 생성 (메시지에 동적 데이터 포함 가능)
-        ErrorResponse errorResponse = new ErrorResponse(errorCode.getCode(), e.getMessage());
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(errorCode.getCode(), e.getMessage());
 
-        return new ResponseEntity<>(errorResponse, errorCode.getHttpStatus());
+        return new ResponseEntity<>(errorResponseDto, errorCode.getHttpStatus());
     }
 
     /**
@@ -99,14 +100,14 @@ public class ExceptionHandlingController {
      * @return ErrorResponse를 담은 ResponseEntity
      */
     @ExceptionHandler(DataAccessException.class)
-    public ResponseEntity<ErrorResponse> handleDataAccessException(DataAccessException e) {
+    public ResponseEntity<ErrorResponseDto> handleDataAccessException(DataAccessException e) {
         CommonErrorCode errorCode = CommonErrorCode.DATABASE_ERROR;
         log.error("DataAccessException: {}", e.getMessage(), e);
 
         // ErrorResponse 객체 생성
-        ErrorResponse errorResponse = new ErrorResponse(errorCode.getCode(), errorCode.getMessage());
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(errorCode.getCode(), errorCode.getMessage());
 
-        return new ResponseEntity<>(errorResponse, errorCode.getHttpStatus());
+        return new ResponseEntity<>(errorResponseDto, errorCode.getHttpStatus());
     }
 
     /**
@@ -116,24 +117,24 @@ public class ExceptionHandlingController {
      * @return ErrorResponse를 담은 ResponseEntity
      */
     //@ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGeneralException(Exception e) {
+    public ResponseEntity<ErrorResponseDto> handleGeneralException(Exception e) {
         CommonErrorCode errorCode = CommonErrorCode.INTERNAL_SERVER_ERROR;
         log.error("Unhandled exception: {}", e.getMessage(), e);
 
         // ErrorResponse 객체 생성
-        ErrorResponse errorResponse = new ErrorResponse(errorCode.getCode(), errorCode.getMessage());
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(errorCode.getCode(), errorCode.getMessage());
 
-        return new ResponseEntity<>(errorResponse, errorCode.getHttpStatus());
+        return new ResponseEntity<>(errorResponseDto, errorCode.getHttpStatus());
     }
 
     @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<ErrorResponse> handleUnauthorizedException(UnauthorizedException e) {
+    public ResponseEntity<ErrorResponseDto> handleUnauthorizedException(UnauthorizedException e) {
         CommonErrorCode errorCode = e.getErrorCode();
         log.error("UnauthorizedException: {}", e.getMessage(), e);
 
-        ErrorResponse errorResponse = new ErrorResponse(errorCode.getCode(), e.getMessage());
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(errorCode.getCode(), e.getMessage());
 
-        return new ResponseEntity<>(errorResponse, errorCode.getHttpStatus());
+        return new ResponseEntity<>(errorResponseDto, errorCode.getHttpStatus());
     }
 
     /**
@@ -143,15 +144,52 @@ public class ExceptionHandlingController {
      * @return ErrorResponse를 담은 ResponseEntity
      */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+    public ResponseEntity<ErrorResponseDto> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
         CommonErrorCode errorCode = CommonErrorCode.INVALID_ARGUMENT_ERROR;
 
         String message = String.format("'%s' 파라미터의 타입이 잘못되었습니다. 예상 타입: %s", e.getName(), e.getRequiredType().getSimpleName());
 
         log.error("MethodArgumentTypeMismatchException: {}", message, e);
 
-        ErrorResponse errorResponse = new ErrorResponse(errorCode.getCode(), message);
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(errorCode.getCode(), message);
 
-        return new ResponseEntity<>(errorResponse, errorCode.getHttpStatus());
+        return new ResponseEntity<>(errorResponseDto, errorCode.getHttpStatus());
+    }
+
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ErrorResponseDto> handleIllegalStateException(IllegalStateException e) {
+        CommonErrorCode errorCode = CommonErrorCode.INVALID_ARGUMENT_ERROR;
+        log.error("IllegalStateException: {}", e.getMessage(), e);
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(errorCode.getCode(), e.getMessage());
+        return new ResponseEntity<>(errorResponseDto, errorCode.getHttpStatus());
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> handleEntityNotFoundException(EntityNotFoundException e) {
+        CommonErrorCode errorCode = CommonErrorCode.ADMIN_USERNAME_NOT_FOUND_ERROR;
+        log.error("EntityNotFoundException: {}", e.getMessage(), e);
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(errorCode.getCode(), e.getMessage());
+        return new ResponseEntity<>(errorResponseDto, errorCode.getHttpStatus());
+    }
+
+    /**
+     * 이메일 서비스 관련 예외 처리
+     */
+    @ExceptionHandler({EmailSendException.class, VerificationException.class})
+    public ResponseEntity<ErrorResponseDto> handleEmailServiceException(FileServiceException e) {
+        ErrorCode errorCode = e.getErrorCode();
+        log.error("EmailServiceException: {}", e.getMessage(), e);
+        
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(errorCode.getCode(), e.getMessage());
+        
+        // 추가 정보가 있다면 포함
+        if (e instanceof VerificationException) {
+            Map<String, String> details = new HashMap<>();
+            details.put("verificationStatus", "failed");
+            errorResponseDto.setValidation(details);
+        }
+        
+        return new ResponseEntity<>(errorResponseDto, errorCode.getHttpStatus());
     }
 }

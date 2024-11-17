@@ -1,22 +1,36 @@
 package jeiu.capstone.jongGangHaejo.controller.exception;
 
+import jeiu.capstone.jongGangHaejo.annotation.WithMockCustomUser;
+import jeiu.capstone.jongGangHaejo.config.SecurityTestConfig;
 import jeiu.capstone.jongGangHaejo.controller.PostController;
+import jeiu.capstone.jongGangHaejo.domain.user.Role;
+import jeiu.capstone.jongGangHaejo.domain.user.User;
 import jeiu.capstone.jongGangHaejo.dto.request.PostCreateDto;
 import jeiu.capstone.jongGangHaejo.exception.InvalidFileNameException;
+import jeiu.capstone.jongGangHaejo.security.config.SecurityConfig;
+import jeiu.capstone.jongGangHaejo.security.config.UserConfig;
 import jeiu.capstone.jongGangHaejo.service.FileService;
 import jeiu.capstone.jongGangHaejo.service.PostService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
@@ -26,6 +40,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(PostController.class)
+@Import(SecurityTestConfig.class)
+@WithMockCustomUser
 class ExceptionHandlingControllerTest {
 
     @Autowired
@@ -41,7 +57,6 @@ class ExceptionHandlingControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    @WithMockUser
     void createPost_Success() throws Exception {
         // given
         PostCreateDto dto = new PostCreateDto();
@@ -91,7 +106,6 @@ class ExceptionHandlingControllerTest {
     }
 
     @Test
-    @WithMockUser
     void createPost_FileServiceThrowsException_ShouldReturnErrorResponse() throws Exception {
         // given
         PostCreateDto dto = new PostCreateDto();

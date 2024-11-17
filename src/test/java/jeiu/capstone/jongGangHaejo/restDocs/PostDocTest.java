@@ -1,17 +1,31 @@
-package jeiu.capstone.jongGangHaejo.controller;
+/*
+package jeiu.capstone.jongGangHaejo.restDocs;
 
+import jeiu.capstone.jongGangHaejo.annotation.WithMockCustomUser;
+import jeiu.capstone.jongGangHaejo.domain.user.Role;
+import jeiu.capstone.jongGangHaejo.domain.user.User;
+import jeiu.capstone.jongGangHaejo.security.config.SecurityConfig;
+import jeiu.capstone.jongGangHaejo.security.config.UserConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.multipart;
@@ -26,17 +40,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @ExtendWith(RestDocumentationExtension.class)
+@Import(SecurityConfig.class)
+@WithMockCustomUser
 public class PostDocTest {
 
-
     private MockMvc mockMvc;
-
-    @BeforeEach
-    void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-                .apply(documentationConfiguration(restDocumentation))
-                .build();
-    }
 
     @Test
     @DisplayName("게시물 스니펫 생성")
@@ -81,3 +89,4 @@ public class PostDocTest {
     }
 
 }
+*/

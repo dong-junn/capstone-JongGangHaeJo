@@ -36,16 +36,20 @@ public class File {
     @Column(name = "file_size")
     private Long fileSize;  // 파일 크기 (KB 또는 MB)
 
+    @Column(name = "thumbnail_path", length = 1024)  // 썸네일 경로 필드 추가
+    private String thumbnailPath;  // 썸네일 이미지의 S3 경로(URL)
+
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();  // 파일 업로드 시간
 
     // 빌더 패턴을 사용한 생성자
     @Builder
-    public File(String fileName, String s3Path, String fileType, Long fileSize) {
+    public File(String fileName, String s3Path, String fileType, Long fileSize, String thumbnailPath) {
         this.fileName = fileName;
         this.s3Path = s3Path;
         this.fileType = fileType;
         this.fileSize = fileSize;
+        this.thumbnailPath = thumbnailPath;
     }
 
     // 기타 메서드들 추가 가능 (예: 업데이트 시 메서드 등)
