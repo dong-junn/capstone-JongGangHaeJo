@@ -13,6 +13,8 @@ body {
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
+    padding-bottom: 60px;
+    position: relative;
 }
 
 /* Header Styling */
@@ -31,7 +33,8 @@ body {
 
 /* Navigation Bar */
 .admin-nav {
-    width: 50%; /* 네비게이션 바 너비를 줄여 중앙에 위치 */
+    width: 50%;
+    /* 네비게이션 바 너비를 줄여 중앙에 위치 */
     background: #333;
     color: white;
     padding: 10px 0;
@@ -78,17 +81,17 @@ body {
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 80%;
-    max-width: 800px;
+    width: 95%;
+    max-width: 1200px;
     padding: 20px;
     text-align: center;
+    margin: 0 auto 20px;
 }
 
 /* User List Styling */
 .user-list-container {
-    overflow-x: auto;
-    display: flex;
-    justify-content: center;
+    margin: 20px 0;
+    width: 100%;
 }
 
 .user-list {
@@ -99,17 +102,98 @@ body {
 }
 
 .user {
-    background: #f9f9f9;
-    padding: 15px;
-    border-radius: 5px;
-    width: 220px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    background: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 8px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 15% 20% 30% 20% 15%;
+    align-items: center;
+    gap: 10px;
 }
 
 .user p {
-    font-size: 16px;
-    color: #333;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    padding-right: 10px;
+}
+
+.user-info {
+    flex-grow: 1;
+}
+
+.user-actions {
+    margin-left: 15px;
+    margin-top: 0;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    width: auto;
+    min-width: 60px;
+    justify-self: center;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+.skeleton-user-card {
+    background: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 15% 20% 30% 20% 15%;
+    align-items: center;
+    gap: 10px;
+}
+
+.skeleton-user-card .skeleton-text {
+    height: 16px;
+    border-radius: 4px;
+}
+
+.skeleton-user-card .skeleton-button {
+    width: 60px;
+    height: 32px;
+    border-radius: 4px;
+    justify-self: center;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0 30px;
+}
+
+.pagination button {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.pagination button.active {
+    background: #ff6347;
+    color: white;
+    border-color: #ff6347;
 }
 
 /* Button Styling */
@@ -129,40 +213,12 @@ body {
     background: #e55330;
 }
 
-.edit-btn {
-    background: #ffb347;
-}
-
-.edit-btn:hover {
-    background: #e59930;
-}
-
 .delete-btn {
     background: #ff6347;
 }
 
 .delete-btn:hover {
     background: #e55330;
-}
-
-/* Edit Form Styling */
-.edit-form {
-    display: none;
-    margin-top: 10px;
-}
-
-.edit-form label {
-    display: block;
-    font-size: 14px;
-    margin-top: 5px;
-}
-
-.edit-form input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ddd;
-    border-radius: 3px;
 }
 
 /* Footer Styling */
@@ -172,7 +228,110 @@ body {
     width: 100%;
     text-align: center;
     padding: 10px 0;
+    height: 40px;
     position: fixed;
     bottom: 0;
     left: 0;
+}
+
+/* 검색 컨테이너 스타일 */
+.search-container {
+    margin: 15px 0;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.search-container input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 200px;
+}
+
+.search-container button {
+    padding: 8px 16px;
+    background-color: #ff6347;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.search-container button:hover {
+    background-color: #ff5335;
+}
+
+.search-container button:nth-child(3) {
+    background-color: #6c757d;
+}
+
+.search-container button:nth-child(3):hover {
+    background-color: #5a6268;
+}
+
+/* 검색 결과 없음 메시지 스타일 */
+.no-results {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-size: 16px;
+}
+
+/* 전체 래퍼 패딩 조정 */
+.wrap {
+    padding: 15px;
+    max-width: 900px;
+}
+
+/* 제목 여백 조정 */
+.wrap h1 {
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+/* 스켈레톤 UI 스타일 수정 */
+.skeleton-user-card {
+    background: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 15% 20% 30% 20% 15%;
+    align-items: center;
+    gap: 10px;
+}
+
+.skeleton-user-card .skeleton-text {
+    height: 16px;
+    border-radius: 4px;
+}
+
+.skeleton-user-card .skeleton-button {
+    width: 60px;
+    height: 32px;
+    border-radius: 4px;
+    justify-self: center;
+}
+
+/* 기존 스켈레톤 애니메이션 유지 */
+.skeleton {
+    background: linear-gradient(90deg,
+            #f0f0f0 25%,
+            #e0e0e0 50%,
+            #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
 }

@@ -1,81 +1,49 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <title>사용자 관리 페이지</title>
     <link rel="stylesheet" href="/front-end/static/css/userAdmin.css">
-    <script src="https://kit.fontawesome.com/fff8ef1317.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/front-end/static/css/skeleton.css">
+    <script src="/front-end/static/js/api.js" defer></script>
+    <script src="/front-end/static/js/userAdmin.js" defer></script>
+    <script src="/front-end/static/js/common/skeleton.js"></script>
 </head>
+
 <body>
-    <!-- 헤더 -->
     <div class="header-container">
         <h1>JEIU CAPSTONE 관리자 페이지</h1>
     </div>
 
-    <!-- 네비게이션 바 -->
     <div class="admin-nav">
         <ul>
             <li><a href="/front-end/templates/board/project/modify.html">프로젝트 관리</a></li>
             <li><a href="/front-end/templates/board/notice/noticeRegister.html">공지사항 관리</a></li>
-            <li><a href="/front-end/templates/board/user/userAdmin.html">회원 관리</a></li>
+            <li><a href="/front-end/templates/user/login/userAdmin.html">회원 관리</a></li>
         </ul>
     </div>
 
-    <!-- 사용자 관리 메인 콘텐츠 -->
     <div id="userAdmin">
         <div class="wrap">
             <h1>사용자 관리 페이지</h1>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="사용자 ID 검색">
+                <button onclick="searchUser()">검색</button>
+                <button onclick="resetSearch()">초기화</button>
+            </div>
             <div class="user-list-container">
                 <div class="user-list">
-                    <!-- 사용자 목록 예시 -->
-                    <div class="user">
-                        <p>사용자 ID: user1</p>
-                        <button class="admin-btn edit-btn" onclick="editUser('user1')">사용자 편집</button>
-                        <button class="admin-btn delete-btn" onclick="deleteUser('user1')">사용자 삭제</button>
-                        <div class="edit-form" id="edit-form-user1">
-                            <label for="email-user1">이메일</label>
-                            <input type="email" id="email-user1">
-                            <label for="phone-user1">전화번호</label>
-                            <input type="text" id="phone-user1">
-                            <button class="admin-btn save-btn" onclick="saveChanges('user1')">저장</button>
-                        </div>
-                    </div>
-                    <!-- 추가 사용자 항목 -->
-                    <div class="user">
-                        <p>사용자 ID: user1</p>
-                        <button class="admin-btn edit-btn" onclick="editUser('user1')">사용자 편집</button>
-                        <button class="admin-btn delete-btn" onclick="deleteUser('user1')">사용자 삭제</button>
-                        <div class="edit-form" id="edit-form-user1">
-                            <label for="email-user1">이메일</label>
-                            <input type="email" id="email-user1">
-                            <label for="phone-user1">전화번호</label>
-                            <input type="text" id="phone-user1">
-                            <button class="admin-btn save-btn" onclick="saveChanges('user1')">저장</button>
-                        </div>
-                    </div>
-                    <div class="user">
-                        <p>사용자 ID: user1</p>
-                        <button class="admin-btn edit-btn" onclick="editUser('user1')">사용자 편집</button>
-                        <button class="admin-btn delete-btn" onclick="deleteUser('user1')">사용자 삭제</button>
-                        <div class="edit-form" id="edit-form-user1">
-                            <label for="email-user1">이메일</label>
-                            <input type="email" id="email-user1">
-                            <label for="phone-user1">전화번호</label>
-                            <input type="text" id="phone-user1">
-                            <button class="admin-btn save-btn" onclick="saveChanges('user1')">저장</button>
-                        </div>
-                    </div>
-                    
+                    <!-- 사용자 목록이 동적으로 추가됨 -->
                 </div>
             </div>
+            <div class="pagination"></div>
         </div>
     </div>
 
-    <!-- 푸터 -->
     <div class="footer-container">
         <p>&copy; JEIU 재능대학교</p>
     </div>
-
-    <script src="/front-end/static/js/userAdmin.js" defer></script>
 </body>
+
 </html>
