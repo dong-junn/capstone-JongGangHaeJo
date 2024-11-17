@@ -633,26 +633,17 @@ main {
 
 /* 프로젝트 포스터 이미지 스타일 */
 #projectPoster {
-    max-width: 100%;
-    /* 컨테이너 너비를 넘지 않도록 */
+    width: 100%;
     height: auto;
-    /* 비율 유지 */
-    max-height: 500px;
-    /* 최대 높이 제한 */
-    object-fit: contain;
-    /* 비율을 유지하면서 컨테이너에 맞춤 */
     display: block;
-    /* 마진 auto 적용을 위해 */
-    margin: 0 auto;
-    /* 가운데 정렬 */
+    margin: 20px auto;
     border-radius: 8px;
-    /* 모서리 둥글게 */
+    object-fit: cover;
 }
 
 /* 반응형 처리 */
 @media (max-width: 768px) {
     #projectPoster {
-        max-height: 300px;
-        /* 모바일에서는 더 작게 */
+        margin: 10px auto;
     }
 }
