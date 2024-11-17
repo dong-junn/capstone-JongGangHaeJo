@@ -10,6 +10,7 @@
     <script src="/front-end/static/js/includeHtml.js" defer></script>
     <script src="/front-end/static/js/detail.js" defer></script>
     <script src="/front-end/static/js/api.js" defer></script>
+    <script src="/front-end/static/js/auth.js" defer></script>
 </head>
 
 <body>
@@ -17,20 +18,17 @@
 
     <main>
         <!-- 프로젝트 상세정보 -->
-            <section class="project-detail">
-                <h1>제목이 입력됩니다.</h1>
-                <div class="project-header">
-                    <div class="project-meta">
-                        <span><i class="fas fa-users"></i> 팀명: 팀 이름</span>
-                        <span><i class="fas fa-user"></i> 작성자: 작성자 이름</span>
-                        <span><i class="fas fa-calendar"></i> 등록일: 2024-06-01</span>
-                        <span><i class="fas fa-eye"></i> 조회수: 150</span>
-                    </div>
-                    <div class="project-actions-buttons">
-                        <button class="edit-button" onclick="location.href='ProjectModify.html'">수정</button>
-                        <button class="delete-button" onclick="deletePost()">삭제</button>
-                    </div>
+        <section class="project-detail">
+            <h1>제목이 입력됩니다.</h1>
+            <div class="project-header">
+                <div class="project-meta">
+                    <span><i class="fas fa-users"></i> 팀명: 팀 이름</span>
+                    <span><i class="fas fa-user"></i> 작성자: 작성자 이름</span>
+                    <span><i class="fas fa-calendar"></i> 등록일: 2024-06-01</span>
+                    <span><i class="fas fa-eye"></i> 조회수: 150</span>
                 </div>
+                <div class="project-actions-buttons"></div>
+            </div>
             <!-- 작품 개요, 팀명, 발표 자료 -->
             <div class="project-extra-info">
                 <h2>작품 개요</h2>
@@ -48,14 +46,23 @@
                     allowfullscreen></iframe>
             </div>
 
+            <!-- 첨부파일 섹션 -->
+            <div class="project-attachments">
+                <h2>첨부파일</h2>
+                <div class="attachments-list" id="attachmentsList">
+                    <!-- 첨부파일 목록이 여기에 동적으로 추가됨 -->
+                </div>
+            </div>
+
             <!-- 좋아요 및 댓글 아이콘 섹션 -->
             <div class="project-actions">
                 <span>
-                    <i class="fas fa-comment" style="color: #007bff;"></i> <span id="commentNum">0</span>개
+                    <i class="fas fa-comment" style="color: #007bff;"></i> <span id="commentNum">0</span>
                 </span>
-                <span id="likeCount" onclick="increaseLike()">
-                    <i class="fas fa-heart" style="color: #ff6b6b;"></i> <span id="likeNum">0</span>개
-                </span>
+                <button class="like-button" onclick="toggleLike()">
+                    <i class="fas fa-heart"></i>
+                    <span id="likeNum">0</span>
+                </button>
             </div>
 
             <!-- 댓글 섹션 -->

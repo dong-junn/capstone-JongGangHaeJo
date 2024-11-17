@@ -15,7 +15,19 @@ async function loadProjects() {
         projects.forEach(project => {
             const thumbnail = document.createElement('div');
             thumbnail.className = 'thumbnail';
-            thumbnail.innerHTML = `<img src="${project.imageUrl}" alt="${project.title}">`;
+            
+            // 썸네일 URL 결정 로직
+            const thumbnailImage = project.files?.find(file => file.thumbnailUrl)?.thumbnailUrl || '/front-end/static/img/default-thumbnail.jpg';
+            
+            thumbnail.innerHTML = `
+                <a href="/front-end/templates/board/project/detail.html?id=${project.id}">
+                    <img src="${thumbnailImage}" alt="${project.title}">
+                    <div class="thumbnail-info">
+                        <h3>${project.title}</h3>
+                        <p>${project.team || '팀 이름'}</p>
+                    </div>
+                </a>
+            `;
             thumbnailsContainer.appendChild(thumbnail);
         });
     } catch (error) {
