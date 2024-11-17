@@ -56,20 +56,20 @@ test {
     outputs.dir snippetsDir
 }
 
-asciidoctor {
-    inputs.dir snippetsDir
-    configurations 'asciidoctorExt'
-    dependsOn test
-}
-
-bootJar {
-    dependsOn asciidoctor
-
-    copy {
-        from asciidoctor.outputDir
-        into "src/main/resources/static/docs"
-    }
-}
+//asciidoctor {
+//    inputs.dir snippetsDir
+//    configurations 'asciidoctorExt'
+//    dependsOn test
+//}
+//
+//bootJar {
+//    dependsOn asciidoctor
+//
+//    copy {
+//        from asciidoctor.outputDir
+//        into "src/main/resources/static/docs"
+//    }
+//}
 //REST Docs
 
 repositories {
