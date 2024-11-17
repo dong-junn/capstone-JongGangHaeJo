@@ -78,6 +78,56 @@ body {
     cursor: pointer;
     font-size: 14px;
 }
+/* 인증코드 입력란 */
+.verification-input-group {
+    display: flex;
+    gap: 10px; /* 입력 필드와 버튼 사이 간격 */
+}
+
+#verification-code {
+    flex: 1; /* 입력 필드가 가능한 공간을 차지 */
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.verify-btn {
+    background-color: #007bff; /* 파란색 배경 */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.verify-btn:hover {
+    background-color: #0056b3; /* 어두운 파란색으로 변경 */
+}
+
+.timer {
+    font-size: 14px;
+    color: #ff6347; /* 타이머 강조 */
+    align-self: center;
+}
+
+/* 메시지 스타일 */
+.verification-message {
+    display: block;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.verification-message.success {
+    color: #4CAF50; /* 성공 메시지: 초록색 */
+}
+
+.verification-message.error {
+    color: #ff6347; /* 오류 메시지: 빨간색 */
+}
 
 /* Submit Button */
 .submit-button {

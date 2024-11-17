@@ -62,13 +62,14 @@ body{
 
 .thumbnail h3 {
     margin: 10px 0;
+    
     font-size: 18px;
     color: #333;
 }
 
 .more-button {
     display: inline-block;
-    padding: 20px 800px; /* 버튼 크기 증가 */
+    padding: 20px 150px; /* 버튼 크기 증가 */
     background-color: #333;
     color: #fff;
     border: none;
