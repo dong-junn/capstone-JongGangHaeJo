@@ -28,70 +28,38 @@ public class AdminUserRepositoryCustomImpl implements AdminUserRepositoryCustom 
     public Page<User> findBySearchCondition(UserSearchCondition condition, Pageable pageable) {
         QUser user = QUser.user;
 
-        // 숫자 부분만 추출하여 정수로 변환
-        NumberExpression<Integer> numericPart = Expressions.numberTemplate(Integer.class,
-                "CAST(SUBSTRING({0}, LOCATE('user', {0}) + 4) AS INTEGER)", user.id);
+        // 검색 조건 적용
+        BooleanExpression searchCondition = createSearchCondition(condition);
 
-        // 페이징된 User ID 목록 조회
-        List<String> ids = queryFactory
-                .select(user.id)
-                .from(user)
-                .where(idContains(condition.getId()))
-                .orderBy(getOrderSpecifiersWithNumericSort(pageable, numericPart))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        if (ids.isEmpty()) {
-            return new PageImpl<>(Collections.emptyList(), pageable, 0);
-        }
-
-        // ID 목록으로 User 엔티티와 연관된 데이터 조회
+        // 페이징된 User 목록 조회
         List<User> content = queryFactory
                 .selectFrom(user)
                 .leftJoin(user.roles).fetchJoin()
-                .where(user.id.in(ids))
-                .orderBy(getOrderSpecifiersWithNumericSort(pageable, numericPart))
+                .where(searchCondition)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(user.id.asc())
                 .fetch();
 
         // 전체 개수 조회
         Long total = queryFactory
                 .select(user.count())
                 .from(user)
-                .where(idContains(condition.getId()))
+                .where(searchCondition)
                 .fetchOne();
 
-        return new PageImpl<>(content, pageable, total != null ? total : 0L);
+        return new PageImpl<>(content, pageable, total != null ? total : 0);
     }
 
-    private OrderSpecifier<?>[] getOrderSpecifiersWithNumericSort(Pageable pageable, NumberExpression<Integer> numericPart) {
+    private BooleanExpression createSearchCondition(UserSearchCondition condition) {
         QUser user = QUser.user;
-        List<OrderSpecifier<?>> orders = new ArrayList<>();
+        BooleanExpression expression = null;
 
-        if (pageable.getSort().isEmpty()) {
-            orders.add(new OrderSpecifier<>(Order.ASC, numericPart));
-        } else {
-            for (Sort.Order order : pageable.getSort()) {
-                Order direction = order.getDirection().isAscending() ? Order.ASC : Order.DESC;
-
-                switch (order.getProperty()) {
-                    case "id":
-                        orders.add(new OrderSpecifier<>(direction, numericPart));
-                        break;
-                    case "name":
-                        orders.add(new OrderSpecifier<>(direction, user.name));
-                        break;
-                    default:
-                        orders.add(new OrderSpecifier<>(Order.ASC, numericPart));
-                        break;
-                }
-            }
+        // ID 검색 조건
+        if (condition != null && condition.getId() != null && !condition.getId().trim().isEmpty()) {
+            expression = user.id.containsIgnoreCase(condition.getId().trim());
         }
 
-        return orders.toArray(new OrderSpecifier[0]);
-    }
-
-    private BooleanExpression idContains(String id) {
-        return StringUtils.hasText(id) ? QUser.user.id.contains(id) : null;
+        return expression;
     }
 }
