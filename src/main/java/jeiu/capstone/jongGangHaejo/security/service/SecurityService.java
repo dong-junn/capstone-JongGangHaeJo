@@ -1,13 +1,17 @@
 package jeiu.capstone.jongGangHaejo.security.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import jeiu.capstone.jongGangHaejo.domain.user.Role;
 import jeiu.capstone.jongGangHaejo.domain.user.User;
 import jeiu.capstone.jongGangHaejo.dto.form.user.SignUpDto;
+import jeiu.capstone.jongGangHaejo.exception.VerificationException;
 import jeiu.capstone.jongGangHaejo.exception.common.CommonErrorCode;
 import jeiu.capstone.jongGangHaejo.exception.UnauthorizedException;
+import jeiu.capstone.jongGangHaejo.repository.EmailVerificationRepository;
 import jeiu.capstone.jongGangHaejo.repository.UserRepository;
 import jeiu.capstone.jongGangHaejo.security.dto.LoginDto;
 import jeiu.capstone.jongGangHaejo.security.jwt.JwtUtil;
+import jeiu.capstone.jongGangHaejo.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,14 +29,23 @@ public class SecurityService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
     private final JwtUtil jwtUtil;
+    private final EmailVerificationRepository verificationRepository;
 
     @Transactional
     public User createUser(SignUpDto form) {
+        //이메일 인증 확인
+        boolean isVerified = verificationRepository.existsByEmailAndVerifiedTrue(form.getEmail());
+        if (!isVerified) {
+            throw new VerificationException("이메일 인증이 완료되지 않았습니다.");
+        }
+
         User user = User.builder()
                 .id(form.getId())
                 .password(passwordEncoder.encode(form.getPassword()))
                 .name(form.getUsername())
+                .email(form.getEmail())
                 .roles(Collections.singleton(Role.ROLE_USER))
                 .build();
 
@@ -60,5 +74,72 @@ public class SecurityService {
             user.getName(), 
             authorities
         );
+    }
+
+    public String findUserId(String name, String email) {
+        return userRepository.findByNameAndEmail(name, email)
+                .map(User::getId)
+                .orElseThrow(() -> new EntityNotFoundException("일치하는 회원 정보가 없습니다."));
+    }
+
+    @Transactional
+    public void requestPasswordReset(String id, String email) {
+        User user = userRepository.findByIdAndEmail(id, email)
+                .orElseThrow(() -> new EntityNotFoundException("일치하는 회원 정보가 없습니다."));
+        
+        emailService.sendVerificationEmail(email); // 기존 이메일 인증 로직 재사용
+    }
+
+    @Transactional
+    public String verifyPasswordResetCode(String id, String email, String code) {
+        // 사용자 확인
+        User user = userRepository.findByIdAndEmail(id, email)
+                .orElseThrow(() -> new EntityNotFoundException("일치하는 회원 정보가 없습니다."));
+
+        // 인증 코드 확인
+        boolean verified = emailService.verifyEmail(email, code);
+        if (!verified) {
+            throw new VerificationException("인증에 실패했습니다.");
+        }
+
+        // 비밀번호 재설정용 토큰 생성 (짧은 유효기간 설정)
+        return jwtUtil.generatePasswordResetToken(id);
+    }
+
+    @Transactional
+    public void resetPassword(String token, String newPassword) {
+        // 토큰 검증 및 사용자 ID 추출
+        String userId = jwtUtil.validatePasswordResetTokenAndGetUserId(token);
+        
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("사용자를 찾을 수 없습니다."));
+                
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public void requestFindId(String email) {
+        // 사용자 존재 여부 확인
+        userRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("일치하는 회원 정보가 없습니다."));
+        
+        // 인증 코드 발송
+        emailService.sendVerificationEmail(email);
+    }
+
+    @Transactional
+    public String verifyAndFindId(String email, String code) {
+        // 사용자 확인
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("일치하는 회원 정보가 없습니다."));
+
+        // 인증 코드 확인
+        boolean verified = emailService.verifyEmail(email, code);
+        if (!verified) {
+            throw new VerificationException("인증에 실패했습니다.");
+        }
+
+        return user.getId();
     }
 }
