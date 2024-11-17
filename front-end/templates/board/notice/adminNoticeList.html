@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="ko">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>JEIU 캡스톤 프로젝트 - 공지사항 관리</title>
-        <link rel="stylesheet" href="/front-end/static/css/adminNoticeList.css">
-        <script src="/front-end/static/js/api.js" defer></script>
-        <script src="/front-end/static/js/adminNoticeList.js" defer></script>
-    </head>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEIU 캡스톤 프로젝트 - 공지사항 관리</title>
+    <link rel="stylesheet" href="/front-end/static/css/adminNoticeList.css">
+    <script src="/front-end/static/js/api.js" defer></script>
+    <script src="/front-end/static/js/adminNoticeList.js" defer></script>
+</head>
+
 <body>
     <!-- 헤더 -->
     <div class="header-container">
@@ -27,16 +29,15 @@
         <section class="notice-section">
             <h1>공지사항 관리</h1>
             <div class="button-container">
-                <button class="register-button" onclick="location.href='/front-end/templates/board/notice/noticeRegister.html'">공지사항 등록</button>
+                <button class="register-button"
+                    onclick="location.href='/front-end/templates/board/notice/noticeRegister.html'">공지사항 등록</button>
             </div>
             <table class="notice-list" id="notice-list">
                 <thead>
                     <tr>
                         <th>번호</th>
                         <th>제목</th>
-                        <th>첨부</th>
                         <th>작성일</th>
-                        <th>조회</th>
                         <th>관리</th>
                     </tr>
                 </thead>
@@ -44,7 +45,7 @@
                     <!-- 공지사항 항목이 동적으로 추가됩니다 -->
                 </tbody>
             </table>
-            
+
             <!-- Pagination 컨테이너 추가 -->
             <div class="pagination"></div>
         </section>
@@ -54,4 +55,5 @@
         <p>&copy; JEIU 재능대학교</p>
     </div>
 </body>
+
 </html>
