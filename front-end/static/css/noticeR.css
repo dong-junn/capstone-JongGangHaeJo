@@ -31,7 +31,8 @@ body {
 
 /* Navigation Bar */
 .admin-nav {
-    width: 60%; /* 네비게이션 바 너비 조정 */
+    width: 60%;
+    /* 네비게이션 바 너비 조정 */
     background: #333;
     color: white;
     padding: 10px 0;
@@ -66,41 +67,54 @@ body {
 
 /* Notice Register Section */
 .register-section {
-    background: #ffffff;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 90%; /* 페이지 너비에 맞춰 넓게 설정 */
-    max-width: 800px;
-    margin: 20px auto; /* 중앙 배치 */
+    width: 100%;
+    max-width: 1400px;
+    margin: 20px auto;
+    background: white;
+    padding: 40px 60px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .register-section h1 {
-    text-align: center;
     color: #333;
     margin-bottom: 30px;
+    text-align: center;
+    font-size: 28px;
 }
 
 /* Form Group */
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .form-group label {
     display: block;
-    font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    color: #555;
+    font-size: 16px;
+    font-weight: 500;
 }
 
 .form-group input[type="text"],
-.form-group textarea,
-.form-group input[type="file"] {
+.form-group textarea {
     width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    padding: 15px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
     font-size: 16px;
-    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+    border-color: #ff6347;
+    outline: none;
+}
+
+.form-group textarea {
+    min-height: 300px;
+    resize: vertical;
 }
 
 /* Submit Button */
@@ -110,10 +124,11 @@ body {
     background-color: #ff6347;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 18px;
+    font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease;
     margin-top: 20px;
 }
 
@@ -131,4 +146,21 @@ body {
     position: fixed;
     bottom: 0;
     left: 0;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1024px) {
+    .register-section {
+        padding: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .register-section {
+        padding: 20px;
+    }
+
+    .form-group textarea {
+        min-height: 200px;
+    }
 }
