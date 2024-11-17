@@ -3,6 +3,8 @@ package jeiu.capstone.jongGangHaejo.security.jwt;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import jeiu.capstone.jongGangHaejo.exception.UnauthorizedException;
+import jeiu.capstone.jongGangHaejo.exception.common.CommonErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -92,5 +94,33 @@ public class JwtUtil {
     private SecretKey getSigningKey() {
         byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    // 비밀번호 재설정 토큰 생성 (30분 유효)
+    public String generatePasswordResetToken(String userId) {
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + 1000 * 60 * 30); // 30분
+
+        return Jwts.builder()
+                .subject(userId)
+                .issuedAt(now)
+                .expiration(validity)
+                .signWith(getSigningKey(), Jwts.SIG.HS256)
+                .compact();
+    }
+
+    // 비밀번호 재설정 토큰 검증
+    public String validatePasswordResetTokenAndGetUserId(String token) {
+        try {
+            Claims claims = Jwts.parser()
+                    .verifyWith(getSigningKey())
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+            return claims.getSubject();
+        } catch (Exception e) {
+            log.error("비밀번호 재설정 토큰 검증 실패: {}", e.getMessage());
+            throw new UnauthorizedException("유효하지 않은 토큰입니다.", CommonErrorCode.INVALID_TOKEN);
+        }
     }
 }
