@@ -109,12 +109,13 @@ public class AdminPostController {
      */
     @GetMapping("/post")
     public ResponseEntity<PagedResponseDto<PostResponseDto>> getPagedPosts(
-            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "createdAt,desc") String[] sort
     ) {
 //        log.info("페이징된 게시물 조회 요청 / 페이지: {}, 크기: {}, 정렬: {}", page, size, sort);
 
+        int pageNumber = page - 1;
         // 정렬 설정
         Sort.Direction direction = Sort.Direction.DESC;
         String sortBy = "createdAt"; // 기본 정렬 기준 현재는 작성일
@@ -126,11 +127,18 @@ public class AdminPostController {
             sortBy = sort[0];
         }
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+        Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(direction, sortBy));
 
         PagedResponseDto<PostResponseDto> pagedPosts = adminPostService.getPagedPosts(pageable);
 
-        return ResponseEntity.ok(pagedPosts);
+        return ResponseEntity.ok(new PagedResponseDto<>(
+                pagedPosts.getContent(),
+                pagedPosts.getPage() + 1,  // 0부터 시작하는 페이지를 1부터 시작하도록 변환
+                pagedPosts.getSize(),
+                pagedPosts.getTotalElements(),
+                pagedPosts.getTotalPages(),
+                pagedPosts.isLast()
+        ));
     }
 
     @DeleteMapping("/post/{postId}")
