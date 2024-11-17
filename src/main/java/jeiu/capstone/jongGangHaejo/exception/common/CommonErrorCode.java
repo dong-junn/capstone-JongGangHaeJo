@@ -22,6 +22,10 @@ public enum CommonErrorCode implements ErrorCode {
     RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, 4041, "요청한 게시물을 찾을 수 없습니다. 게시물 번호: {0}"),
     LOGIN_ID_NOT_FOUND(HttpStatus.UNAUTHORIZED, 4012, "존재하지 않는 아이디입니다."),
     LOGIN_PASSWORD_INVALID(HttpStatus.UNAUTHORIZED, 4013, "비밀번호가 일치하지 않습니다."),
+    NOT_FOUND(HttpStatus.NOT_FOUND, 404, "존재하지 않는 페이지 또는 컨텐츠 입니다"),
+    METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, 405, "허용되지 않는 http method 입니다"),
+
+    INVALID_TOKEN(HttpStatus.UNAUTHORIZED, 4014, "유효하지 않은 토큰입니다."),
 
     // 5xx Server Errors
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 5001, "서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요."),

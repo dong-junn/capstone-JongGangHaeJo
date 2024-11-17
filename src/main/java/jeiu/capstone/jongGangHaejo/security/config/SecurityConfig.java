@@ -48,8 +48,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() //CORS를 위해 http method options 허용
                         .requestMatchers(HttpMethod.GET, "/post/**").permitAll() // 게시물 조회 허용
                         .requestMatchers("/", "/error", "/favicon.ico", "/email/**", "/notice/**").permitAll() //기본적으로 필요
-                        .requestMatchers("/sign-up").permitAll() //회원가입
-                        .requestMatchers("/sign-in").permitAll() //로그인
+                        .requestMatchers("/auth/**").permitAll() //로그인 관련
                         .requestMatchers("/user").hasRole("USER")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
