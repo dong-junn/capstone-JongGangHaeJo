@@ -19,7 +19,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,6 +42,24 @@ public class SecurityService {
         if (!isVerified) {
             throw new VerificationException("이메일 인증이 완료되지 않았습니다.");
         }
+
+        // ID 중복 검사
+        if (userRepository.findById(form.getId()).isPresent()) {
+            throw new IllegalStateException("이미 사용중인 아이디입니다.");
+        }
+        
+        // 이름 중복 검사
+        if (userRepository.findByName(form.getUsername()).isPresent()) {
+            throw new IllegalStateException("이미 사용중인 이름입니다.");
+        }
+        
+        // 이메일 중복 검사
+        if (userRepository.findByEmail(form.getEmail()).isPresent()) {
+            throw new IllegalStateException("이미 사용중인 이메일입니다.");
+        }
+
+        Set<Role> roles = new HashSet<>();
+        roles.add(Role.ROLE_USER);
 
         User user = User.builder()
                 .id(form.getId())
