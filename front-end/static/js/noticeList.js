@@ -4,25 +4,21 @@ async function loadNotices(currentPage = 1) {
         const response = await fetchWithoutAuth(`/notice?page=${currentPage}`);
         if (response.ok) {
             const noticesData = await response.json();
-            const notices = noticesData.content; // 공지사항 데이터 배열
+            const notices = noticesData.content;
             const noticeList = document.querySelector('#notice-list tbody');
-            noticeList.innerHTML = ''; // 기존 항목 초기화
+            noticeList.innerHTML = '';
 
-            // 공지사항 리스트 동적 생성
             notices.forEach((notice, index) => {
                 const noticeRow = document.createElement('tr');
-                noticeRow.className = 'notice-item'; // CSS 클래스 적용
+                noticeRow.className = 'notice-item';
                 noticeRow.innerHTML = `
                     <td>${index + 1 + (currentPage - 1) * noticesData.size}</td>
-                    <td><a href="/notice/${notice.id}">${notice.title}</a></td>
-                    <td>${notice.hasAttachment ? '<i class="file-icon"></i>' : ''}</td>
-                    <td>${notice.createdAt}</td>
-                    <td>${notice.viewCount}</td>
+                    <td><a href="/front-end/templates/board/notice/noticeDetail.html?id=${notice.id}">${notice.title}</a></td>
+                    <td>${notice.createdAt ? new Date(notice.createdAt).toLocaleDateString('ko-KR') : '-'}</td>
                 `;
                 noticeList.appendChild(noticeRow);
             });
 
-            // 페이지네이션 로드
             loadPagination(noticesData.totalPages, currentPage);
         } else {
             const errorData = await response.json();
