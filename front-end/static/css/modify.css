@@ -31,7 +31,8 @@ body {
 
 /* Navigation Bar */
 .admin-nav {
-    width: 50%; /* 네비게이션 바 너비를 줄여 중앙에 위치 */
+    width: 50%;
+    /* 네비게이션 바 너비를 줄여 중앙에 위치 */
     background: #333;
     color: white;
     padding: 10px 0;
@@ -63,94 +64,163 @@ body {
     background-color: #ff6347;
     border-radius: 5px;
 }
-/* main 스타일 */
+
+/* main 스타일 수정 */
 main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 50px;
-    margin-bottom: 50px;
-    padding: 20px;
-    max-width: 1200px; /* 최대 너비 설정 */
-    width: 100%;
-    background-color: #2c1717;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 50px auto;
+    padding: 30px;
+    max-width: 1200px;
+    width: 90%;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* 프로젝트 리스트 섹션 스타일 */
+/* 프로젝트 리스트 섹션 스타일 수정 */
 .project-list-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     width: 100%;
-    padding: 40px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
 }
 
 .project-list-section h1 {
     font-size: 28px;
     color: #333;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: 600;
 }
 
-/* 프로젝트 아이템 스타일 */
+/* 프로젝트 리스트 컨테이너 수정 */
+.project-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    width: 100%;
+}
+
+/* 프로젝트 아이템 스타일 수정 */
 .project-item {
-    flex: 1 1 100%; /* 최대 너비를 한 줄로 설정 */
-    margin: 20px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-    max-width: 100%; /* 최대 너비를 100%로 설정 */
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
 }
 
 .project-item:hover {
     transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* 삭제 버튼 스타일 */
-.delete-button {
-    display: inline-block;
-    background-color: #ff6347; /* 주황색 */
+.project-item h3 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.project-item p {
+    color: #666;
+    margin: 8px 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* 프로젝트 액션 버튼 영역 */
+.project-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+/* 보기 버튼 스타일 */
+.view-button {
+    background-color: #4CAF50;
     color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.3s;
-    font-weight: bold;
+    transition: all 0.2s ease;
+}
+
+.view-button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+/* 삭제 버튼 스타일 수정 */
+.delete-button {
+    background-color: #ff4757;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .delete-button:hover {
-    background-color: #e55330;
+    background-color: #ff6b81;
+    transform: scale(1.05);
 }
 
-/* Pagination Styling */
+/* 페이지네이션 스타일 수정 */
 .pagination {
     display: flex;
+    gap: 10px;
+    margin-top: 40px;
     justify-content: center;
-    margin-top: 20px;
+    align-items: center;
 }
 
 .pagination button {
-    background-color: #ff6347;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    margin: 0 5px;
+    background-color: white;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 8px 16px;
+    border-radius: 6px;
     cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+    transition: all 0.2s ease;
+    font-size: 14px;
 }
 
 .pagination button:hover {
-    background-color: #e55330;
+    background-color: #f8f9fa;
+    border-color: #adb5bd;
+}
+
+.pagination button.active {
+    background-color: #ff6347;
+    color: white;
+    border-color: #ff6347;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .project-list {
+        grid-template-columns: 1fr;
+    }
+
+    main {
+        padding: 15px;
+        margin: 30px auto;
+    }
+
+    .project-item {
+        padding: 20px;
+    }
 }
 
 /* Footer Styling */

@@ -1,29 +1,101 @@
-// REST API를 이용해 프로젝트를 수정하는 함수
-async function modifyProject() {
-    const formData = new FormData(document.getElementById('register-form'));
-    // JSON 데이터를 생성하여 폼데이터에 추가
-    const json = {
-        title: document.getElementById('projectName').value,
-        content: document.getElementById('projectDescription').value,
-        team: document.getElementById('teamMem').value,
-        youtubelink: document.getElementById('yt_url').value
-    };
-    formData.append('post', new Blob([JSON.stringify(json)], { type: 'application/json' }));            
+// 프로젝트 목록을 불러오는 함수
+async function loadProjects(currentPage = 1) {
+    skeletonUI.show('.project-list', 'projectCard', 9);
+    
     try {
-        const response = await fetch('http://18.118.128.174:8080/post/update', {
-            method: 'PUT',
-            body: formData
+        const response = await fetchWithAuth(`/admin/post?page=${currentPage}&size=9&sort=createdAt,desc`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
         });
 
         if (response.ok) {
-            window.location.href = '/projectList.html'; // 프로젝트 수정 성공 시 프로젝트 게시판으로 리다이렉트
-        } else {
-            const errorData = await response.json();
-            alert(`프로젝트 수정에 실패했습니다: ${errorData.message}`);
+            const projectsData = await response.json();
+            const projects = projectsData.content;
+            const projectList = document.querySelector('.project-list');
+            
+            skeletonUI.hide('.project-list');
+            projectList.innerHTML = '';
+
+            projects.forEach((project) => {
+                const projectElement = document.createElement('div');
+                projectElement.className = 'project-item';
+                projectElement.innerHTML = `
+                    <h3>${project.title}</h3>
+                    <p>작성자: ${project.username}</p>
+                    <p>팀명: ${project.team}</p>
+                    <p>등록일: ${new Date(project.createdAt).toLocaleDateString('ko-KR')}</p>
+                    <div class="project-actions">
+                        <button class="view-button" onclick="window.open('/front-end/templates/board/project/detail.html?id=${project.id}', '_blank')">보기</button>
+                        <button class="delete-button" onclick="deleteProject(${project.id})">삭제</button>
+                    </div>
+                `;
+                projectList.appendChild(projectElement);
+            });
+
+            updatePagination(projectsData.totalPages, currentPage);
         }
     } catch (error) {
-        console.error('Error modifying project:', error);
-        alert('오류가 발생했습니다. 나중에 다시 시도해주세요.');
+        console.error('Error loading projects:', error);
+        alert('프로젝트 목록을 불러오는 중 오류가 발생했습니다.');
+    } finally {
+        skeletonUI.hide('.project-list');
     }
 }
+
+// 페이지네이션 업데이트 함수
+function updatePagination(totalPages, currentPage) {
+    const paginationContainer = document.querySelector('.pagination');
+    paginationContainer.innerHTML = '';
+
+    if (currentPage > 1) {
+        paginationContainer.appendChild(createPageButton('이전', currentPage - 1));
+    }
+
+    for (let i = 1; i <= totalPages; i++) {
+        paginationContainer.appendChild(createPageButton(i, i, i === currentPage));
+    }
+
+    if (currentPage < totalPages) {
+        paginationContainer.appendChild(createPageButton('다음', currentPage + 1));
+    }
+}
+
+// 페이지네이션 버튼 생성 함수
+function createPageButton(text, pageNum, isActive = false) {
+    const button = document.createElement('button');
+    button.textContent = text;
+    if (isActive) button.className = 'active';
+    button.onclick = () => loadProjects(pageNum);
+    return button;
+}
+
+// 프로젝트 삭제 함수
+async function deleteProject(projectId) {
+    if (!confirm('이 프로젝트를 삭제하시겠습니까?')) return;
+
+    try {
+        const response = await fetchWithAuth(`/admin/post/${projectId}`, {
+            method: 'DELETE'
+        });
+
+        if (response.ok) {
+            alert('프로젝트가 삭제되었습니다.');
+            loadProjects(1);
+        } else {
+            const errorData = await response.json();
+            alert(`삭제 실패: ${errorData.message}`);
+        }
+    } catch (error) {
+        console.error('Error deleting project:', error);
+        alert('프로젝트 삭제 중 오류가 발생했습니다.');
+    }
+}
+
+// 초기 로드
+document.addEventListener('DOMContentLoaded', () => {
+    if (!checkAuth()) return;
+    loadProjects(1);
+});
 
