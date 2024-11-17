@@ -108,6 +108,7 @@ pipeline {
                         sh '''
                             docker push ${ECR_URI}/${ECR_REPO_NAME}:latest
                         '''
+
                 }
             }
         }
