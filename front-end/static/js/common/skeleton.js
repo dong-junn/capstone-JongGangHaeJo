@@ -106,6 +106,15 @@ class SkeletonUI {
                     <div class="skeleton skeleton-title"></div>
                     <div class="skeleton skeleton-text"></div>
                 </div>
+            `,
+            userCard: `
+                <div class="skeleton-user-card">
+                    <div class="skeleton skeleton-text" style="width: 80%"></div>
+                    <div class="skeleton skeleton-text" style="width: 70%"></div>
+                    <div class="skeleton skeleton-text" style="width: 90%"></div>
+                    <div class="skeleton skeleton-text" style="width: 60%"></div>
+                    <div class="skeleton skeleton-button"></div>
+                </div>
             `
         };
     }
