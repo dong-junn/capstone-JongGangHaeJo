@@ -3,11 +3,13 @@ class SkeletonUI {
         this.templates = {
             // 프로젝트 카드용 스켈레톤
             projectCard: `
-                <div class="skeleton-card">
-                    <div class="skeleton skeleton-thumbnail"></div>
+                <div class="skeleton-admin-card">
                     <div class="skeleton skeleton-title"></div>
-                    <div class="skeleton skeleton-text"></div>
-                    <div class="skeleton skeleton-text"></div>
+                    <div class="skeleton-info">
+                        <div class="skeleton skeleton-text" style="width: 150px"></div>
+                        <div class="skeleton skeleton-text" style="width: 120px"></div>
+                        <div class="skeleton skeleton-text" style="width: 180px"></div>
+                    </div>
                     <div class="skeleton skeleton-button"></div>
                 </div>
             `,
