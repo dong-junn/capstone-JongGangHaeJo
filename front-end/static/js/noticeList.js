@@ -16,6 +16,13 @@ async function loadNotices(currentPage = 1) {
                     <td><a href="/front-end/templates/board/notice/noticeDetail.html?id=${notice.id}">${notice.title}</a></td>
                     <td>${notice.createdAt ? new Date(notice.createdAt).toLocaleDateString('ko-KR') : '-'}</td>
                 `;
+                
+                // 행 클릭 이벤트 수정
+                noticeRow.addEventListener('click', () => {
+                    // 절대 경로로 변경
+                    window.location.href = `/front-end/templates/board/notice/noticeDetail.html?id=${notice.id}`;
+                });
+                
                 noticeList.appendChild(noticeRow);
             });
 

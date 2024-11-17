@@ -112,3 +112,12 @@ main {
     color: white;
     border: 1px solid #e55330;
 }
+
+.notice-item {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.notice-item:hover {
+    background-color: #ffe6e6 !important; /* 기존 hover 스타일 유지 */
+}
