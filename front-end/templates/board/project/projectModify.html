@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/front-end/static/css/uploadPro.css">
     <script src="/front-end/static/js/api.js" defer></script>
     <script src="/front-end/static/js/includeHtml.js" defer></script>
-    <script src="/front-end/static/js/projectRegister.js" defer></script>
+    <script src="/front-end/static/js/projectModify.js" defer></script>
 </head>
 
 <body>
@@ -40,10 +40,10 @@
                 </div>
                 <div class="form-group">
                     <label for="poster">썸네일</label>
-                    <input type="file" id="poster" name="files" multiple accept="image/*"
-                        onchange="showThumbnails(this)">
+                    <input type="file" id="poster" name="files" multiple accept="image/*" onchange="showThumbnails(this)">
                 </div>
                 <div id="thumbnail-container" class="thumbnail-container"></div>
+                
                 <button type="button" class="submit-button" onclick="submitProject()">재등록하기</button>
             </form>
         </section>

@@ -1,5 +1,6 @@
 // REST API를 이용해 프로젝트 리스트를 불러오는 함수
 async function loadProjects(currentPage = 1) {
+    skeletonUI.show('.projects-container', 'projectCard', 6);
     try {
         const response = await fetchWithoutAuth(`/post?page=${currentPage}&size=12&sort=createdAt,desc`, {
             method: 'GET',
@@ -8,22 +9,24 @@ async function loadProjects(currentPage = 1) {
             }
         });
         if (response.ok) {
+            skeletonUI.hide('.projects-container');
             const projectsData = await response.json();
             const projects = projectsData.content; // 'content' 배열로 접근
             const projectsContainer = document.querySelector('.projects-container');
             projectsContainer.innerHTML = ''; // 기존 내용을 초기화
 
-            // 프로젝트 리스트 동적 생성
-            projects.forEach((project, index) => {
+            projects.forEach((project) => {
+                const thumbnailImage = project.files?.find(file => file.thumbnailUrl)?.thumbnailUrl || '/front-end/static/img/default-thumbnail.jpg';
+                
                 const projectElement = document.createElement('div');
                 projectElement.className = 'project-info';
                 projectElement.innerHTML = `
                     <a href="../../board/project/detail.html?id=${project.id}">
-                        <img src="${project.imageUrl || 'default-image-url'}" alt="프로젝트 이미지">
+                        <img src="${thumbnailImage}" alt="프로젝트 이미지">
                         <div class="project-details">
                             <h2>${project.title}</h2>
                             <p>팀 명: <span>${project.team}</span></p>
-                            <p>업로드 날짜: <span>${project.createdAt}</span></p>
+                            <p>업로드 날짜: <span>${new Date(project.createdAt).toLocaleDateString('ko-KR')}</span></p>
                             <p>조회수: <span>${project.viewCount}</span></p>
                         </div>
                     </a>
@@ -43,9 +46,10 @@ async function loadProjects(currentPage = 1) {
     } catch (error) {
         console.error('Error loading projects:', error);
         alert(`오류가 발생했습니다: ${error.message}`);
+    } finally {
+        skeletonUI.hide('.projects-container');
     }
 }
-
 // 최상단으로 스크롤하는 함수
 function scrollToTop() {
     window.scrollTo({
