@@ -59,8 +59,8 @@ public class AdminUserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, String>> deleteUser(@PathVariable String id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable String id) {
         adminUserService.deleteUser(id);
-        return ResponseEntity.ok(Map.of("message", "회원이 삭제되었습니다"));
+        return ResponseEntity.ok().build();
     }
 }

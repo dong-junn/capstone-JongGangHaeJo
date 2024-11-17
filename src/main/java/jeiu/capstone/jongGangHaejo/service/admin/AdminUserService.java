@@ -70,8 +70,9 @@ public class AdminUserService {
 
     @Transactional
     public void deleteUser(String id) {
-        Optional<User> findId = Optional.ofNullable(userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("없는 회원 입니다")));
-        userRepository.deleteById(String.valueOf(findId));
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("사용자를 찾을 수 없습니다: " + id));
+        
+        userRepository.delete(user);
     }
 }
