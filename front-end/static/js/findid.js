@@ -11,7 +11,7 @@ async function requestVerificationCode() {
     }
 
     try {
-        const response = await fetchWithoutAuth("/email/verify", {
+        const response = await fetchWithoutAuth("/auth/find-id/request", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -39,12 +39,12 @@ async function verifyCode() {
     const code = document.getElementById('verification-code').value;
 
     if (!email || !code) {
-        alert('이메일과 인증코드를 모두 입력해주세요.');
+        showMessage('이메일과 인증코드를 모두 입력해주세요.', false);
         return;
     }
 
     try {
-        const response = await fetchWithoutAuth("/email/verify/code", {
+        const response = await fetchWithoutAuth("/auth/find-id/verify", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -57,40 +57,12 @@ async function verifyCode() {
             throw new Error(`인증 실패: ${error.message}`);
         }
 
-        isEmailVerified = true;
-        document.querySelector('.submit-button').disabled = false;
-        showMessage('인증이 완료되었습니다.', true);
+        // 서버에서 반환하는 메시지를 verification-message에 표시
+        const message = await response.text();
+        showMessage(message, true);
+
     } catch (error) {
         showMessage(error.message, false);
-    }
-}
-
-// 아이디 찾기 요청
-async function findUserId() {
-    const email = document.getElementById('email').value;
-
-    if (!isEmailVerified) {
-        alert('이메일 인증이 필요합니다.');
-        return;
-    }
-
-    try {
-        const response = await fetchWithoutAuth(`/api/find-id?email=${encodeURIComponent(email)}`, {
-            method: 'GET'
-        });
-
-        const result = await response.json();
-
-        if (response.ok && result.id) {
-            alert(`아이디 찾기 성공: 아이디는 "${result.id}"입니다.`);
-        } else if (result.message) {
-            alert(`아이디 찾기 실패: ${result.message}`);
-        } else {
-            alert('아이디를 찾을 수 없습니다. 다시 시도해주세요.');
-        }
-    } catch (error) {
-        console.error('아이디 찾기 중 오류 발생:', error);
-        alert('아이디 찾기 중 오류가 발생했습니다. 나중에 다시 시도해주세요.');
     }
 }
 
@@ -133,13 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 인증코드 확인 버튼
     const verifyButton = document.querySelector('.verify-btn');
     verifyButton.addEventListener('click', verifyCode);
-
-    // 폼 제출
-    const form = document.querySelector('form');
-    form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        findUserId();
-    });
 
     includeHTML();
 });
