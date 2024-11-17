@@ -8,7 +8,7 @@ async function loginUser() {
     };
 
     try {
-        const response = await fetchWithoutAuth('/sign-in', {
+        const response = await fetchWithoutAuth('/auth/sign-in', {
             method: 'POST',
             body: JSON.stringify(json)
         });

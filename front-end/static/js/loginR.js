@@ -13,7 +13,7 @@ async function requestVerificationCode() {
     }
 
     try {
-        const response = await fetchWithoutAuth("/email/verify", {
+        const response = await fetchWithoutAuth("/auth/sign-up/email", {
             method: `POST`,
             headers: {
                 'Content-Type': 'application/json'
@@ -39,7 +39,7 @@ async function verifyCode() {
     const code = document.getElementById('verification-code').value;
 
     try {
-        const response = await fetchWithoutAuth("/email/verify/code", {
+        const response = await fetchWithoutAuth("/auth/sign-up/email/verify", {
             method: `POST`,
             headers: {
                 'Content-Type': 'application/json'
@@ -104,7 +104,7 @@ async function registerUser() {
     }
 
     try {
-        const response = await fetchWithoutAuth('/sign-up', {
+        const response = await fetchWithoutAuth('/auth/sign-up', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
