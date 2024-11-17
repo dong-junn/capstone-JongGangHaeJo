@@ -1,54 +1,28 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.getElementById('adminLoginForm');
-    const loginMessage = document.querySelector('.login-message');
-    const adminNav = document.querySelector('.admin-nav');
-    const welcomeMessage = document.querySelector('.welcome-message');
-
-    // 관리자 로그인 함수
-    async function loginAdmin(event) {
-        event.preventDefault();
-
-        const formData = new FormData(loginForm);
-        const json = {
-            username: formData.get('username'),
-            password: formData.get('password')
-        };
-
-        try {
-            const response = await fetchWithoutAuth('/admin/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(json)
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                loginMessage.textContent = '로그인 성공!';
-                loginMessage.style.color = 'green';
-
-                // 토큰 저장 (예: 쿠키 또는 로컬 스토리지)
-                document.cookie = `adminToken=${data.token}; path=/`;
-
-                // 로그인 섹션 숨기기
-                loginForm.parentElement.classList.add('hidden');
-
-                // 네비게이션 바와 환영 메시지 표시
-                adminNav.classList.remove('hidden');
-                welcomeMessage.classList.remove('hidden');
-            } else {
-                const error = await response.json();
-                loginMessage.textContent = error.message || '로그인 실패';
-                loginMessage.style.color = 'red';
-            }
-        } catch (error) {
-            console.error('로그인 중 오류 발생:', error);
-            loginMessage.textContent = '로그인 중 오류가 발생했습니다.';
-            loginMessage.style.color = 'red';
-        }
+// 관리자 페이지 접근 검증 함수
+async function verifyAdminAccess() {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+        alert('접근 권한이 없습니다. 로그인 페이지로 이동합니다.');
+        window.location.href = '/front-end/templates/user/login/login.html';
+        return;
     }
 
-    // 로그인 폼 제출 이벤트
-    loginForm.addEventListener('submit', loginAdmin);
-});
+    try {
+        // 토큰 디코딩
+        const base64Payload = token.split('.')[1];
+        const payload = JSON.parse(atob(base64Payload));
+
+        // ROLE_ADMIN 확인
+        if (!payload.auth.includes('ROLE_ADMIN')) {
+            alert('관리자 권한이 없습니다. 로그인 페이지로 이동합니다.');
+            window.location.href = '/front-end/templates/user/login/login.html';
+        }
+    } catch (error) {
+        console.error('토큰 디코딩 오류:', error);
+        alert('유효하지 않은 토큰입니다. 로그인 페이지로 이동합니다.');
+        window.location.href = '/front-end/templates/user/login/login.html';
+    }
+}
+
+// 페이지 로드 시 관리자 접근 검증 실행
+document.addEventListener('DOMContentLoaded', verifyAdminAccess);
