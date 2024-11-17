@@ -12,13 +12,21 @@ async function loadNotices(currentPage = 1) {
             notices.forEach((notice, index) => {
                 const noticeRow = document.createElement('tr');
                 noticeRow.className = 'notice-item'; // CSS 클래스 적용
+                noticeRow.style.cursor = 'pointer'; // 커서 스타일을 포인터로 변경
                 noticeRow.innerHTML = `
                     <td>${index + 1 + (currentPage - 1) * noticesData.size}</td>
-                    <td><a href="/notice/${notice.id}">${notice.title}</a></td>
+                    <td>${notice.title}</td>
                     <td>${notice.hasAttachment ? '<i class="file-icon"></i>' : ''}</td>
                     <td>${notice.createdAt}</td>
                     <td>${notice.viewCount}</td>
                 `;
+                
+                // 행 클릭 이벤트 수정
+                noticeRow.addEventListener('click', () => {
+                    // 절대 경로로 변경
+                    window.location.href = `/front-end/templates/board/notice/noticeDetail.html?id=${notice.id}`;
+                });
+                
                 noticeList.appendChild(noticeRow);
             });
 
