@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>비밀번호 재설정</title>
     <link rel="stylesheet" href="/front-end/static/css/repw.css">
+    <script src="/front-end/static/js/api.js" defer></script>
+    <script src="/front-end/static/js/rePw.js" defer></script>
 </head>
+
 <body>
     <div class="header-container">
         <h1>비밀번호 재설정</h1>
     </div>
 
     <div class="container">
-        <form>
+        <form id="resetForm">
             <div class="form-group">
                 <label for="new-password">새 비밀번호</label>
-                <input type="password" id="new-password" name="new-password" placeholder="영문, 숫자가 포함된 8자 ~ 20자 입력" required>
+                <input type="password" id="new-password" name="new-password" placeholder="영문, 숫자가 포함된 8자 ~ 20자 입력"
+                    required>
             </div>
 
             <div class="form-group">
@@ -30,4 +35,5 @@
         </form>
     </div>
 </body>
+
 </html>
