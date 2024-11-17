@@ -19,7 +19,7 @@ pipeline {
         S3_BUCKET_NAME = credentials('S3_BUCKET_NAME')
         JWT_SECRET_KEY = credentials('JWT_SECRET_KEY')
         MAIL_USERNAME = credentials('MAIL_USERNAME')
-        MAIL_APP_PASSWORD = credentials('MAIL_APP_PASSWORD')
+        MAIL_APP_PASSWORD = credentials('MAIL_PASSWORD')
     }
 
     stages {
