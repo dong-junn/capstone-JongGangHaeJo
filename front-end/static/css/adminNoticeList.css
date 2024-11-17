@@ -183,4 +183,25 @@ body {
     text-align: center;
     padding: 10px 0;
     margin-top: auto;
-} 
+}
+
+/* 테이블 열 너비 조정 */
+.notice-list th:nth-child(1) {
+    /* 번호 */
+    width: 10%;
+}
+
+.notice-list th:nth-child(2) {
+    /* 제목 */
+    width: 50%;
+}
+
+.notice-list th:nth-child(3) {
+    /* 작성일 */
+    width: 20%;
+}
+
+.notice-list th:nth-child(4) {
+    /* 관리 */
+    width: 20%;
+}

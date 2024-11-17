@@ -27,7 +27,7 @@ async function submitNotice() {
 
         if (response.ok) {
             alert('공지사항이 성공적으로 등록되었습니다.');
-            window.location.href = '/front-end/templates/board/notice/noticeList.html';
+            window.location.href = '/front-end/templates/board/notice/adminNoticeList.html';
         } else {
             const errorData = await response.json();
             const validationMessages = errorData.validation 

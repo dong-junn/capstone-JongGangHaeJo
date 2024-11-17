@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // 공지사항 목록 불러오기
 async function loadNotices(page) {
     try {
-        const response = await fetchWithAuth(`/notices?page=${page-1}&size=${pageSize}`);
+        const response = await fetchWithAuth(`/notice?page=${page-1}&size=${pageSize}`);
         if (!response.ok) {
             throw new Error('공지사항을 불러오는데 실패했습니다.');
         }
@@ -34,9 +34,7 @@ function displayNotices(noticesData, page) {
         row.innerHTML = `
             <td>${(page - 1) * pageSize + index + 1}</td>
             <td><a href="/front-end/templates/board/notice/noticeDetail.html?id=${notice.id}">${notice.title}</a></td>
-            <td>${notice.hasFile ? '📎' : ''}</td>
             <td>${formatDate(notice.createdAt)}</td>
-            <td>${notice.viewCount}</td>
             <td class="manage-buttons">
                 <button class="edit-button" onclick="editNotice(${notice.id})">수정</button>
                 <button class="delete-button" onclick="deleteNotice(${notice.id})">삭제</button>
@@ -89,7 +87,7 @@ async function deleteNotice(noticeId) {
     }
 
     try {
-        const response = await fetchWithAuth(`/notices/${noticeId}`, {
+        const response = await fetchWithAuth(`/notice/${noticeId}`, {
             method: 'DELETE'
         });
 
