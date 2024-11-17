@@ -7,20 +7,28 @@
 
 /* Body Styling */
 body {
-    font-family: Arial, sans-serif;
-    background: #f4f4f4;
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100vh;
+    height: 100vh;
+    background: #f8f8f8;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding-top: 40px;
+    /* 상단 여백 추가 */
+    padding-bottom: 40px;
+    /* 하단 여백 유지 */
 }
+
 .header-container,
 .footer-container {
     display: block;
     width: 100%;
-    padding: 10px 0; /* 헤더와 푸터에 약간의 여백 추가 */
+    padding: 10px 0;
+    /* 헤더와 푸터에 약간의 여백 추가 */
 }
-/* Find Password Container */
+
+/* Find ID Container */
 .wrap {
     background: #ffffff;
     border-radius: 10px;
@@ -30,6 +38,7 @@ body {
     margin-top: 20px;
     text-align: center;
     margin-bottom: auto;
+    /* 하단 여백 */
 }
 
 .wrap h2 {
@@ -58,8 +67,7 @@ body {
     margin-bottom: 5px;
 }
 
-.form-group input[type="email"],
-.form-group input[type="text"] {
+.form-group input[type="email"] {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
@@ -67,7 +75,6 @@ body {
     box-sizing: border-box;
 }
 
-/* 이메일 확인 버튼 */
 .email-check {
     margin-top: 10px;
     background-color: #0066cc;
@@ -146,4 +153,131 @@ body {
 
 .submit-button:hover {
     background: #e55330;
+}
+
+/* 공통 스타일 */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+/* 인증코드 입력란 */
+.verification-input-group {
+    display: flex;
+    gap: 10px;
+    /* 입력 필드와 버튼 사이 간격 */
+}
+
+#verification-code {
+    flex: 1;
+    /* 입력 필드가 가능한 공간을 차지 */
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.verify-btn {
+    background-color: #007bff;
+    /* 파란색 배경 */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.verify-btn:hover {
+    background-color: #0056b3;
+    /* 어두운 파란색으로 변경 */
+}
+
+.timer {
+    font-size: 14px;
+    color: #ff6347;
+    /* 타이머 강조 */
+    align-self: center;
+}
+
+/* 메시지 스타일 */
+.verification-message {
+    display: block;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.verification-message.success {
+    color: #4CAF50;
+    /* 성공 메시지: 초록색 */
+}
+
+.verification-message.error {
+    color: #ff6347;
+    /* 오류 메시지: 빨간색 */
+}
+
+/* 제출 버튼 */
+.submit-button {
+    width: 100%;
+    /* 버튼을 전체 너비로 설정 */
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #007bff;
+    /* 파란색 배경 */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:disabled {
+    background-color: #cccccc;
+    /* 비활성화 버튼: 회색 */
+    cursor: not-allowed;
+    /* 사용 불가 커서 */
+}
+
+.submit-button:hover:not(:disabled) {
+    background-color: #0056b3;
+    /* 활성화 상태에서 호버 */
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    .verification-input-group {
+        flex-direction: column;
+        /* 작은 화면에서는 세로 정렬 */
+        gap: 5px;
+    }
+
+    .verify-btn {
+        width: 100%;
+        /* 버튼도 전체 너비로 변경 */
+    }
+
+    #verification-code {
+        width: 100%;
+        /* 입력 필드 너비 조정 */
+    }
+}
+
+/* 아이디 입력 폼 스타일 추가 */
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
 }
