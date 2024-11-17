@@ -10,6 +10,16 @@ pipeline {
         AWS_REGION = credentials('aws-region')
         ECR_REPO_NAME = credentials('ecr-repo-name')
         ECR_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+
+        //환경변수
+        DB_URL = credentials('DB_URL')
+        DB_PORT = credentials('DB_PORT')
+        DB_USERNAME = credentials('DB_USERNAME')
+        DB_PASSWORD = credentials('DB_PASSWORD')
+        S3_BUCKET_NAME = credentials('S3_BUCKET_NAME')
+        JWT_SECRET_KEY = credentials('JWT_SECRET_KEY')
+        MAIL_USERNAME = credentials('MAIL_USERNAME')
+        MAIL_APP_PASSWORD = credentials('MAIL_APP_PASSWORD')
     }
 
     stages {
@@ -62,9 +72,7 @@ pipeline {
                     ./gradlew clean
 
                     # bootJar 생성 (테스트 제외)
-                    ./gradlew bootJar -x test -x asciidoctor --info \
-                    --parallel \
-                    --build-cache
+                    ./gradlew clean bootJar -x test -x asciidoctor --info --parallel
                 '''
             }
         }
@@ -87,6 +95,8 @@ pipeline {
                             --build-arg AWS_SECRET_ACCESS_KEY=${APP_AWS_SECRET_ACCESS_KEY} \
                             --build-arg S3_BUCKET_NAME=${S3_BUCKET_NAME} \
                             --build-arg JWT_SECRET_KEY=${JWT_SECRET_KEY} \
+                            --build-arg MAIL_USERNAME=${MAIL_USERNAME} \
+                            --build-arg MAIL_APP_PASSWORD=${MAIL_APP_PASSWORD}
                             -t ${ECR_URI}/${ECR_REPO_NAME}:latest .
                     '''
                 }
