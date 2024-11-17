@@ -97,6 +97,13 @@ class SkeletonUI {
                         <div class="skeleton skeleton-text" style="width: 60px; height: 20px;"></div>
                     </div>
                 </div>
+            `,
+            topProject: `
+                <div class="thumbnail">
+                    <div class="skeleton skeleton-thumbnail"></div>
+                    <div class="skeleton skeleton-title"></div>
+                    <div class="skeleton skeleton-text"></div>
+                </div>
             `
         };
     }

@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-body{
+body {
     width: 100%;
     height: 100%;
     margin: 0;
@@ -18,57 +18,76 @@ body{
 }
 
 .project-thumbnails {
-    width: 100%;
+    padding: 20px;
     text-align: center;
-    padding: 40px 20px; /* 비디오와의 간격 조정 */
 }
 
 #capTitle {
-    font-size: 32px; /* 캡스톤 프로젝트 글자 크기 증가 */
+    font-size: 24px;
     font-weight: bold;
-    color: #333;
     margin-bottom: 20px;
+    text-align: center;
 }
-.thumbnail img {
-    width: 100%;
-    height: 400px; /* 고정된 높이 설정 */
-    object-fit: cover; /* 이미지 비율 유지하면서 박스에 맞게 자르기 */
-    background-color: #f4f4f4; /* 이미지가 없을 경우 배경색 */
-    border-radius: 10px;
-    display: block;
+
+.thumbnails-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px 0;
 }
 
 .thumbnail {
-    width: 20%;
-    margin: 10px;
-    padding: 10px;
-    box-sizing: border-box;
-    display: inline-block;
-    vertical-align: top;
-    background-color: #fff;
-    border: 1px solid #ddd;
+    flex: 1;
+    max-width: 350px;
+    background: white;
     border-radius: 10px;
+    overflow: hidden;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s;
-    overflow: hidden; /* 이미지가 썸네일 박스를 넘지 않도록 설정 */
+    transition: transform 0.3s ease;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
 }
 
 .thumbnail:hover {
-    transform: scale(1.05); /* 마우스 오버 시 확대 효과 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
 }
 
+.thumbnail a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.thumbnail img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+}
+
+.thumbnail-info {
+    padding: 15px;
+    text-align: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
 .thumbnail h3 {
-    margin: 10px 0;
     font-size: 18px;
+    margin-bottom: 8px;
     color: #333;
+}
+
+.thumbnail p {
+    font-size: 14px;
+    color: #666;
 }
 
 .more-button {
     display: inline-block;
-    padding: 20px 150px; /* 버튼 크기 증가 */
+    padding: 20px 150px;
+    /* 버튼 크기 증가 */
     background-color: #333;
     color: #fff;
     border: none;
@@ -76,7 +95,8 @@ body{
     font-size: 18px;
     cursor: pointer;
     text-align: center;
-    margin-top: 40px; /* 간격 조정 */
+    margin-top: 40px;
+    /* 간격 조정 */
     transition: background-color 0.3s;
 }
 
@@ -90,6 +110,7 @@ body{
     margin-top: 20px;
     text-align: center;
 }
+
 .main-image {
     width: 100%;
     height: 600px;
@@ -104,7 +125,22 @@ body{
     position: absolute;
     top: 0;
     left: 0;
-    transition: opacity 1s ease; /* 부드러운 전환 */
+    transition: opacity 1s ease;
+    /* 부드러운 전환 */
 }
 
+.skeleton-thumbnail {
+    flex: 1;
+    max-width: 350px;
+    height: 450px;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
 
+.skeleton-image {
+    height: 350px;
+    background: #eee;
+    border-radius: 0;
+}
