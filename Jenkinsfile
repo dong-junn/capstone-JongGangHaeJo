@@ -4,6 +4,12 @@ pipeline {
     environment {
         JAVA_HOME = '/usr/lib/jvm/java-17-amazon-corretto.x86_64'
         PATH = "$JAVA_HOME/bin:$PATH"
+
+        //AWS 설정
+        AWS_ACCOUNT_ID = credentials('aws-account-id')
+        AWS_REGION = credentials('aws-region')
+        ECR_REPO_NAME = credentials('ecr-repo-name')
+        ECR_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
     }
 
     stages {
@@ -81,7 +87,7 @@ pipeline {
                             --build-arg AWS_SECRET_ACCESS_KEY=${APP_AWS_SECRET_ACCESS_KEY} \
                             --build-arg S3_BUCKET_NAME=${S3_BUCKET_NAME} \
                             --build-arg JWT_SECRET_KEY=${JWT_SECRET_KEY} \
-                            -t repo:latest .
+                            -t ${ECR_URI}/${ECR_REPO_NAME}:latest .
                     '''
                 }
             }
@@ -90,7 +96,7 @@ pipeline {
         stage('Login to ECR') {
             steps {
                 sh '''
-                    aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 730335373015.dkr.ecr.us-east-2.amazonaws.com
+                    aws ecr get-login-password --region {AWS_REGION} | docker login --username AWS --password-stdin ${ECR_URI}
                 '''
             }
         }
@@ -100,7 +106,7 @@ pipeline {
                 echo 'Pushing Docker image to ECR...'
                 script {
                         sh '''
-                            docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-2.amazonaws.com/{ECR_REPO_NAME}:latest
+                            docker push ${ECR_URI}/${ECR_REPO_NAME}:latest
                         '''
                 }
             }
