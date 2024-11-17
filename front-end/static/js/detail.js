@@ -124,7 +124,7 @@ async function loadProjectDetails() {
                         <div class="attachment-info">
                             <a href="${file.downloadUrl}" 
                                class="attachment-name" 
-                               download
+                               download="${file.fileName}"
                                rel="noopener noreferrer">
                                 ${file.fileName}
                             </a>
