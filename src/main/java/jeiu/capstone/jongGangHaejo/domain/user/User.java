@@ -15,6 +15,8 @@ public class User {
     private String id;
     private String password;
     private String name;
+    
+    @Column(unique = true)
     private String email;
 
     @ElementCollection(fetch = FetchType.EAGER)
