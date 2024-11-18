@@ -1,5 +1,8 @@
 // const API_BASE_URL = 'http://3.147.12.27:8080'; // 환경별 API URL 설정
-const API_BASE_URL = 'http://3.147.12.27:8080'; // 환경별 API URL 설정
+// const API_BASE_URL = 'http://127.0.0.1:8080'; // 환경별 API URL 설정
+const API_BASE_URL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:8080'
+    : `http://${window.location.hostname}:8080`;
 
 // 로그인 체크 함수
 function checkAuth() {
