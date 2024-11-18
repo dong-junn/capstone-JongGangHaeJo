@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>아이디 찾기</title>
+    <link rel="stylesheet" href="/front-end/static/css/user/auth/find/findId.css">
+    <script src="/front-end/static/js/common/api.js" defer></script>
+    <script src="/front-end/static/js/common/includeHTML.js" defer></script>
+    <script src="/front-end/static/js/user/auth/find/findId.js" defer></script>
+</head>
+
+<body>
+    <div class="header-container" id="header"></div>
+    <h1>아이디 찾기</h1>
+
+    <div id="find-id" class="wrap">
+        <h2>아이디 찾기</h2>
+        <p>가입 시 등록한 이메일 주소로 아이디를 찾을 수 있습니다.</p>
+        <form>
+            <div class="form-group">
+                <label for="email">이메일</label>
+                <input type="email" id="email" name="email" required>
+                <button type="button" class="email-check">인증메일 발송</button>
+            </div>
+
+            <!-- 인증코드 입력란 -->
+            <div class="form-group verification-group hidden">
+                <label for="verification-code">인증코드</label>
+                <div class="verification-input-group">
+                    <input type="text" id="verification-code" maxlength="6" pattern="\d{6}" placeholder="인증코드를 입력해주세요."
+                        required>
+                    <button type="button" class="verify-btn">확인</button>
+                    <span class="timer"></span>
+                </div>
+                <span class="verification-message"></span>
+            </div>
+        </form>
+    </div>
+
+    <div class="footer-container" id="footer"></div>
+</body>
+
+</html>

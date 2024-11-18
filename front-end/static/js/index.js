@@ -34,7 +34,7 @@ async function loadProjects() {
                 const thumbnailImage = project.files?.find(file => file.thumbnailUrl)?.thumbnailUrl || '/front-end/static/img/default-thumbnail.jpg';
                 
                 thumbnail.innerHTML = `
-                    <a href="/front-end/templates/board/project/detail.html?id=${project.id}">
+                    <a href="/front-end/templates/board/project/projectDetail.html?id=${project.id}">
                         <img src="${thumbnailImage}" alt="${project.title}">
                         <div class="thumbnail-info">
                             <h3>${project.title}</h3>

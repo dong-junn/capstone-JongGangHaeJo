@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEIU 캡스톤 프로젝트 - 공지사항 관리</title>
+    <link rel="stylesheet" href="/front-end/static/css/admin/notice/adminNoticeList.css">
+    <link rel="stylesheet" href="/front-end/static/css/common/skeleton.css">
+    <script src="/front-end/static/js/common/api.js" defer></script>
+    <script src="/front-end/static/js/admin/notice/adminNoticeList.js" defer></script>
+    <script src="/front-end/static/js/common/skeleton.js" defer></script>
+</head>
+
+<body>
+    <!-- 헤더 -->
+    <div class="header-container">
+        <h1>JEIU CAPSTONE 관리자 페이지</h1>
+    </div>
+
+    <!-- 네비게이션 바 -->
+    <div class="admin-nav">
+        <ul>
+            <li><a href="/front-end/templates/admin/project/adminProjectList.html">프로젝트 관리</a></li>
+            <li><a href="/front-end/templates/admin/notice/adminNoticeList.html">공지사항 관리</a></li>
+            <li><a href="/front-end/templates/admin/user/adminUserList.html">회원 관리</a></li>
+        </ul>
+    </div>
+
+    <main>
+        <section class="notice-section">
+            <h1>공지사항 관리</h1>
+            <div class="button-container">
+                <button class="register-button"
+                    onclick="location.href='/front-end/templates/board/notice/noticeRegister.html'">공지사항 등록</button>
+            </div>
+            <table class="notice-list" id="notice-list">
+                <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>제목</th>
+                        <th>작성일</th>
+                        <th>관리</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 공지사항 항목이 동적으로 추가됩니다 -->
+                </tbody>
+            </table>
+
+            <!-- Pagination 컨테이너 추가 -->
+            <div class="pagination"></div>
+        </section>
+    </main>
+
+    <div class="footer-container">
+        <p>&copy; JEIU 재능대학교</p>
+    </div>
+</body>
+
+</html>

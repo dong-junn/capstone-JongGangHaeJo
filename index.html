@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>캡스톤 프로젝트</title>
-    <link rel="stylesheet" href="front-end/static/css/styles.css">
-    <link rel="stylesheet" href="front-end/static/css/skeleton.css">
-    <script src="front-end/static/js/api.js" defer></script>
-    <script src="front-end/static/js/includeHTML.js" defer></script>
-    <script src="front-end/static/js/index.js" defer></script>
-    <script src="front-end/static/js/common/skeleton.js" defer></script>
+    <link rel="stylesheet" href="/front-end/static/css/index.css">
+    <link rel="stylesheet" href="/front-end/static/css/common/skeleton.css">
+    <script src="/front-end/static/js/common/api.js" defer></script>
+    <script src="/front-end/static/js/common/includeHTML.js" defer></script>
+    <script src="/front-end/static/js/index.js" defer></script>
+    <script src="/front-end/static/js/common/skeleton.js" defer></script>
 </head>
 
 <body>
@@ -27,20 +27,20 @@
             <p id="capTitle">캡스톤 조회순 TOP3</p>
             <div class="thumbnails-container" id="thumbnails">
                 <!-- 프로젝트 썸네일 예제 -->
-                <div class="thumbnail" onclick="location.href='front-end/templates/board/project/detail.html'">
+                <div class="thumbnail" onclick="location.href='/front-end/templates/board/project/projectDetail.html'">
                     <h3>프로젝트 제목 1</h3>
                     <img src="https://via.placeholder.com/300" alt="Project Thumbnail">
                 </div>
-                <div class="thumbnail" onclick="location.href='front-end/templates/board/project/detail.html'">
+                <div class="thumbnail" onclick="location.href='/front-end/templates/board/project/projectDetail.html'">
                     <h3>프로젝트 제목 2</h3>
                     <img src="/front-end/static/img/thumb.png" alt="Project Thumbnail">
                 </div>
-                <div class="thumbnail" onclick="location.href='front-end/templates/board/project/detail.html'">
+                <div class="thumbnail" onclick="location.href='/front-end/templates/board/project/projectDetail.html'">
                     <h3>프로젝트 제목 3</h3>
                     <img src="/front-end/static/img/log.png" alt="Project Thumbnail">
                 </div>
             </div>
-            <button class="more-button" onclick="location.href='front-end/templates/board/project/projectList.html'">
+            <button class="more-button" onclick="location.href='/front-end/templates/board/project/projectList.html'">
                 <span>더보기</span>
                 <i class="fas fa-arrow-right"></i>
             </button>

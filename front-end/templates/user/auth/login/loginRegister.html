@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+    <link rel="stylesheet" href="/front-end/static/css/user/auth/login/loginRegister.css">
+    <script src="/front-end/static/js/common/api.js" defer></script>
+    <script src="/front-end/static/js/common/includeHTML.js" defer></script>
+    <script src="/front-end/static/js/user/auth/login/loginRegister.js" defer></script>
+</head>
+
+<body>
+    <div class="header-container" id="header"></div>
+    <h1>회원가입</h1>
+
+    <div id="register" class="wrap">
+        <h1>가입에 사용하실 이메일주소를 입력해주세요</h1>
+        <form>
+            <div class="form-group">
+                <label for="email">이메일 인증</label>
+                <input type="email" id="email" name="email" required>
+                <button type="button" class="email-check">인증메일 발송</button>
+            </div>
+
+            <div class="form-group verification-group hidden">
+                <label for="verification-code">인증코드</label>
+                <div class="verification-input-group">
+                    <input type="text" id="verification-code" maxlength="6" pattern="\d{6}" placeholder="인증코드를 입력해주세요."
+                        required>
+                    <button type="button" class="verify-btn">확인</button>
+                    <span class="timer"></span>
+                </div>
+                <span class="verification-message"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="id">아이디</label>
+                <input type="text" id="id" name="id" required>
+            </div>
+
+
+            <div class="form-group">
+                <label for="name">이름</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">비밀번호</label>
+                <input type="password" id="password" name="password" required>
+                <span class="info">비밀번호는 영문 / 숫자를 조합한 8~20자 까지 입력 가능합니다.</span>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm-password">비밀번호 확인</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+            </div>
+
+            <button type="submit" class="submit-button">회원가입</button>
+        </form>
+    </div>
+
+    <div class="footer-container" id="footer"></div>
+
+</body>
+
+</html>

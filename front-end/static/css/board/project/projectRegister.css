@@ -1,0 +1,194 @@
+/* 전체 페이지 스타일 */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-family: 'Arial', sans-serif;
+}
+
+.header-container,
+.footer-container {
+    display: block;
+    width: 100%;
+}
+
+main {
+    margin-top: 10px;
+    /* 헤더와의 간격 */
+    margin-bottom: 50px;
+    /* 푸터와의 간격 */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    /* 세로 여백 추가 */
+}
+
+/* 폼 스타일 */
+.register-section {
+    width: 40%;
+    max-width: 800px;
+    margin: auto;
+    padding: 50px;
+    /* 내부 여백 확장 */
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+}
+
+.register-section h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+    color: #333;
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 25px;
+    /* 각 입력란 간 간격 확장 */
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-group textarea {
+    min-height: 200px;
+    /* 입력 공간 확장 */
+    resize: vertical;
+    /* 사용자가 높이 조절 가능 */
+}
+
+.form-group input[type="file"] {
+    padding: 5px;
+    font-size: 14px;
+}
+
+/* Submit Button */
+.submit-button {
+    padding: 15px 20px;
+    background-color: #333333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #555555;
+}
+
+.thumbnail-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.thumbnail {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    object-fit: cover;
+    background-color: #f4f4f4;
+}
+
+.existing-files {
+    margin: 15px 0;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.existing-files h3 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.file-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.file-item i {
+    color: #f15a4a;
+}
+
+.file-item span {
+    color: #333;
+    font-size: 14px;
+}
+
+#thumbnail-container h4 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+#thumbnail-container img {
+    max-width: 200px;
+    height: auto;
+    margin: 5px;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+}
+
+.warning-text {
+    color: #f15a4a;
+    font-size: 14px;
+    margin: 5px 0 15px 0;
+    font-weight: 500;
+}
+
+.thumbnail-section {
+    margin: 15px 0;
+    padding: 10px;
+    background-color: white;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+}
+
+.thumbnail-section h4 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.thumbnail-section img {
+    max-width: 200px;
+    height: auto;
+    margin: 5px;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+}
