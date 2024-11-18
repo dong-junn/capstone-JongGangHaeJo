@@ -3,8 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>비밀번호 재설정</title>
+    <link rel="stylesheet" href="/front-end/static/css/common/mobile.css">
     <link rel="stylesheet" href="/front-end/static/css/user/auth/reset/resetPw.css">
     <script src="/front-end/static/js/common/api.js" defer></script>
     <script src="/front-end/static/js/user/auth/reset/resetPw.js" defer></script>
@@ -31,7 +32,8 @@
             <p>입력하신 새로운 비밀번호로 변경하시겠습니까?</p>
 
             <button type="submit" class="submit-button">확인</button>
-            <button type="button" class="cancel-button" onclick="location.href='/front-end/static/js/user/auth/login/login.html'">로그인하기</button>
+            <button type="button" class="cancel-button"
+                onclick="location.href='/front-end/templates/user/auth/login/login.html'">로그인하기</button>
         </form>
     </div>
 </body>

@@ -647,3 +647,177 @@ main {
         margin: 10px auto;
     }
 }
+
+/* 기존 스타일 유지 후 하단에 추가 */
+
+@media screen and (max-width: 768px) {
+    .project-detail {
+        padding: 15px;
+        margin: 10px;
+    }
+
+    .project-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .project-actions-buttons {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .project-youtube-video iframe {
+        height: 250px;
+    }
+
+    .comment-form textarea {
+        min-height: 100px;
+    }
+
+    .attachment-list {
+        grid-template-columns: 1fr;
+    }
+
+    .comment-section {
+        padding: 10px;
+    }
+
+    .replies {
+        margin-left: 10px;
+    }
+}
+
+/* 기존 스타일 유지하면서 모바일 스타일 수정 */
+
+@media screen and (max-width: 768px) {
+
+    /* 전체 컨테이너 조정 */
+    .project-detail {
+        width: 100%;
+        padding: 15px;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    /* 제목 스타일 조정 */
+    .project-detail h1 {
+        font-size: 20px;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+    }
+
+    /* 프로젝트 메타 정보 */
+    .project-meta {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        /* 2열 그리드 */
+        grid-template-rows: auto auto;
+        /* 2행 */
+        gap: 10px;
+        width: 100%;
+        font-size: 13px;
+    }
+
+    .project-meta span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        color: #666;
+    }
+
+    .project-meta i {
+        width: 16px;
+        /* 아이콘 너비 고정 */
+        text-align: center;
+        color: #888;
+    }
+
+    /* 작성자, 날짜, 조회수 정보 */
+    .project-info-item {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        color: #666;
+    }
+
+    /* 버튼 스타일 조정 */
+    .project-actions-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .edit-button,
+    .delete-button {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    /* 프로젝트 내용 */
+    .project-content {
+        font-size: 14px;
+        line-height: 1.6;
+        margin: 15px 0;
+    }
+
+    /* 첨부 파일 영역 */
+    .attachment-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .attachment-item {
+        padding: 10px;
+    }
+
+    /* 이미지 최적화 */
+    .project-poster img {
+        width: 100%;
+        height: auto;
+        border-radius: 4px;
+    }
+
+    /* 수정/삭제 버튼 */
+    .action-buttons {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 10px;
+        background: white;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        gap: 10px;
+        justify-content: space-between;
+    }
+
+    /* 여백 조정 */
+    main {
+        padding: 10px;
+        margin-bottom: 60px;
+        /* 하단 고정 버튼을 위한 여백 */
+    }
+}
+
+/* 더 작은 화면에 대한 추가 최적화 */
+@media screen and (max-width: 480px) {
+    .project-detail h1 {
+        font-size: 18px;
+    }
+
+    .project-meta {
+        font-size: 13px;
+    }
+
+    .edit-button,
+    .delete-button {
+        padding: 8px;
+        font-size: 13px;
+    }
+}

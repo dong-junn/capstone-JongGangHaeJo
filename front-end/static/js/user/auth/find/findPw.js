@@ -67,7 +67,7 @@ async function verifyCode() {
 
         // 3초 후 비밀번호 재설정 페이지로 이동
         setTimeout(() => {
-            window.location.href = 'rePw.html';
+            window.location.href = '/front-end/templates/user/auth/reset/resetPw.html';
         }, 3000);
 
     } catch (error) {

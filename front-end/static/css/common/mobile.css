@@ -1,0 +1,135 @@
+/* 모바일 기본 설정 */
+@media screen and (max-width: 768px) {
+
+    /* 기본 폰트 크기 조정 */
+    html {
+        font-size: 14px;
+    }
+
+    /* 컨테이너 패딩 조정 */
+    .container {
+        padding: 10px;
+    }
+
+    /* 입력 필드 크기 조정 */
+    input,
+    select,
+    textarea {
+        font-size: 16px;
+        /* iOS에서 자동 확대 방지 */
+    }
+
+    /* 버튼 터치 영역 확대 */
+    button {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 12px 20px;
+    }
+
+    /* 그리드 레이아웃 조정 */
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    /* 네비게이션 메뉴 */
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 80%;
+        height: 100vh;
+        background: white;
+        transition: 0.3s;
+        z-index: 1000;
+    }
+
+    .nav-menu.active {
+        left: 0;
+    }
+
+    /* 햄버거 메뉴 */
+    .menu-toggle {
+        display: block;
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        z-index: 1001;
+    }
+
+    /* 모달 조정 */
+    .modal-content {
+        width: 90%;
+        margin: 20px auto;
+    }
+
+    /* 테이블 반응형 처리 */
+    .responsive-table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    /* 폼 레이아웃 */
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    /* 이미지 최적화 */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* 작은 모바일 화면 */
+@media screen and (max-width: 480px) {
+
+    /* 더 작은 화면에서의 추가 조정 */
+    html {
+        font-size: 12px;
+    }
+
+    .container {
+        padding: 8px;
+    }
+
+    /* 버튼 전체 너비로 */
+    .btn-full {
+        width: 100%;
+    }
+
+    /* 여백 축소 */
+    .section {
+        margin: 10px 0;
+        padding: 10px;
+    }
+}
+
+/* 터치 최적화 */
+@media (hover: none) {
+
+    /* 터치 디바이스에서 호버 효과 제거 */
+    a:hover,
+    button:hover {
+        opacity: 1;
+    }
+
+    /* 터치 피드백 */
+    .touch-feedback:active {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* 방향 전환 대응 */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+    .modal-content {
+        height: 80vh;
+        overflow-y: auto;
+    }
+}

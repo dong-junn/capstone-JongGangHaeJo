@@ -14,15 +14,18 @@ body {
     background: #f8f8f8;
     font-family: 'Arial', sans-serif;
     margin: 0;
-    padding-top: 40px; /* 상단 여백 추가 */
-    padding-bottom: 40px; /* 하단 여백 유지 */
+    padding-top: 40px;
+    /* 상단 여백 추가 */
+    padding-bottom: 40px;
+    /* 하단 여백 유지 */
 }
 
 .header-container,
 .footer-container {
     display: block;
     width: 100%;
-    padding: 10px 0; /* 헤더와 푸터에 약간의 여백 추가 */
+    padding: 10px 0;
+    /* 헤더와 푸터에 약간의 여백 추가 */
 }
 
 /* 로그인 영역 스타일 */
@@ -33,7 +36,8 @@ body {
     border-radius: 10px;
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    margin-bottom: auto; /* 하단 여백 */
+    margin-bottom: auto;
+    /* 하단 여백 */
 }
 
 /* 로고 이미지와 제목 */
@@ -53,7 +57,8 @@ body {
 
 .loginArea {
     margin-bottom: 20px;
-    border: none; /* 검은 테두리 제거 */
+    border: none;
+    /* 검은 테두리 제거 */
 }
 
 /* 입력 필드 스타일 */
@@ -91,11 +96,15 @@ body {
 /* 추가 정보 영역 스타일 */
 .additional-links {
     display: flex;
-    justify-content: center; /* 가운데 정렬 */
-    gap: 10px; /* 각 링크 간의 간격 */
-    color: #888888; /* 텍스트 색상 */
+    justify-content: center;
+    /* 가운데 정렬 */
+    gap: 10px;
+    /* 각 링크 간의 간격 */
+    color: #888888;
+    /* 텍스트 색상 */
     font-size: 14px;
-    margin-top: 20px; /* 위쪽 간격 */
+    margin-top: 20px;
+    /* 위쪽 간격 */
 }
 
 .additional-links a {
@@ -105,5 +114,108 @@ body {
 }
 
 .additional-links a:hover {
-    color: #e55330; /* 링크 호버 시 색상 */
+    color: #e55330;
+    /* 링크 호버 시 색상 */
+}
+
+/* 모바일 반응형 스타일 */
+@media screen and (max-width: 768px) {
+    body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #login {
+        width: 100%;
+        max-width: 100%;
+        margin: 85px auto 0;
+        /* 상단 여백만 헤더/네비게이션 높이만큼 설정 */
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: none;
+        flex: 1;
+        /* 남은 공간 채우기 */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        /* 수직 중앙 정렬 */
+    }
+
+    .wrap {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+
+    .loginwrap {
+        padding: 0;
+    }
+
+    .loginwrap h2 {
+        font-size: 20px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .loginArea {
+        margin-bottom: 20px;
+    }
+
+    .loginArea input[type="text"],
+    .loginArea input[type="password"] {
+        width: 100%;
+        height: 45px;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+        background-color: #f8f9fa;
+    }
+
+    .loginArea label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .loginbtn {
+        width: 100%;
+        height: 45px;
+        font-size: 16px;
+        margin-top: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .additional-links {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    /* 푸터 스타일 수정 */
+    .footer-container {
+        margin-top: auto;
+        /* 하단에 고정 */
+    }
+}
+
+/* 더 작은 화면에 대한 최적화 유지 */
+@media screen and (max-width: 480px) {
+    #login {
+        margin-top: 85px;
+        padding: 15px;
+    }
+
+    .wrap {
+        max-width: 100%;
+    }
 }

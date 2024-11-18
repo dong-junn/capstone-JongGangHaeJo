@@ -192,3 +192,155 @@ main {
     border-radius: 4px;
     border: 1px solid #e0e0e0;
 }
+
+@media screen and (max-width: 768px) {
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #fff;
+    }
+
+    main {
+        margin-top: 120px;
+        /* 헤더 영역 확보 */
+        width: 100%;
+        padding: 0;
+    }
+
+    .register-section {
+        width: 100%;
+        padding: 20px;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    /* 제목 */
+    .register-section h1 {
+        font-size: 20px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    /* 입력 폼 그룹 */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        font-size: 15px;
+        margin-bottom: 8px;
+        display: block;
+        font-weight: bold;
+    }
+
+    /* 입력 필드 */
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+    }
+
+    .form-group textarea {
+        min-height: 150px;
+    }
+
+    /* 파일 관련 스타일 */
+    .form-group input[type="file"] {
+        width: 100%;
+        padding: 8px;
+        font-size: 14px;
+        background-color: #f8f9fa;
+    }
+
+    /* 기존 파일 목록 */
+    .existing-files {
+        margin: 15px 0;
+        padding: 12px;
+        background-color: #f8f9fa;
+        border-radius: 5px;
+    }
+
+    .existing-files h3 {
+        font-size: 15px;
+        margin-bottom: 8px;
+    }
+
+    .warning-text {
+        font-size: 13px;
+        color: #f15a4a;
+        margin: 8px 0;
+    }
+
+    .file-list {
+        gap: 6px;
+    }
+
+    .file-item {
+        padding: 8px;
+        font-size: 13px;
+    }
+
+    /* 썸네일 섹션 */
+    .thumbnail-section {
+        margin: 12px 0;
+        padding: 10px;
+    }
+
+    .thumbnail-section h4 {
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+
+    .thumbnail-section img {
+        max-width: 150px;
+        /* 모바일에서는 더 작게 */
+        margin: 4px;
+    }
+
+    /* 썸네일 컨테이너 */
+    .thumbnail-container {
+        gap: 8px;
+        margin-top: 8px;
+    }
+
+    .thumbnail {
+        width: 80px;
+        height: 80px;
+    }
+
+    /* 버튼 */
+    .submit-button {
+        width: 100%;
+        height: 45px;
+        margin-top: 20px;
+        background-color: #333;
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 5px;
+        border: none;
+    }
+}
+
+/* 더 작은 화면에 대한 최적화 */
+@media screen and (max-width: 480px) {
+    main {
+        margin-top: 100px;
+    }
+
+    .register-section {
+        padding: 15px;
+    }
+
+    .form-group label {
+        font-size: 14px;
+    }
+
+    .thumbnail-section img {
+        max-width: 120px;
+    }
+}

@@ -150,3 +150,132 @@ main {
     color: white;
     border-radius: 4px;
 }
+
+/* 기존 스타일 유지 후 하단에 추가 */
+
+@media screen and (max-width: 768px) {
+
+    /* 전체 컨테이너 조정 */
+    body {
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    main {
+        width: 100%;
+        padding: 10px;
+        margin: 0;
+        overflow-x: hidden;
+    }
+
+    /* 프로젝트 카드 컨테이너 */
+    .projects-container {
+        width: 100%;
+        padding: 0 10px;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    /* 프로젝트 카드 */
+    .project-info {
+        width: 100%;
+        margin: 0 0 15px 0;
+        box-sizing: border-box;
+    }
+
+    /* 이미지 컨테이너 */
+    .project-info img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+
+    /* 페이지네이션 */
+    .pagination {
+        width: 100%;
+        padding: 15px 10px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .project-detail h1 {
+        font-size: 20px;
+        margin: 15px 0;
+        padding: 0 10px;
+    }
+
+    .projects-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        padding: 0 10px;
+        margin: 0;
+        width: 100%;
+    }
+
+    .project-info {
+        width: 100%;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    .project-info img {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+        object-fit: contain;
+        background-color: #f8f9fa;
+    }
+
+    .project-text {
+        padding: 10px;
+    }
+
+    .project-title {
+        font-size: 16px;
+        margin-bottom: 5px;
+        word-break: break-word;
+    }
+
+    .project-meta {
+        font-size: 13px;
+        color: #666;
+    }
+
+    .pagination {
+        padding: 15px 0;
+        gap: 5px;
+    }
+
+    .pagination-link {
+        padding: 8px 12px;
+        font-size: 14px;
+        min-width: 35px;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    main {
+        padding: 5px;
+    }
+
+    .project-detail h1 {
+        font-size: 18px;
+    }
+
+    .projects-container {
+        gap: 10px;
+    }
+
+    .project-info {
+        margin-bottom: 10px;
+    }
+
+    .pagination-link {
+        padding: 6px 10px;
+        font-size: 13px;
+    }
+}
