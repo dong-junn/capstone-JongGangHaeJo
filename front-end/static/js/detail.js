@@ -23,7 +23,7 @@ async function loadProjectDetails() {
     skeletonUI.show('.project-detail', 'projectDetail');
 
     try {
-        const response = await fetchWithAuth(`/post/${projectId}`, {
+        const response = await fetchWithoutAuth(`/post/${projectId}`, {
             method: 'GET'
         });
 
@@ -530,11 +530,19 @@ function getCurrentUsername() {
         const token = localStorage.getItem('accessToken');
         if (!token) return null;
         
-        // Base64 디코딩 시 UTF-8 처리
+        // Base64 디코딩을 위한 안전한 처리
         const base64Payload = token.split('.')[1];
-        const payload = JSON.parse(decodeURIComponent(escape(atob(base64Payload))));
+        const base64 = base64Payload.replace(/-/g, '+').replace(/_/g, '/');
+        const payload = JSON.parse(
+            decodeURIComponent(
+                atob(base64)
+                    .split('')
+                    .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+                    .join('')
+            )
+        );
         
-        console.log('Decoded token payload:', payload); // 디버깅용
+        console.log('Decoded token payload:', payload);
         return payload.username;
     } catch (error) {
         console.error('토큰 디코딩 중 오류 발생:', error);

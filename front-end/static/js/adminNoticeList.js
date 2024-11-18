@@ -91,7 +91,7 @@ async function deleteNotice(noticeId) {
     }
 
     try {
-        const response = await fetchWithAuth(`/notice/${noticeId}`, {
+        const response = await fetchWithAuth(`/admin/post/${noticeId}`, {
             method: 'DELETE'
         });
 
