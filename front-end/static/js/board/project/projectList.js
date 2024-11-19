@@ -16,13 +16,18 @@ async function loadProjects(currentPage = 1) {
             projectsContainer.innerHTML = ''; // 기존 내용을 초기화
 
             projects.forEach((project) => {
-                const thumbnailImage = project.files?.find(file => file.thumbnailUrl)?.thumbnailUrl || '/front-end/static/img/default-thumbnail.jpg';
+                const thumbnailImage = project.files?.find(file => file.thumbnailUrl)?.thumbnailUrl;
                 
                 const projectElement = document.createElement('div');
                 projectElement.className = 'project-info';
                 projectElement.innerHTML = `
                     <a href="/front-end/templates/board/project/projectDetail.html?id=${project.id}">
-                        <img src="${thumbnailImage}" alt="프로젝트 이미지">
+                        ${thumbnailImage ? 
+                            `<img src="${thumbnailImage}" alt="프로젝트 이미지">` :
+                            `<div class="no-image">
+                                <span>이미지가 없는 게시물입니다.</span>
+                            </div>`
+                        }
                         <div class="project-details">
                             <h2>${project.title}</h2>
                             <p>팀 명: <span>${project.team}</span></p>
