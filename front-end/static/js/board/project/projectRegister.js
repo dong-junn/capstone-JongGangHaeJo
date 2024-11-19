@@ -1,7 +1,13 @@
 // REST API를 이용해 프로젝트를 등록하는 함수
 async function submitProject() {
+    const submitButton = document.querySelector('.submit-button');
+    
+    // 버튼 비활성화 및 로딩 상태 표시
+    submitButton.disabled = true;
+    const originalText = submitButton.textContent;
+    submitButton.textContent = '등록 중...';
+    
     const formData = new FormData(document.getElementById('register-form'));
-    // JSON 데이터를 생성하여 폼데이터에 추가
     const json = {
         title: document.getElementById('projectName').value,
         content: document.getElementById('projectDescription').value,
@@ -9,18 +15,15 @@ async function submitProject() {
         youtubelink: document.getElementById('yt_url').value
     };
 
-    // JSON 데이터를 폼데이터에 추가
     formData.append('post', new Blob([JSON.stringify(json)], { type: 'application/json' }));
 
-    // 파일 데이터 추가
     const fileInput = document.getElementById('projectFiles');
     if (fileInput.files.length > 0) {
         Array.from(fileInput.files).forEach((file, index) => {
-            formData.append(`files`, file); // 다중 파일 처리
+            formData.append(`files`, file);
         });
     }
 
-    // 썸네일 이미지 추가
     const thumbnailInput = document.getElementById('poster');
     if (thumbnailInput.files.length > 0) {
         formData.append('thumbnail', thumbnailInput.files[0]);
@@ -29,27 +32,32 @@ async function submitProject() {
     try {
         const response = await fetchWithAuth('/post', {
             method: 'POST',
-            body: formData,
-            headers: {
-                // Content-Type을 제거하여 브라우저가 자동으로 설정하도록 함
-                // multipart/form-data로 자동 설정됨
-            }
+            body: formData
         });
 
         if (response.ok) {
-            window.location.href = '/front-end/templates/board/project/projectList.html'; // 프로젝트 등록 성공 시 프로젝트 게시판으로 리다이렉트
+            window.location.href = '/front-end/templates/board/project/projectList.html';
         } else {
             const errorData = await response.json();
-            // validation 객체의 모든 에러 메시지를 추출
             const validationMessages = errorData.validation 
                 ? Object.values(errorData.validation).join('\n')
                 : errorData.message;
-                
             alert(`프로젝트 등록에 실패했습니다:\n${validationMessages}`);
+            
+            // 에러 발생 시 버튼 상태 복구
+            submitButton.disabled = false;
+            submitButton.textContent = originalText;
         }
     } catch (error) {
+        if (error.name === 'AbortError') {
+            return;
+        }
         console.error('Error submitting project:', error);
         alert('오류가 발생했습니다. 나중에 다시 시도해주세요.');
+        
+        // 에러 발생 시 버튼 상태 복구
+        submitButton.disabled = false;
+        submitButton.textContent = originalText;
     }
 }
 // 작성자 로그인 여부를 확인하고 수정 버튼을 동적으로 생성
