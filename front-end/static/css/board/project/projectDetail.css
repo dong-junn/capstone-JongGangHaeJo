@@ -140,17 +140,20 @@ main {
 
 /* 유튜브 동영상 스타일 */
 .project-youtube-video {
-    margin-bottom: 20px;
+    width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+    text-align: center;
 }
 
 .project-youtube-video iframe {
-    width: 100%;
-    max-width: 800px;
+    width: 800px;
     height: 450px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
+    max-width: 100%;
+    border: none;
+    margin: 0 auto;
 }
 
 /* 프로젝트 정보 스타일 */
@@ -445,7 +448,9 @@ main {
 /* 반응형 처리 */
 @media (max-width: 768px) {
     .project-youtube-video iframe {
-        height: 300px;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16/9;
     }
 
     #submitComment {
