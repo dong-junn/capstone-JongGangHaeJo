@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +26,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Service
@@ -79,29 +81,31 @@ public class FileService {
      */
 
     //단일 파일를 업로드하는 메서드, 내부적으로만 사용됨
-    public String uploadFile(MultipartFile file, String directory) {
-        String originalFilename = file.getOriginalFilename();
-        if (originalFilename == null || originalFilename.isBlank()) {
-            throw new InvalidFileNameException("파일 이름이 유효하지 않습니다.");
-        }
+    @Async
+    public CompletableFuture<String> uploadFileAsync(MultipartFile file, String directory) {
+        return CompletableFuture.supplyAsync(() -> {
+            String originalFilename = file.getOriginalFilename();
+            if (originalFilename == null || originalFilename.isBlank()) {
+                throw new InvalidFileNameException("파일 이름이 유효하지 않습니다.");
+            }
 
-        String filePath = createFilePath(directory, originalFilename);
+            String filePath = createFilePath(directory, originalFilename);
 
-        try (InputStream inputStream = file.getInputStream()) {
-            // S3에 파일 업로드
-            PutObjectRequest putObjectRequest = PutObjectRequest.builder()
-                    .bucket(bucketName)
-                    .key(filePath)
-                    .contentType(file.getContentType())
-                    .build();
+            try (InputStream inputStream = file.getInputStream()) {
+                PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                        .bucket(bucketName)
+                        .key(filePath)
+                        .contentType(file.getContentType())
+                        .build();
 
-            s3Client.putObject(putObjectRequest,
-                    software.amazon.awssdk.core.sync.RequestBody.fromInputStream(inputStream, file.getSize()));
+                s3Client.putObject(putObjectRequest,
+                        software.amazon.awssdk.core.sync.RequestBody.fromInputStream(inputStream, file.getSize()));
 
-            return generateFileUrl(filePath);
-        } catch (Exception e) {
-            throw new S3UploadException("파일 업로드 중 오류가 발생했습니다.", e);
-        }
+                return generateFileUrl(filePath);
+            } catch (Exception e) {
+                throw new S3UploadException("파일 업로드 중 오류가 발생했습니다.", e);
+            }
+        });
     }
 
     private String generateFileUrl(String key) {
@@ -126,24 +130,24 @@ public class FileService {
             return Collections.emptyList();
         }
 
-        return files.stream()
+        List<CompletableFuture<Long>> futures = files.stream()
                 .filter(file -> !file.isEmpty())
-                .map(file -> {
-                    String fileUrl = uploadFile(file, directory); // S3에 파일 업로드 후 URL 획득
+                .map(file -> uploadFileAsync(file, directory)
+                        .thenApply(fileUrl -> {
+                            File fileEntity = File.builder()
+                                    .fileName(file.getOriginalFilename())
+                                    .s3Path(fileUrl)
+                                    .fileType(file.getContentType())
+                                    .fileSize(file.getSize())
+                                    .thumbnailPath(isThumbnail ? fileUrl : null)
+                                    .build();
+                            File savedFile = saveFile(fileEntity);
+                            return savedFile.getFileId();
+                        }))
+                .collect(Collectors.toList());
 
-                    File fileEntity = File.builder()
-                            .fileName(file.getOriginalFilename())
-                            .s3Path(fileUrl)
-                            .fileType(file.getContentType())
-                            .fileSize(file.getSize())
-                            .thumbnailPath(isThumbnail ? fileUrl : null)  // 썸네일인 경우에만 thumbnailPath 설정
-                            .build();
-
-                    // 파일을 DB에 저장하고 파일 ID 반환
-                    File savedFile = saveFile(fileEntity);
-                    return savedFile != null ? savedFile.getFileId() : null;
-                })
-                .filter(fileId -> fileId != null) // Null ID는 제외
+        return futures.stream()
+                .map(CompletableFuture::join)
                 .collect(Collectors.toList());
     }
 
