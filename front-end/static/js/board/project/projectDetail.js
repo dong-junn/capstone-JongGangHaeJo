@@ -140,6 +140,9 @@ async function loadProjectDetails() {
             alert(errorData.message || '게시물을 불러오는데 실패했습니다.');
         }
     } catch (error) {
+        if (error.name === 'AbortError') {
+            return;
+        }
         skeletonUI.hide('.project-detail');
         console.error('프로젝트 정보를 불러오는 중 오류 발생:', error);
         alert('프로젝트 정보를 불러오는데 실패했습니다.');

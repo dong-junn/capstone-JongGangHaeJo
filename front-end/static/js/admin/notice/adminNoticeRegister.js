@@ -13,16 +13,16 @@ async function submitNotice() {
     // JSON 데이터를 폼데이터에 추가
     formData.append('notice', new Blob([JSON.stringify(json)], { type: 'application/json' }));
 
-    // 첨부파일 추가
-    const fileInput = document.getElementById('noti_file');
-    if (fileInput.files.length > 0) {
-        formData.append('file', fileInput.files[0]);
-    }
+    // 첨부파일 비활성화
+    // const fileInput = document.getElementById('noti_file');
+    // if (fileInput.files.length > 0) {
+    //     formData.append('file', fileInput.files[0]);
+    // }
 
     try {
-        const response = await fetchWithAuth('/admin/notice', {
+        const response = await fetchWithAuth('/notice/admin', {
             method: 'POST',
-            body: formData
+            body: JSON.stringify(json)
         });
 
         if (response.ok) {

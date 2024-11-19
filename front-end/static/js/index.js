@@ -46,6 +46,9 @@ async function loadProjects() {
             });
         }
     } catch (error) {
+        if (error.name === 'AbortError') {
+            return;
+        }
         console.error('Error loading projects:', error);
     }
 }

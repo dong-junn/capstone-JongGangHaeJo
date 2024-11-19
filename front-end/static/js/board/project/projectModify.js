@@ -77,6 +77,9 @@ async function loadProjectDetails() {
             window.location.href = '/front-end/templates/board/project/projectList.html';
         }
     } catch (error) {
+        if (error.name === 'AbortError') {
+            return;
+        }
         console.error('프로젝트 정보를 불러오는 중 오류 발생:', error);
         alert('프로젝트 정보를 불러오는데 실패했습니다.');
     }

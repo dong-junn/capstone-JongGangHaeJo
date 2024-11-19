@@ -43,6 +43,9 @@ async function resetPassword(event) {
         window.location.href = '/front-end/templates/user/auth/login/login.html';
 
     } catch (error) {
+        if (error.name === 'AbortError') {
+            return;
+        }
         if (error.message === '유효하지 않은 토큰입니다.') {
             sessionStorage.removeItem('resetToken');
             alert('인증이 만료되었습니다. 다시 시도해주세요.');

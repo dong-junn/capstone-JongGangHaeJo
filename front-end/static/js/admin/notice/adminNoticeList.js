@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 async function loadNotices(page) {
     // 스켈레톤 UI 표시
     const tbody = document.querySelector('#notice-list tbody');
-    tbody.innerHTML = Array(pageSize).fill(skeletonUI.templates.adminNoticeRow).join('');
+    // tbody.innerHTML = Array(pageSize).fill(skeletonUI.templates.adminNoticeRow).join('');
 
     try {
         const response = await fetchWithAuth(`/notice?page=${page-1}&size=${pageSize}`);
@@ -81,7 +81,7 @@ function createPagination(totalPages, currentPage) {
 
 // 공지사항 수정
 function editNotice(noticeId) {
-    window.location.href = `/front-end/templates/board/notice/noticeEdit.html?id=${noticeId}`;
+    window.location.href = `/front-end/templates/admin/notice/adminNoticeModify.html?id=${noticeId}`;
 }
 
 // 공지사항 삭제
@@ -91,7 +91,7 @@ async function deleteNotice(noticeId) {
     }
 
     try {
-        const response = await fetchWithAuth(`/admin/post/${noticeId}`, {
+        const response = await fetchWithAuth(`/notice/admin/${noticeId}`, {
             method: 'DELETE'
         });
 

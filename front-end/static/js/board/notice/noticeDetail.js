@@ -51,6 +51,9 @@ async function loadNoticeDetails() {
             window.location.href = '/front-end/templates/board/notice/noticeList.html';
         }
     } catch (error) {
+        if (error.name === 'AbortError') {
+            return;
+        }
         console.error('공지사항을 불러오는 중 오류 발생:', error);
         alert('오류가 발생했습니다. 나중에 다시 시도해주세요.');
         window.location.href = '/front-end/templates/board/notice/noticeList.html';

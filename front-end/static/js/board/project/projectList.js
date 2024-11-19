@@ -44,6 +44,9 @@ async function loadProjects(currentPage = 1) {
             alert(`프로젝트 목록을 불러오지 못했습니다: ${errorData.message}`);
         }
     } catch (error) {
+        if (error.name === 'AbortError') {
+            return;
+        }
         console.error('Error loading projects:', error);
         alert(`오류가 발생했습니다: ${error.message}`);
     } finally {

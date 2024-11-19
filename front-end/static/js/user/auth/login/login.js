@@ -23,6 +23,9 @@ async function loginUser() {
             alert(`로그인 실패: ${errorData.message}`);
         }
     } catch (error) {
+        if (error.name === 'AbortError') {
+            return;
+        }
         console.error('로그인 중 오류 발생:', error);
         alert('로그인 중 오류가 발생했습니다. 나중에 다시 시도해주세요.');
     }

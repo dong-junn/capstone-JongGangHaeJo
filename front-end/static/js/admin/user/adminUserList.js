@@ -43,6 +43,9 @@ async function loadUsers(currentPage = 1) {
             updatePagination(userData.totalPages, currentPage);
         }
     } catch (error) {
+        if (error.name === 'AbortError') {
+            return;
+        }
         console.error('Error loading users:', error);
         alert('사용자 목록을 불러오는 중 오류가 발생했습니다.');
     } finally {
@@ -66,6 +69,9 @@ async function deleteUser(userId) {
             alert(`삭제 실패: ${errorData.message}`);
         }
     } catch (error) {
+        if (error.name === 'AbortError') {
+            return;
+        }
         console.error('Error deleting user:', error);
         alert('사용자 삭제 중 오류가 발생했습니다.');
     }
