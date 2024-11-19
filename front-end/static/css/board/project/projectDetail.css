@@ -821,3 +821,27 @@ main {
         font-size: 13px;
     }
 }
+
+.no-poster {
+    width: 100%;
+    height: 350px;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.no-poster span {
+    color: #666;
+    font-size: 1rem;
+    padding: 20px;
+    text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+    .no-poster {
+        height: 250px;
+    }
+}

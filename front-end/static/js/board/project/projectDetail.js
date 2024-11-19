@@ -72,18 +72,25 @@ async function loadProjectDetails() {
             }
 
             // 포스터 이미지 업데이트
-            const posterElement = document.getElementById('projectPoster');
-            if (posterElement) {
+            const posterContainer = document.querySelector('.project-poster');
+            if (posterContainer) {
                 // files 배열에서 thumbnailUrl이 있는 파일 찾기
                 const thumbnailFile = project.files?.find(file => file.thumbnailUrl);
                 
                 if (thumbnailFile?.thumbnailUrl) {
-                    posterElement.src = thumbnailFile.thumbnailUrl;
-                    posterElement.alt = project.title || 'Project Thumbnail';
+                    posterContainer.innerHTML = `
+                        <h2>발표 자료</h2>
+                        <img src="${thumbnailFile.thumbnailUrl}" 
+                             alt="${project.title || 'Project Thumbnail'}" 
+                             id="projectPoster">
+                    `;
                 } else {
-                    // 썸네일이 없는 경우 기본 이미지 설정
-                    posterElement.src = '/front-end/static/img/ex.jpg';
-                    posterElement.alt = 'Default Thumbnail';
+                    posterContainer.innerHTML = `
+                        <h2>발표 자료</h2>
+                        <div class="no-poster">
+                            <span>등록한 이미지가 없습니다.</span>
+                        </div>
+                    `;
                 }
             }
 
@@ -94,9 +101,15 @@ async function loadProjectDetails() {
             }
 
             // 유튜브 동영상 업데이트
+            const videoContainer = document.querySelector('.project-youtube-video');
             const videoElement = document.getElementById('youtubeVideo');
-            if (videoElement && project.youtubelink) {
-                videoElement.src = project.youtubelink;
+            if (videoContainer && videoElement) {
+                if (project.youtubelink) {
+                    videoElement.src = project.youtubelink;
+                    videoContainer.style.display = 'block'; // 또는 'flex'
+                } else {
+                    videoContainer.style.display = 'none';
+                }
             }
 
             // 좋아요 수와 댓글 수 업데이트
@@ -507,7 +520,7 @@ document.addEventListener('DOMContentLoaded', loadProjectDetails);
 
 // 답글 입력 폼을 보여주는 함수
 function showReplyForm(button) {
-    // 현재 댓글의 답글 입력 폼
+    // 현재 댓글 답글 입력 폼
     const currentElement = button.closest('[data-comment-id]');
     const replyForm = currentElement.querySelector('.reply-form');
     
