@@ -6,7 +6,6 @@ import jeiu.capstone.jongGangHaejo.dto.request.PostUpdateDto;
 import jeiu.capstone.jongGangHaejo.dto.response.PagedResponseDto;
 import jeiu.capstone.jongGangHaejo.dto.response.PostResponseDto;
 import jeiu.capstone.jongGangHaejo.exception.ResourceNotFoundException;
-import jeiu.capstone.jongGangHaejo.exception.UnauthorizedException;
 import jeiu.capstone.jongGangHaejo.exception.common.CommonErrorCode;
 import jeiu.capstone.jongGangHaejo.repository.LikeRepository;
 import jeiu.capstone.jongGangHaejo.repository.PostRepository;
@@ -16,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 @Service
 @RequiredArgsConstructor
 public class AdminPostService {
@@ -147,19 +148,16 @@ public class AdminPostService {
 
     @Transactional
     public void deletePost(Long postId) {
-        Post Post = postRepository.findById(postId)
+        Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new ResourceNotFoundException("게시물을 찾을 수 없습니다. 게시물 번호: " + postId, CommonErrorCode.RESOURCE_NOT_FOUND));
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUsername = authentication.getName();
-
+        
         //파일 삭제
-        if (Post.getFileIds() != null && !Post.getFileIds().isEmpty()) {
-            fileService.deleteFiles(Post.getFileIds());
+        if (post.getFileIds() != null && !post.getFileIds().isEmpty()) {
+            fileService.deleteFiles(post.getFileIds());
         }
 
         //게시물 삭제
-        postRepository.delete(Post);
-
+        postRepository.delete(post);
     }
 
     public List<PostResponseDto> getTop3Posts() {
