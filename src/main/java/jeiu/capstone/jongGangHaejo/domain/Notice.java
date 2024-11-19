@@ -3,12 +3,9 @@ package jeiu.capstone.jongGangHaejo.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Notice {
     @Id
@@ -22,23 +19,11 @@ public class Notice {
     private String content;
 
     private String creator;
-    
-    @ElementCollection
-    @CollectionTable(name = "notice_files", joinColumns = @JoinColumn(name = "notice_id"))
-    @Column(name = "file_id")
-    private List<Long> fileIds = new ArrayList<>();
 
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;
-
-    @Column
-    private String fileUrl;
-
-    public String getFileUrl() {
-        return fileUrl;
-    }
 
     @PrePersist
     public void prePersist() {
@@ -58,7 +43,8 @@ public class Notice {
         this.creator = creator;
     }
 
-    public void setFileIds(List<Long> fileIds) {
-        this.fileIds = fileIds;
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 }
