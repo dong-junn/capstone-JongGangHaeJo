@@ -31,14 +31,19 @@ async function loadProjects() {
                 thumbnail.className = 'thumbnail';
                 
                 // 썸네일 URL 결정 로직
-                const thumbnailImage = project.files?.find(file => file.thumbnailUrl)?.thumbnailUrl || '/front-end/static/img/default-thumbnail.jpg';
+                const thumbnailImage = project.files?.find(file => file.thumbnailUrl)?.thumbnailUrl;
                 
                 thumbnail.innerHTML = `
                     <a href="/front-end/templates/board/project/projectDetail.html?id=${project.id}">
-                        <img src="${thumbnailImage}" alt="${project.title}">
+                        ${thumbnailImage ? 
+                            `<img src="${thumbnailImage}" alt="${project.title}">` :
+                            `<div class="no-image">
+                                <span>이미지가 없는 게시물입니다.</span>
+                            </div>`
+                        }
                         <div class="thumbnail-info">
                             <h3>${project.title}</h3>
-                            <p>${project.username || '무명'}</p>
+                            <p>${project.team || '무명'} 팀</p>
                         </div>
                     </a>
                 `;
