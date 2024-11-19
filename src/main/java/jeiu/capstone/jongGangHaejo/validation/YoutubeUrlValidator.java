@@ -1,52 +1,70 @@
 package jeiu.capstone.jongGangHaejo.validation;
 
+import lombok.extern.slf4j.Slf4j;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Slf4j
 public class YoutubeUrlValidator implements ConstraintValidator<ValidYoutubeUrl, String> {
 
-    // 유튜브 링크를 확인하기 위한 정규표현식 패턴
-    private static final String YOUTUBE_URL_REGEX =
-            "^(https?://)?(www\\.)?(youtube\\.com/watch\\?v=|youtu\\.be/)([a-zA-Z0-9_-]{11})$";
-
-    private Pattern pattern = Pattern.compile(YOUTUBE_URL_REGEX);
-
+    // URL이 null이거나 빈 문자열인 경우도 허용
     @Override
-    public boolean isValid(String youtubeLink, ConstraintValidatorContext context) {
-        // 유튜브 링크가 null이거나 비어있으면 검증 통과 (링크가 필수가 아닐 경우)
-        if (youtubeLink == null || youtubeLink.isEmpty()) {
+    public boolean isValid(String url, ConstraintValidatorContext context) {
+        if (url == null || url.trim().isEmpty()) {
             return true;
         }
-
-        // 이미 embed 형식이면 그대로 통과
-        if (youtubeLink.contains("youtube.com/embed/")) {
-            return true;
-        }
-
-        return pattern.matcher(youtubeLink).matches();
+        return isValidYoutubeUrl(url);
     }
 
-    // URL을 embed 형식으로 변환하는 정적 메서드 추가
-    public static String convertToEmbedUrl(String youtubeLink) {
-        if (youtubeLink == null || youtubeLink.isEmpty()) {
-            return youtubeLink;
+    private boolean isValidYoutubeUrl(String url) {
+        String pattern = "^(https?://)?(www\\.)?(youtube\\.com/watch\\?v=|youtu\\.be/|youtube\\.com/embed/)[A-Za-z0-9_-]+" +
+                        "(\\?[^&\\s]*)?(&[^&\\s]*)*$";
+        return Pattern.matches(pattern, url);
+    }
+
+    public static String convertToEmbedUrl(String url) {
+        if (url == null || url.trim().isEmpty()) {
+            return null;
         }
 
-        // 이미 embed 형식이면 그대로 반환
-        if (youtubeLink.contains("youtube.com/embed/")) {
-            return youtubeLink;
+        try {
+            String videoId = extractVideoId(url);
+            if (videoId != null) {
+                return "https://www.youtube.com/embed/" + videoId;
+            }
+        } catch (Exception e) {
+            log.warn("YouTube URL 변환 중 오류 발생: {}", url, e);
+        }
+        return url;
+    }
+
+    private static String extractVideoId(String url) {
+        // youtu.be 형식
+        Pattern shortPattern = Pattern.compile("youtu\\.be/([A-Za-z0-9_-]+)");
+        Matcher shortMatcher = shortPattern.matcher(url);
+        if (shortMatcher.find()) {
+            return shortMatcher.group(1);
         }
 
-        Pattern pattern = Pattern.compile(YOUTUBE_URL_REGEX);
-        Matcher matcher = pattern.matcher(youtubeLink);
-        
-        if (matcher.find()) {
-            String videoId = matcher.group(4);  // 정규식의 4번째 그룹이 video ID
-            return "https://www.youtube.com/embed/" + videoId;
+        // youtube.com/watch?v= 형식
+        Pattern watchPattern = Pattern.compile("watch\\?v=([A-Za-z0-9_-]+)");
+        Matcher watchMatcher = watchPattern.matcher(url);
+        if (watchMatcher.find()) {
+            return watchMatcher.group(1);
         }
-        
-        return youtubeLink;  // 매칭되지 않으면 원본 반환
+
+        // youtube.com/embed/ 형식
+        Pattern embedPattern = Pattern.compile("embed/([A-Za-z0-9_-]+)");
+        Matcher embedMatcher = embedPattern.matcher(url);
+        if (embedMatcher.find()) {
+            return embedMatcher.group(1);
+        }
+
+        // URL에서 추가 파라미터 제거
+        String cleanUrl = url.split("[?&]")[0];
+        String[] segments = cleanUrl.split("/");
+        return segments[segments.length - 1];
     }
 }
