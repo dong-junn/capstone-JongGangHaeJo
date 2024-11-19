@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -25,10 +24,6 @@ public class QNotice extends EntityPathBase<Notice> {
     public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
 
     public final StringPath creator = createString("creator");
-
-    public final ListPath<Long, NumberPath<Long>> fileIds = this.<Long, NumberPath<Long>>createList("fileIds", Long.class, NumberPath.class, PathInits.DIRECT2);
-
-    public final StringPath fileUrl = createString("fileUrl");
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 

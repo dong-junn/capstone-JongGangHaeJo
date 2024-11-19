@@ -37,7 +37,7 @@ public class PostCreateDto { //PostController에 params를 넘기기 위한 DTO
                 .title(this.title)
                 .content(this.content)
                 .team(this.team)
-                .youtubelink(YoutubeUrlValidator.convertToEmbedUrl(this.youtubelink))
+                .youtubelink(this.youtubelink != null ? YoutubeUrlValidator.convertToEmbedUrl(this.youtubelink) : null)
                 .username(this.username)
                 .build();
     }

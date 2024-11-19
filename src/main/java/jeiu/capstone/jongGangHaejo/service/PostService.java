@@ -51,10 +51,15 @@ public class PostService {
     public void createPost(PostCreateDto postCreateDto, List<MultipartFile> files, MultipartFile thumbnail) {
         List<Long> fileIds = new ArrayList<>();
         
-        // 디버깅을 위한 로깅 추가
+        // 디버깅을 위한 로깅 추가 (null 체크 포함)
         log.info("전체 파일 목록:");
-        files.forEach(file -> log.info("파일명: {}", file.getOriginalFilename()));
-        log.info("썸네일 파일명: {}", thumbnail.getOriginalFilename());
+        if (files != null && !files.isEmpty()) {
+            files.forEach(file -> log.info("파일명: {}", file.getOriginalFilename()));
+        }
+        
+        if (thumbnail != null) {
+            log.info("썸네일 파일명: {}", thumbnail.getOriginalFilename());
+        }
         
         // 썸네일 파일 먼저 업로드
         if (thumbnail != null && !thumbnail.isEmpty()) {
@@ -95,9 +100,12 @@ public class PostService {
             }
         }
 
-        // YouTube URL 변환
-        String embedUrl = YoutubeUrlValidator.convertToEmbedUrl(postCreateDto.getYoutubelink());
-        postCreateDto.setYoutubelink(embedUrl);
+        // YouTube URL 변환 (null 체크)
+        String youtubeUrl = postCreateDto.getYoutubelink();
+        if (youtubeUrl != null && !youtubeUrl.trim().isEmpty()) {
+            String embedUrl = YoutubeUrlValidator.convertToEmbedUrl(youtubeUrl);
+            postCreateDto.setYoutubelink(embedUrl);
+        }
 
         // DTO에서 엔티티로 변환
         Post post = postCreateDto.toEntity();
