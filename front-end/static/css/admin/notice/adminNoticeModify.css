@@ -1,0 +1,166 @@
+/* Reset 기본 스타일 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Header Styling */
+.header-container {
+    background: #ff6347;
+    color: white;
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.header-container h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+/* Navigation Bar */
+.admin-nav {
+    width: 60%;
+    /* 네비게이션 바 너비 조정 */
+    background: #333;
+    color: white;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px auto;
+    border-radius: 10px;
+}
+
+.admin-nav ul {
+    display: flex;
+    gap: 20px;
+}
+
+.admin-nav li {
+    list-style: none;
+}
+
+.admin-nav a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    transition: background-color 0.3s;
+    text-align: center;
+}
+
+.admin-nav a:hover {
+    background-color: #ff6347;
+    border-radius: 5px;
+}
+
+/* Notice Register Section */
+.register-section {
+    width: 100%;
+    max-width: 1400px;
+    margin: 20px auto;
+    background: white;
+    padding: 40px 60px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.register-section h1 {
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 28px;
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    color: #555;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+    border-color: #ff6347;
+    outline: none;
+}
+
+.form-group textarea {
+    min-height: 300px;
+    resize: vertical;
+}
+
+/* Submit Button */
+.submit-button {
+    width: 100%;
+    padding: 15px;
+    background-color: #ff6347;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.submit-button:hover {
+    background-color: #e55330;
+}
+
+/* Footer Styling */
+.footer-container {
+    background: #333;
+    color: white;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1024px) {
+    .register-section {
+        padding: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .register-section {
+        padding: 20px;
+    }
+
+    .form-group textarea {
+        min-height: 200px;
+    }
+}
