@@ -3,12 +3,14 @@ package jeiu.capstone.jongGangHaejo.config;
 import jeiu.capstone.jongGangHaejo.exception.EmailSendException;
 import jeiu.capstone.jongGangHaejo.exception.VerificationException;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import static org.hibernate.query.sqm.tree.SqmNode.log;
 
@@ -16,8 +18,8 @@ import static org.hibernate.query.sqm.tree.SqmNode.log;
 @EnableAsync
 public class AsyncConfig implements AsyncConfigurer {
 
-    @Override
-    public Executor getAsyncExecutor() {
+    @Bean(name = "emailExecutor")
+    public Executor emailExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(5);
         executor.setMaxPoolSize(10);
@@ -25,6 +27,23 @@ public class AsyncConfig implements AsyncConfigurer {
         executor.setThreadNamePrefix("EmailAsync-");
         executor.initialize();
         return executor;
+    }
+
+    @Bean(name = "fileExecutor")
+    public Executor fileExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(10);
+        executor.setMaxPoolSize(20);
+        executor.setQueueCapacity(500);
+        executor.setThreadNamePrefix("FileAsync-");
+        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+        executor.initialize();
+        return executor;
+    }
+
+    @Override
+    public Executor getAsyncExecutor() {
+        return fileExecutor();
     }
 
     @Override

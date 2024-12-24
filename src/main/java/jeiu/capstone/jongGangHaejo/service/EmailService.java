@@ -31,9 +31,9 @@ public class EmailService {
     private static final int VERIFICATION_CODE_LENGTH = 6;
     private static final int EXPIRATION_MINUTES = 5;
 
-    @Async
+    @Async("emailExecutor")
     @Transactional
-    public void sendVerificationEmail(String toEmail) {
+    public CompletableFuture<Void> sendVerificationEmail(String toEmail) {
         try {
             // 이전 인증 코드 만료 처리
             verificationRepository.findByEmailAndVerifiedFalse(toEmail)
@@ -49,19 +49,12 @@ public class EmailService {
                     
             verificationRepository.save(verification);
             
-            // 이메일 전송을 비동기로 처리
-            CompletableFuture.runAsync(() -> {
-                try {
-                    sendEmail(toEmail, verificationCode);
-                } catch (Exception e) {
-                    throw new EmailSendException("이메일 전송 중 오류가 발생했습니다: " + e.getMessage());
-                }
-            }).exceptionally(throwable -> {
-                log.error("이메일 발송 실패: {}", throwable.getMessage());
-                throw new EmailSendException("이메일 발송에 실패했습니다: " + throwable.getMessage());
-            });
+            // 이메일 전송
+            sendEmail(toEmail, verificationCode);
             
             log.info("인증 이메일 발송 완료: {}", toEmail);
+            return CompletableFuture.completedFuture(null);
+            
         } catch (Exception e) {
             log.error("이메일 발송 실패: {}", e.getMessage());
             throw new EmailSendException("이메일 발송에 실패했습니다: " + e.getMessage());

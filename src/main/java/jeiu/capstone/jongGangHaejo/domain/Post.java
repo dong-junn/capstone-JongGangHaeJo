@@ -33,7 +33,7 @@ public class Post {
     @Column(columnDefinition = "TEXT")
     private String content; //게시물 내용
 
-    @Column(name = "youtube_link", length = 255, nullable = true)
+    @Column(name = "youtube_link", length = 1000, nullable = true)
     private String youtubelink; // 유튜브 링크
 
     @ManyToOne

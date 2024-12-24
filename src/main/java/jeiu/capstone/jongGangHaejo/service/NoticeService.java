@@ -11,46 +11,45 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
-@Transactional(readOnly = true)
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class NoticeService {
-
     private final NoticeRepository noticeRepository;
 
     @Transactional
-    public void save(NoticeCreateDto dto) {
-        Notice entity = dto.toEntity();
-        noticeRepository.save(entity);
+    public NoticeResponse createNotice(NoticeCreateDto dto, String username) {
+        Notice notice = Notice.builder()
+                .title(dto.getTitle())
+                .content(dto.getContent())
+                .creator(username)
+                .build();
+
+        Notice savedNotice = noticeRepository.save(notice);
+        return NoticeResponse.from(savedNotice);
     }
 
     public Page<Notice> getNotices(Pageable pageable) {
         return noticeRepository.findAllWithPaging(pageable);
     }
 
-    private NoticeResponse convertToDto(Notice notice) {
-        return NoticeResponse.builder()
-                .id(notice.getId())
-                .title(notice.getTitle())
-                .content(notice.getContent())
-                .creator(notice.getCreator())
-                .build();
-    }
-
     public NoticeResponse getNotice(Long id) {
         Notice notice = noticeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("공지사항을 찾을 수 없습니다. ID: " + id));
-        return convertToDto(notice);
+        return NoticeResponse.from(notice);
     }
 
     @Transactional
-    public void noticeUpdate(Long currentId, NoticeCreateDto dto) {
-        Notice notice = noticeRepository.findById(currentId)
-                .orElseThrow(() -> new EntityNotFoundException("수정하려는 공지글을 찾을 수 없습니다. ID: " + currentId));
-        notice.setTitle(dto.getTitle());
-        notice.setContent(dto.getContent());
-        noticeRepository.save(notice);
+    public void noticeUpdate(Long id, NoticeCreateDto dto) {
+        Notice notice = noticeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("수정하려는 공지글을 찾을 수 없습니다. ID: " + id));
+        notice.update(dto.getTitle(), dto.getContent());
+    }
+
+    @Transactional
+    public void deleteNotice(Long id) {
+        Notice notice = noticeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("공지사항을 찾을 수 없습니다. ID: " + id));
+        noticeRepository.delete(notice);
     }
 }

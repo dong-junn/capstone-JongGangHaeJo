@@ -22,6 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,22 +53,27 @@ public class PostController {
     @PostMapping("/post")
     public ResponseEntity<Map<String, String>> createPost(
             @Valid @RequestPart("post") PostCreateDto postCreateDto, // 게시물 데이터
-            @RequestPart("files") List<MultipartFile> files,
-            @RequestPart("thumbnail") MultipartFile thumbnail,
+            @RequestPart(value = "files", required = false) List<MultipartFile> files,
+            @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail,
             @AuthenticationPrincipal UserConfig userConfig // 현재 인증된 사용자 정보
     ) {
         // 게시물 데이터 로깅
         log.info("게시물 작성 요청 / 제목: {}, 팀: {}", postCreateDto.getTitle(), postCreateDto.getTeam());
-        // 각 파일의 이름과 크기 로깅
-        files.forEach(file -> log.info("제공된 파일 명: {}, 크기: {} bytes", file.getOriginalFilename(), file.getSize()));
-
-        log.info("제공된 썸네일 파일 명: {}, 크기: {} bytes", thumbnail.getOriginalFilename(), thumbnail.getSize());
+        
+        // 파일 로깅 (null 체크 추가)
+        if (files != null) {
+            files.forEach(file -> log.info("제공된 파일 명: {}, 크기: {} bytes", file.getOriginalFilename(), file.getSize()));
+        }
+        
+        if (thumbnail != null) {
+            log.info("제공된 썸네일 파일 명: {}, 크기: {} bytes", thumbnail.getOriginalFilename(), thumbnail.getSize());
+        }
 
         // 사용자 이름 설정
         postCreateDto.setUsername(userConfig.getUsername());
 
         // 서비스 계층으로 게시물 생성 요청 위임
-        postService.createPost(postCreateDto, files, thumbnail);
+        postService.createPost(postCreateDto, files != null ? files : Collections.emptyList(), thumbnail);
 
         // 성공 메시지 반환
         return ResponseEntity.ok(Map.of("message", "게시물이 성공적으로 생성되었습니다."));
