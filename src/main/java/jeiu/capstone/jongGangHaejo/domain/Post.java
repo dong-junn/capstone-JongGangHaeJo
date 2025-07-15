@@ -2,6 +2,8 @@ package jeiu.capstone.jongGangHaejo.domain;
 
 import jakarta.persistence.*;
 import jeiu.capstone.jongGangHaejo.domain.user.User;
+import jeiu.capstone.jongGangHaejo.dto.request.PostCreateDto;
+import jeiu.capstone.jongGangHaejo.dto.request.PostUpdateDto;
 import jeiu.capstone.jongGangHaejo.validation.YoutubeUrlValidator;
 import lombok.Builder;
 import lombok.Getter;
@@ -85,4 +87,13 @@ public class Post {
     public void setYoutubelink(String youtubelink) {
         this.youtubelink = YoutubeUrlValidator.convertToEmbedUrl(youtubelink);
     }
+
+    public void update(PostUpdateDto dto) {
+        title = dto.getTitle();
+        content = dto.getContent();
+        team = dto.getTeam();
+        youtubelink = YoutubeUrlValidator.convertToEmbedUrl(dto.getYoutubelink());
+    }
+
+
 }

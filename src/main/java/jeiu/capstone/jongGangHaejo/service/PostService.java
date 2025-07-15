@@ -11,6 +11,7 @@ import jeiu.capstone.jongGangHaejo.exception.ResourceNotFoundException;
 import jeiu.capstone.jongGangHaejo.exception.UnauthorizedException;
 import jeiu.capstone.jongGangHaejo.exception.common.CommonErrorCode;
 import jeiu.capstone.jongGangHaejo.repository.PostRepository;
+import jeiu.capstone.jongGangHaejo.security.CheckAuthentication;
 import jeiu.capstone.jongGangHaejo.validation.YoutubeUrlValidator;
 import jeiu.capstone.jongGangHaejo.repository.LikeRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +43,7 @@ public class PostService {
     private final LikeRepository likeRepository;
     private final FileService fileService;
     private final PostDataAccess postDataAccess;
+    private final CheckAuthentication checkAuthentication;
 
     /**
      * 게시물을 생성하고 파일을 업로드한 후, 게시물과 파일을 저장합니다.
@@ -73,6 +75,68 @@ public class PostService {
 
         // 게시물 저장
         postDataAccess.save(post); // postRepositorySavor를 통해 createPost에 걸린 @Transactional을 삭제 할 수 있게 되었다
+    }
+
+    @Transactional
+    public void updatePost(Long postId, PostUpdateDto postUpdateDto, List<MultipartFile> files, MultipartFile thumbnail) {
+        Post exPost = postRepository.findById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException("게시물을 찾을 수 없습니다. 게시물 번호: " + postId, CommonErrorCode.RESOURCE_NOT_FOUND));
+
+        // 권한 검사
+        String currentUsername = checkAuthentication.getAuthentication();
+
+        if (!exPost.getUsername().equals(currentUsername)) {
+            throw new UnauthorizedException("게시물을 수정할 권한이 없습니다.", CommonErrorCode.UNAUTHORIZED_ERROR);
+        }
+
+        // 게시물 필드 업데이트
+        exPost.update(postUpdateDto);
+
+        List<Long> newFileIds = new ArrayList<>();
+
+        // 새로운 썸네일이 있는 경우
+        ifHasNewThumbnail(thumbnail, newFileIds);
+
+        // 새로운 일반 파일이 있는 경우
+        ifHasNewFile(files, newFileIds);
+
+        // 새로운 파일이 있는 경우에만 기존 파일 삭제 및 교체
+        ifHasNewFileDeleteOriginalFile(newFileIds, exPost);
+
+        postDataAccess.save(exPost);
+    }
+
+    private void ifHasNewFileDeleteOriginalFile(List<Long> newFileIds, Post exPost) {
+        if (!newFileIds.isEmpty()) {
+            // 기존 파일이 있다면 삭제
+            if (exPost.getFileIds() != null && !exPost.getFileIds().isEmpty()) {
+                log.info("기존 파일 삭제");
+                fileService.deleteFiles(exPost.getFileIds());
+            }
+            exPost.setFileIds(newFileIds);
+        }
+    }
+
+    private void ifHasNewFile(List<MultipartFile> files, List<Long> newFileIds) {
+        if (files != null && !files.isEmpty()) {
+            log.info("새로운 일반 파일 업로드 시작");
+            List<Long> regularFileIds = fileService.uploadFiles(files, "posts", false);
+            newFileIds.addAll(regularFileIds);
+            log.info("새로운 일반 파일 업로드 완료");
+        }
+    }
+
+    private void ifHasNewThumbnail(MultipartFile thumbnail, List<Long> newFileIds) {
+        if (thumbnail != null && !thumbnail.isEmpty()) {
+            log.info("새로운 썸네일 업로드 시작");
+            List<Long> thumbnailId = fileService.uploadFiles(
+                    Collections.singletonList(thumbnail),
+                    "posts/thumbnails",
+                    true
+            );
+            newFileIds.addAll(thumbnailId);
+            log.info("새로운 썸네일 업로드 완료");
+        }
     }
 
     private static void yooutubeUrlConvert(PostCreateDto postCreateDto) {
@@ -112,100 +176,13 @@ public class PostService {
         }
     }
 
-    private void uploadThumbNailFile(MultipartFile thumbnail, List<Long> fileIds) {
-        if (thumbnail != null && !thumbnail.isEmpty()) {
-            List<Long> thumbnailId = fileService.uploadFiles(
-                Collections.singletonList(thumbnail),
-                "posts/thumbnails",
-                true
-            );
-            fileIds.addAll(thumbnailId);
-            log.info("썸네일 업로드 완료: {}", thumbnail.getOriginalFilename());
-        }
-    }
-
-    private static void loggingFileAndThumbnail(List<MultipartFile> files, MultipartFile thumbnail) {
-        log.info("전체 파일 목록:");
-        if (files != null && !files.isEmpty()) {
-            files.forEach(file -> log.info("파일명: {}", file.getOriginalFilename()));
-        }
-
-        if (thumbnail != null) {
-            log.info("썸네일 파일명: {}", thumbnail.getOriginalFilename());
-        }
-    }
-
-    @Transactional
-    public void updatePost(Long postId, PostUpdateDto postUpdateDto, List<MultipartFile> files, MultipartFile thumbnail) {
-        Post exPost = postRepository.findById(postId)
-                .orElseThrow(() -> new ResourceNotFoundException("게시물을 찾을 수 없습니다. 게시물 번호: " + postId, CommonErrorCode.RESOURCE_NOT_FOUND));
-
-        // 권한 검사
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUsername = authentication.getName();
-        if (!exPost.getUsername().equals(currentUsername)) {
-            throw new UnauthorizedException("게시물을 수정할 권한이 없습니다.", CommonErrorCode.UNAUTHORIZED_ERROR);
-        }
-
-        // 게시물 필드 업데이트
-        exPost.setTitle(postUpdateDto.getTitle());
-        exPost.setContent(postUpdateDto.getContent());
-        exPost.setTeam(postUpdateDto.getTeam());
-        exPost.setYoutubelink(YoutubeUrlValidator.convertToEmbedUrl(postUpdateDto.getYoutubelink()));
-
-        List<Long> newFileIds = new ArrayList<>();
-
-        // 새로운 썸네일이 있는 경우
-        if (thumbnail != null && !thumbnail.isEmpty()) {
-            log.info("새로운 썸네일 업로드 시작");
-            List<Long> thumbnailId = fileService.uploadFiles(
-                Collections.singletonList(thumbnail), 
-                "posts/thumbnails",
-                true
-            );
-            newFileIds.addAll(thumbnailId);
-            log.info("새로운 썸네일 업로드 완료");
-        }
-
-        // 새로운 일반 파일이 있는 경우
-        if (files != null && !files.isEmpty()) {
-            log.info("새로운 일반 파일 업로드 시작");
-            List<Long> regularFileIds = fileService.uploadFiles(files, "posts", false);
-            newFileIds.addAll(regularFileIds);
-            log.info("새로운 일반 파일 업로드 완료");
-        }
-
-        // 새로운 파일이 있는 경우에만 기존 파일 삭제 및 교체
-        if (!newFileIds.isEmpty()) {
-            // 기존 파일이 있다면 삭제
-            if (exPost.getFileIds() != null && !exPost.getFileIds().isEmpty()) {
-                log.info("기존 파일 삭제");
-                fileService.deleteFiles(exPost.getFileIds());
-            }
-            exPost.setFileIds(newFileIds);
-        }
-
-        postRepository.save(exPost);
-    }
-
-
-    /**
-     * 기존의 단순 게시물 저장 메서드.
-     * 필요 시 컨트롤러에서 직접 사용할 수 있습니다.
-     *
-     * @param post 저장할 게시물 엔티티
-     */
-    public void savePost(Post post) {
-        postRepository.save(post);
-    }
-
     @Transactional
     public PostResponseDto getSinglePost(Long id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("게시물을 찾을 수 없습니다. 게시물 번호: " + id, CommonErrorCode.RESOURCE_NOT_FOUND));
 
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        
+
         // 조회수 증가
         postRepository.incrementViewCount(id);
 
@@ -239,6 +216,40 @@ public class PostService {
                 isLiked,
                 fileInfos
         );
+    }
+
+    private void uploadThumbNailFile(MultipartFile thumbnail, List<Long> fileIds) {
+        if (thumbnail != null && !thumbnail.isEmpty()) {
+            List<Long> thumbnailId = fileService.uploadFiles(
+                Collections.singletonList(thumbnail),
+                "posts/thumbnails",
+                true
+            );
+            fileIds.addAll(thumbnailId);
+            log.info("썸네일 업로드 완료: {}", thumbnail.getOriginalFilename());
+        }
+    }
+
+    private static void loggingFileAndThumbnail(List<MultipartFile> files, MultipartFile thumbnail) {
+        log.info("전체 파일 목록:");
+        if (files != null && !files.isEmpty()) {
+            files.forEach(file -> log.info("파일명: {}", file.getOriginalFilename()));
+        }
+
+        if (thumbnail != null) {
+            log.info("썸네일 파일명: {}", thumbnail.getOriginalFilename());
+        }
+    }
+
+
+    /**
+     * 기존의 단순 게시물 저장 메서드.
+     * 필요 시 컨트롤러에서 직접 사용할 수 있습니다.
+     *
+     * @param post 저장할 게시물 엔티티
+     */
+    public void savePost(Post post) {
+        postRepository.save(post);
     }
 
     /**
