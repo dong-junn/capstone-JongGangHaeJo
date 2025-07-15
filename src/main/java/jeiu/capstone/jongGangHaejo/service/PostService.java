@@ -65,11 +65,11 @@ public class PostService {
         // YouTube URL 변환 (null 체크)
         yooutubeUrlConvert(postCreateDto);
 
-        // DTO에서 엔티티로 변환
-        Post post = postCreateDto.toEntity();
+        // 아래 두줄의 책임이 굳이 PostService에 있어야 할까???
+        Post post = postCreateDto.toEntity(); // DTO에서 엔티티로 변환
+        post.setFileIds(fileIds); // 게시물에 파일 ID 목록 설정
 
-        // 게시물에 파일 ID 목록 설정
-        post.setFileIds(fileIds);
+
 
         // 게시물 저장
         postDataAccess.save(post); // postRepositorySavor를 통해 createPost에 걸린 @Transactional을 삭제 할 수 있게 되었다
