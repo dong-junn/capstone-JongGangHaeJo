@@ -47,7 +47,7 @@ public class PostService {
      * @param postCreateDto 게시물 생성 DTO
      * @param files         업로드할 파일 목록
      */
-    @Transactional
+    @Transactional // postRepository.save 한줄 때문에 해당 메서드 전체에 @Transactional이 걸린다.
     public void createPost(PostCreateDto postCreateDto, List<MultipartFile> files, MultipartFile thumbnail) {
         List<Long> fileIds = new ArrayList<>();
         
@@ -114,7 +114,7 @@ public class PostService {
         post.setFileIds(fileIds);
 
         // 게시물 저장
-        postRepository.save(post);
+        postRepository.save(post); // 여기 한줄 때문에 @Transactional을 걸어야 한다.
     }
 
     @Transactional
