@@ -54,36 +54,45 @@ public class PostService {
         List<Long> fileIds = new ArrayList<>();
         
         // 디버깅을 위한 로깅 추가 (null 체크 포함)
-        log.info("전체 파일 목록:");
-        if (files != null && !files.isEmpty()) {
-            files.forEach(file -> log.info("파일명: {}", file.getOriginalFilename()));
-        }
-        
-        if (thumbnail != null) {
-            log.info("썸네일 파일명: {}", thumbnail.getOriginalFilename());
-        }
-        
+        loggingFileAndThumbnail(files, thumbnail);
+
         // 썸네일 파일 먼저 업로드
-        if (thumbnail != null && !thumbnail.isEmpty()) {
-            List<Long> thumbnailId = fileService.uploadFiles(
-                Collections.singletonList(thumbnail), 
-                "posts/thumbnails",
-                true
-            );
-            fileIds.addAll(thumbnailId);
-            log.info("썸네일 업로드 완료: {}", thumbnail.getOriginalFilename());
-        }
+        uploadThumbNailFile(thumbnail, fileIds);
 
         // 일반 파일 업로드 (썸네일과 중복된 파일 제외)
+        generalFileUpload(files, thumbnail, fileIds);
+
+        // YouTube URL 변환 (null 체크)
+        yooutubeUrlConvert(postCreateDto);
+
+        // DTO에서 엔티티로 변환
+        Post post = postCreateDto.toEntity();
+
+        // 게시물에 파일 ID 목록 설정
+        post.setFileIds(fileIds);
+
+        // 게시물 저장
+        postDataAccess.save(post); // postRepositorySavor를 통해 createPost에 걸린 @Transactional을 삭제 할 수 있게 되었다
+    }
+
+    private static void yooutubeUrlConvert(PostCreateDto postCreateDto) {
+        String youtubeUrl = postCreateDto.getYoutubelink();
+        if (youtubeUrl != null && !youtubeUrl.trim().isEmpty()) {
+            String embedUrl = YoutubeUrlValidator.convertToEmbedUrl(youtubeUrl);
+            postCreateDto.setYoutubelink(embedUrl);
+        }
+    }
+
+    private void generalFileUpload(List<MultipartFile> files, MultipartFile thumbnail, List<Long> fileIds) {
         if (files != null && !files.isEmpty()) {
             String thumbnailFilename = thumbnail != null ? thumbnail.getOriginalFilename() : null;
-            
+
             // 중복 제거를 위해 Set 사용
             Set<String> processedFilenames = new HashSet<>();
             if (thumbnailFilename != null) {
                 processedFilenames.add(thumbnailFilename);
             }
-            
+
             List<MultipartFile> nonDuplicateFiles = files.stream()
                 .filter(file -> {
                     String filename = file.getOriginalFilename();
@@ -94,29 +103,36 @@ public class PostService {
                     return false;
                 })
                 .collect(Collectors.toList());
-                
+
             if (!nonDuplicateFiles.isEmpty()) {
                 List<Long> regularFileIds = fileService.uploadFiles(nonDuplicateFiles, "posts", false);
                 fileIds.addAll(regularFileIds);
                 log.info("일반 파일 업로드 완료. 업로드된 파일 수: {}", nonDuplicateFiles.size());
             }
         }
+    }
 
-        // YouTube URL 변환 (null 체크)
-        String youtubeUrl = postCreateDto.getYoutubelink();
-        if (youtubeUrl != null && !youtubeUrl.trim().isEmpty()) {
-            String embedUrl = YoutubeUrlValidator.convertToEmbedUrl(youtubeUrl);
-            postCreateDto.setYoutubelink(embedUrl);
+    private void uploadThumbNailFile(MultipartFile thumbnail, List<Long> fileIds) {
+        if (thumbnail != null && !thumbnail.isEmpty()) {
+            List<Long> thumbnailId = fileService.uploadFiles(
+                Collections.singletonList(thumbnail),
+                "posts/thumbnails",
+                true
+            );
+            fileIds.addAll(thumbnailId);
+            log.info("썸네일 업로드 완료: {}", thumbnail.getOriginalFilename());
+        }
+    }
+
+    private static void loggingFileAndThumbnail(List<MultipartFile> files, MultipartFile thumbnail) {
+        log.info("전체 파일 목록:");
+        if (files != null && !files.isEmpty()) {
+            files.forEach(file -> log.info("파일명: {}", file.getOriginalFilename()));
         }
 
-        // DTO에서 엔티티로 변환
-        Post post = postCreateDto.toEntity();
-
-        // 게시물에 파일 ID 목록 설정
-        post.setFileIds(fileIds);
-
-        // 게시물 저장
-        postDataAccess.save(post); // postRepositorySavor를 통해 createPost에 걸린 @Transactional을 삭제 할 수 있게 되었다
+        if (thumbnail != null) {
+            log.info("썸네일 파일명: {}", thumbnail.getOriginalFilename());
+        }
     }
 
     @Transactional
