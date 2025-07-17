@@ -1,4 +1,4 @@
-package jeiu.capstone.jongGangHaejo.controller;
+package jeiu.capstone.jongGangHaejo.presentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jeiu.capstone.jongGangHaejo.dto.request.CommentCreateDto;

@@ -1,4 +1,4 @@
-package jeiu.capstone.jongGangHaejo.controller;
+package jeiu.capstone.jongGangHaejo.presentation;
 
 import jakarta.validation.Valid;
 import jeiu.capstone.jongGangHaejo.dto.email.EmailRequestDto;

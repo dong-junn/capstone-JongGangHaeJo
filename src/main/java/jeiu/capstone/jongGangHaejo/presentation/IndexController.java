@@ -1,4 +1,4 @@
-package jeiu.capstone.jongGangHaejo.controller;
+package jeiu.capstone.jongGangHaejo.presentation;
 
 import jeiu.capstone.jongGangHaejo.service.PostService;
 import jeiu.capstone.jongGangHaejo.dto.response.PostResponseDto;

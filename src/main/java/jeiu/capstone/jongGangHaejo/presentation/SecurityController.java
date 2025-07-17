@@ -1,4 +1,4 @@
-package jeiu.capstone.jongGangHaejo.controller;
+package jeiu.capstone.jongGangHaejo.presentation;
 
 import jeiu.capstone.jongGangHaejo.security.config.UserConfig;
 import lombok.extern.slf4j.Slf4j;

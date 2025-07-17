@@ -1,12 +1,9 @@
-package jeiu.capstone.jongGangHaejo.controller;
+package jeiu.capstone.jongGangHaejo.presentation;
 
 import jakarta.validation.Valid;
-import jeiu.capstone.jongGangHaejo.domain.File;
-import jeiu.capstone.jongGangHaejo.domain.Post;
 import jeiu.capstone.jongGangHaejo.dto.request.PostUpdateDto;
 import jeiu.capstone.jongGangHaejo.dto.response.PagedResponseDto;
 import jeiu.capstone.jongGangHaejo.dto.response.PostResponseDto;
-import jeiu.capstone.jongGangHaejo.dto.response.controllerAdvice.PostUploadExceptionDto;
 import jeiu.capstone.jongGangHaejo.security.config.UserConfig;
 import jeiu.capstone.jongGangHaejo.service.FileService;
 import jeiu.capstone.jongGangHaejo.service.PostService;
@@ -25,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Collections;
 import java.util.Map;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor // 생성자 주입을 위한 Lombok 어노테이션
 @Slf4j // 로깅을 위한 Lombok 어노테이션

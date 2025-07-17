@@ -1,4 +1,4 @@
-package jeiu.capstone.jongGangHaejo.controller.admin;
+package jeiu.capstone.jongGangHaejo.presentation.admin;
 
 import jakarta.validation.Valid;
 import jeiu.capstone.jongGangHaejo.domain.File;

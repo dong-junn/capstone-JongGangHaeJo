@@ -1,4 +1,4 @@
-package jeiu.capstone.jongGangHaejo.controller.admin;
+package jeiu.capstone.jongGangHaejo.presentation.admin;
 
 import jakarta.persistence.EntityNotFoundException;
 import jeiu.capstone.jongGangHaejo.domain.user.User;
@@ -15,8 +15,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @Slf4j
 @RestController

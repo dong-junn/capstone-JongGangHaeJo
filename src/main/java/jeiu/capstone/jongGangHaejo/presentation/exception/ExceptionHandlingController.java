@@ -1,4 +1,4 @@
-package jeiu.capstone.jongGangHaejo.controller.exception;
+package jeiu.capstone.jongGangHaejo.presentation.exception;
 
 import jakarta.persistence.EntityNotFoundException;
 import jeiu.capstone.jongGangHaejo.dto.response.ErrorResponseDto;
