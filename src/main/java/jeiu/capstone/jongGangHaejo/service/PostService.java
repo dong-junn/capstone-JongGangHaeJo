@@ -223,7 +223,7 @@ public class PostService {
         }
     }
 
-    private static void loggingFileAndThumbnail(List<MultipartFile> files, MultipartFile thumbnail) {
+    private void loggingFileAndThumbnail(List<MultipartFile> files, MultipartFile thumbnail) {
         log.info("전체 파일 목록:");
         if (files != null && !files.isEmpty()) {
             files.forEach(file -> log.info("파일명: {}", file.getOriginalFilename()));
