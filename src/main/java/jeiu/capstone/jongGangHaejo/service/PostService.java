@@ -99,14 +99,14 @@ public class PostService {
         postDataAccess.save(exPost);
     }
 
-    private void ifHasNewFileDeleteOriginalFile(List<Long> newFileIds, Post exPost) {
+    private void ifHasNewFileDeleteOriginalFile(List<Long> newFileIds, Post post) {
         if (!newFileIds.isEmpty()) {
             // 기존 파일이 있다면 삭제
-            if (exPost.getFileIds() != null && !exPost.getFileIds().isEmpty()) {
+            if (post.getFileIds() != null && !post.getFileIds().isEmpty()) {
                 log.info("기존 파일 삭제");
-                fileService.deleteFiles(exPost.getFileIds());
+                fileService.deleteFiles(post.getFileIds());
             }
-            exPost.setFileIds(newFileIds);
+            post.setFileIds(newFileIds);
         }
     }
 
