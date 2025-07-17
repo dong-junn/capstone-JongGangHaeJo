@@ -10,16 +10,15 @@ import jeiu.capstone.jongGangHaejo.dto.response.PostResponseDto;
 import jeiu.capstone.jongGangHaejo.exception.ResourceNotFoundException;
 import jeiu.capstone.jongGangHaejo.exception.UnauthorizedException;
 import jeiu.capstone.jongGangHaejo.exception.common.CommonErrorCode;
-import jeiu.capstone.jongGangHaejo.repository.PostRepository;
-import jeiu.capstone.jongGangHaejo.security.CheckAuthentication;
-import jeiu.capstone.jongGangHaejo.validation.YoutubeUrlValidator;
 import jeiu.capstone.jongGangHaejo.repository.LikeRepository;
+import jeiu.capstone.jongGangHaejo.repository.PostRepository;
+import jeiu.capstone.jongGangHaejo.security.auth.AuthenticationCheck;
+import jeiu.capstone.jongGangHaejo.validation.YoutubeUrlValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,12 +26,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 @Slf4j
 @Service
@@ -43,7 +38,7 @@ public class PostService {
     private final LikeRepository likeRepository;
     private final FileService fileService;
     private final PostDataAccess postDataAccess;
-    private final CheckAuthentication checkAuthentication;
+    private final AuthenticationCheck getLoginUser;
 
     /**
      * 게시물을 생성하고 파일을 업로드한 후, 게시물과 파일을 저장합니다.
@@ -71,8 +66,6 @@ public class PostService {
         Post post = postCreateDto.toEntity(); // DTO에서 엔티티로 변환
         post.setFileIds(fileIds); // 게시물에 파일 ID 목록 설정
 
-
-
         // 게시물 저장
         postDataAccess.save(post); // postRepositorySavor를 통해 createPost에 걸린 @Transactional을 삭제 할 수 있게 되었다
     }
@@ -83,7 +76,7 @@ public class PostService {
                 .orElseThrow(() -> new ResourceNotFoundException("게시물을 찾을 수 없습니다. 게시물 번호: " + postId, CommonErrorCode.RESOURCE_NOT_FOUND));
 
         // 권한 검사
-        String currentUsername = checkAuthentication.getAuthentication();
+        String currentUsername = getLoginUser.getAuthentication();
 
         if (!exPost.getUsername().equals(currentUsername)) {
             throw new UnauthorizedException("게시물을 수정할 권한이 없습니다.", CommonErrorCode.UNAUTHORIZED_ERROR);
